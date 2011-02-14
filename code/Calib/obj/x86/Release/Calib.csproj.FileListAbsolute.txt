@@ -1,0 +1,66 @@
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\Calib.Form1.resources
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\Calib.Properties.Resources.resources
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Calib.exe
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Calib.pdb
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.CV.dll
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.CV.UI.dll
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.Util.dll
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\ZedGraph.dll
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.CV.pdb
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.CV.xml
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.CV.UI.pdb
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.CV.UI.xml
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.Util.pdb
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\Emgu.Util.xml
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\ZedGraph.xml
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\zh-CN\Emgu.CV.UI.resources.dll
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\bin\Release\zh-CN\ZedGraph.resources.dll
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\Calib.exe
+C:\Users\Simon\AppData\Local\Temporary Projects\Calib\obj\x86\Release\Calib.pdb
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Calib.exe
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Calib.pdb
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.CV.dll
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.CV.UI.dll
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.Util.dll
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\ZedGraph.dll
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.CV.pdb
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.CV.xml
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.CV.UI.pdb
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.CV.UI.xml
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.Util.pdb
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\Emgu.Util.xml
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\ZedGraph.xml
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\zh-CN\Emgu.CV.UI.resources.dll
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\bin\Release\zh-CN\ZedGraph.resources.dll
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\Calib.Form1.resources
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\Calib.Properties.Resources.resources
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\Calib.exe
+C:\Users\Simon\Documents\Visual Studio 2010\Projects\Calib\Calib\obj\x86\Release\Calib.pdb
+C:\hyggekaffe\code\Calib\obj\x86\Release\ResolveAssemblyReference.cache
+C:\hyggekaffe\code\Calib\obj\x86\Release\Calib.Form1.resources
+C:\hyggekaffe\code\Calib\obj\x86\Release\Calib.Properties.Resources.resources
+C:\hyggekaffe\code\Calib\obj\x86\Release\GenerateResource.read.1.tlog
+C:\hyggekaffe\code\Calib\obj\x86\Release\GenerateResource.write.1.tlog
+C:\hyggekaffe\code\Calib\obj\x86\Release\Calib.exe
+C:\hyggekaffe\code\Calib\bin\Release\Calib.exe
+C:\hyggekaffe\code\Calib\bin\Release\Calib.pdb
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.CV.dll
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.CV.UI.dll
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.Util.dll
+C:\hyggekaffe\code\Calib\bin\Release\ZedGraph.dll
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.CV.pdb
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.CV.xml
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.CV.UI.pdb
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.CV.UI.xml
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.Util.pdb
+C:\hyggekaffe\code\Calib\bin\Release\Emgu.Util.xml
+C:\hyggekaffe\code\Calib\bin\Release\ZedGraph.xml
+C:\hyggekaffe\code\Calib\bin\Release\zh-CN\Emgu.CV.UI.resources.dll
+C:\hyggekaffe\code\Calib\bin\Release\zh-CN\ZedGraph.resources.dll
+C:\hyggekaffe\code\Calib\obj\x86\Release\Calib.pdb
