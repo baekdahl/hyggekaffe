@@ -1,0 +1,332 @@
+\newcommand{\accel}[0]{\ensuremath{\tfrac{\text{m}}{\text{s}^2}}\text{ }}
+\newcommand{\speed}[0]{\ensuremath{\tfrac{\text{m}}{\text{s}}}\text{ }}
+\newcommand{\te}[1]{\text{#1}}
+\newcommand{\citep}[1]{\cite{#1}}
+\newcommand{\projekt}{Something about pool!}
+\newcommand{\projektemne}{}
+\newcommand{\gruppe}{10gr621}
+\newcommand{\gruppemedlemmer}{Jesper Bækdahl og Simon Have}
+\newcommand{\vejleder}{Vejledere}
+\newcommand{\Ohm}{$\Omega${\ }}
+\newcommand{\ohm}{$\Omega${\ }}
+\newcommand{\bet}{$\beta$}
+\newcommand{\Bet}{$\beta$}
+\newcommand{\degree}{\ensuremath{^\circ}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+\documentclass[pdftex,10pt,english,a4paper,twoside,openright,
+%draft,
+final,
+]{memoir}
+
+%
+% Packages
+%
+% Varioref, dansk
+\usepackage[english]{varioref}
+
+\usepackage[notref,notcite,color,
+final
+]{showkeys}
+
+
+%
+% Settings for varioref and showkeys
+%
+\makeatletter
+\AtBeginDocument{
+% reinstate \vref
+  \DeclareRobustCommand\vref{\@ifstar
+	{\let\vref@space\relax\vr@f}%
+	{\let\vref@space\nobreakspace\vr@f}}
+  \@ifpackagewith{showkeys}{notref}{%
+  % for the notref option:
+	\def\vr@f#1{%
+	 \leavevmode\unskip\vref@space
+	 \ref{#1}% added next line:
+	 \let\label\SK@label
+	 \vpageref[\unskip]{#1}}}%
+  {% for the normal case
+  \def\vr@f#1{%
+	\leavevmode\unskip\vref@space
+	\ref{#1}% added next line:
+	\let\label\SK@label\let\ref\SK@ref\let\pageref\SK@pageref
+	\vpageref[\unskip]{#1}}%
+  }
+}
+
+\usepackage{pdfsync}
+\usepackage{lmodern}
+
+\usepackage{url}
+
+% Turns references into links
+\usepackage[
+			colorlinks=false,
+			breaklinks,
+			unicode=true
+			pdfduplex=DuplexFlipLongEdge,
+			pdfborder={1 0 1},
+			pdftitle={\projekt},
+			pdfauthor={\gruppe,
+				VGIS, 8. semester,
+				SICT,
+				Aalborg Universitet},
+			pdfsubject={\projektemne},
+			pdfkeywords={\gruppe,
+				LaTeX,
+				domo,arigatou},
+			plainpages=false,
+			%pdftex,
+			final,
+			]{hyperref}
+
+\usepackage{hypcap}
+\usepackage{multirow}
+
+\usepackage{memhfixc}
+
+% Input encoding
+\usepackage[utf8]{inputenc}
+
+% Enables line breaks in URLs
+\usepackage{breakurl}
+
+% Graphics package
+\usepackage[pdftex,final]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg} % Prioritized list of file endings
+\graphicspath{{./images/}{./doxygen/}} % Sets default path for images
+
+% Enables rotation of text
+\usepackage{rotating}
+
+%% American Math Society, avanceret matematikpakke
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+
+% Gør det muligt at bruge \uline{} og \uuline{} til underlining og dobbelt underlinuing af math.
+\usepackage{ulem}
+
+% Enables the usage of columns
+\usepackage{multicol}
+
+% Fixme
+\usepackage[draft]{fixme}
+
+% Sets the writing language
+\usepackage[english]{babel}
+% Floats
+\usepackage{morefloats}
+
+%% Enables wrapping text around figures
+%\usepackage{wrapfig}
+
+%\usepackage[rflt]{floatflt}
+
+% Enables custom spacing
+\DisemulatePackage{setspace}
+\usepackage{setspace}
+
+% Adds the possibility of using if/then in LaTeX
+\usepackage{ifthen}
+
+% Colors
+\usepackage{color}
+	%\definecolor{sourceYellow}{rgb}{1,1,0.85}
+	\definecolor{codecomment}{rgb}{0.5,0,0.5} % 4b5fbf
+	\definecolor{stringsGreen}{rgb}{0,0.5,0}
+	\definecolor{keywordsRed}{rgb}{0.6,0,0} 
+	\definecolor{commentsRed}{rgb}{0.8,0,0} 
+	\definecolor{keywordsBlue}{rgb}{0.0,0.0,0.84}
+	\definecolor{codedefine}{rgb}{0,0.5,0.5} % 007f7f
+
+% Listings
+% XXX - change to listingsutf8 in near future
+\usepackage[final]{listings}
+	\renewcommand{\lstlistingname}{Code}
+	\renewcommand{\lstlistlistingname}{Code}
+	\lstset{ %
+	language=C,							% choose the default language
+	basicstyle=\ttfamily\footnotesize,	% the style of the fonts that are used for the code
+	stringstyle=\color{stringsGreen},	% style of strings
+	commentstyle=\color{commentsRed},	% comments
+	backgroundcolor=\color{white},		% choose the background color. You must add \usepackage{color}
+	keywordstyle={\bfseries\color{keywordsBlue}},
+	showstringspaces=false,				% [bool] underline spaces within strings
+	numbers=left,						% [left/right] where to put the line-numbers
+	numberstyle=\tiny,					% the size of the fonts that are used for the line-numbers
+	stepnumber=1,						% [int] the step between two line-numbers. If it's 1 each line will be numbered
+	numbersep=5pt,						% [length] how far the line-numbers are from the code
+	showspaces=false,					% [bool] show spaces within strings adding particular underscores
+	showtabs=false,						% [bool] show tabs within strings adding particular underscores
+	frame=single,						% adds a frame around the code
+	frameround=tttf,					% rounding of frames
+	tabsize=2,							% [int] sets default tabsize to 2 spaces
+	captionpos=b,						% [b|t] sets the caption-position to bottom
+	breaklines=true,					% [bool] sets automatic line breaking
+	breakatwhitespace=false,			% [bool] sets if automatic breaks should only happen at whitespace
+	inputencoding=utf8,					% default input encoding
+	escapeinside={*@}{@*},				% if you want to use LaTeX within your code, use *@ and @* to begin and end the code
+	directives={define,elif,else,endif,error,if,ifdef,ifndef,line,include,pragma,undef,warning},
+	%emph={define},emphstyle={\color{codedefine}}
+	}
+%	\lstset{emph={asm,auto,bool,break,case,catch,char,class,const,const_cast,continue,default,delete,do,double,dynamic_cast,else,enum,explicit,export,extern,false,float,for,friend,goto,if,inline,int,long,mutable,namespace,new,operator,private,protected,public,register,reinterpret_cast,return,short,signed,sizeof,static,static_cast,struct,switch,template,this,throw,true,try,typedef,typeid,typename,union,unsigned,usin,void},
+%	emphstyle=\color{blue}\bfseries,
+%	emph={[2]memcpy,floor,ISR},
+%	emphstyle={[2]\color{keywordsRed}},
+%	}
+%\lstset{emph={define},emphstyle=\color{stringsGreen}}
+
+
+\usepackage{lastpage}
+
+\newcommand{\xxtiny}{\fontsize{2}{2}\selectfont}
+
+%
+% Margins
+%
+\setlrmarginsandblock{*}{3.5cm}{0.75} % højre og venstre
+\setulmarginsandblock{3cm}{*}{1.2}	% top og bund
+\checkandfixthelayout[nearest]		% specifikt valg af højde algoritme
+
+%
+% Headings
+%
+% Change normal headers and footers
+\makeoddhead{headings}{}{}{\small\rightmark}
+\makeevenhead{headings}{\small\leftmark}{}{}
+
+\makeoddfoot{headings}{}{}{\small\thepage}
+\makeevenfoot{headings}{\small\thepage}{}{}
+
+\makeheadrule{headings}{\textwidth}{\normalrulethickness}
+\makefootrule{headings}{\textwidth}{\normalrulethickness}{\footruleskip}
+
+% Change chapter pages
+\copypagestyle{chapter}{plain}
+\makeoddfoot{chapter}{}{}{\small\thepage}
+\makeevenfoot{chapter}{\small\thepage}{}{}
+\makefootrule{chapter}{\textwidth}{\normalrulethickness}{\footruleskip}
+
+%
+% Section titles
+%
+\setsecnumdepth{subsection}
+\maxsecnumdepth{subsection}
+\setsecheadstyle{\Large\bfseries\sffamily\raggedright}
+\setsubsecheadstyle{\large\bfseries\sffamily\raggedright}
+\setsubsubsecheadstyle{\normalsize\bfseries\sffamily\raggedright}
+\raggedbottomsectiontrue
+
+%
+% Table of Contents
+%
+\renewcommand{\contentsname}{Table of contents}
+%\renewcommand{\tocname}{Indholdsfortegnelse}
+\settocdepth{section}
+
+% Change spacing in ToC
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.8em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{3.5em}{2.4em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.3em}{3.2em}}
+\makeatother
+
+%
+% Chapter
+%
+\renewcommand\chapnamefont{\huge\bfseries\sffamily}
+\renewcommand\chapnumfont{\chapnamefont}
+\renewcommand\chaptitlefont{\Huge\bfseries\sffamily\raggedright}
+
+\usepackage{calc}
+\makeatletter
+\setlength\midchapskip{0pt}
+
+% Define a new chapter style
+\makechapterstyle{10gr621}{
+  \newcommand{\chapterrule}{\rule[.3\baselineskip]{\textwidth}{1pt}}
+  \renewcommand\chapnamefont{\Large\sffamily}
+  \renewcommand\chapnumfont{\Large\sffamily\centering}
+  \renewcommand\chaptitlefont{\huge\bfseries\sffamily\centering}
+  \renewcommand\printchaptertitle[1]{%
+	\chaptitlefont
+	\ifdim\@tempdimc > 0pt\relax % one line
+	 \chapterrule \\
+	 ##1
+	 \chapterrule
+	\else % two+ lines
+		>{\chaptitlefont\arraybackslash}p{\textwidth-2\tabcolsep}
+	 \chapterrule \\
+	 ##1
+	 \chapterrule
+	\fi
+  }
+}
+\makeatother
+\chapterstyle{10gr621}
+
+%
+% Figure Captions
+%
+\captionnamefont{\bfseries\sffamily\small}
+\captiontitlefont{\small}
+\changecaptionwidth
+\captionwidth{.8\textwidth}
+\precaption{\vspace{\baselineskip}}
+\hangcaption
+
+%
+% Bibliography management
+%
+\bibliographystyle{plain}
+
+%
+% PDF information
+%
+\pdfinfo{
+   /Author (Jesper Bækdahl, Rolf R. Madsen og Simon Hartmann Have)
+   /Title  (Quality assessment of metal objects using
+computer vision.
+)
+   %/CreationDate (\date)
+   /Subject (Computer Vision)
+   /Keywords ()
+}
+
+
+%%% AUTOREF
+%% Creates a new command, aref, that is essentially the same as autoref, but includes page number if label is on another page.
+\newcommand{\aref}[1]{\autoref{#1}}%\ifthenelse{\equal{\pageref{#1}}{\thepage}}{}{, side \pageref{#1}}}
+
+%% Environment for writing hex numbers
+\newcommand{\hex}[1]{\texttt{#1}}
+
+%% Environment for writing function calls
+\newcommand{\function}[1]{\texttt{\textbf{#1}}}
+
+%% Environment for writing function calls
+\newcommand{\pin}[1]{\texttt{\textit{#1}}}
+
+%% Environment for writing function calls
+\newcommand{\register}[1]{\textit{#1}}
+
+%% Custom equation environment
+\newenvironment{eqn}
+{\begin{figure}[htp]\capstart\begin{center}} %[XXX - Skal ændres tilbage før aflevering - RJ]
+%{\begin{figure}[!h]\begin{center}}
+{\end{center}\end{figure}}
+%{\begin{equation}}
+%{\end{equation}}
+%\newcommand{\pref}[1]{(\ref{#1})}
+
+\usepackage{subfig}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\itemsep}{1pt}
+
+\setlength{\parskip}{.5ex}
