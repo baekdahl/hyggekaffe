@@ -25,8 +25,8 @@ namespace Calib
             int width = img1.Width;
             int height = img1.Height;
 
-            img1.ConvertScale<Byte>(0.5, 128);
-            img2.ConvertScale<Byte>(0.5, 0);
+            img1 = img1.ConvertScale<Byte>(0.5, 128);
+            img2 = img2.ConvertScale<Byte>(0.5, 0);
 
             for (int i = 0; i < width - 1; i++)
             {
@@ -37,6 +37,8 @@ namespace Calib
                 }
 
             }
+            imgsub = imgsub.ConvertScale<Byte>(2,0);
+            
             return imgsub;
         }
 
