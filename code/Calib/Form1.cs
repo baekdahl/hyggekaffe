@@ -7,12 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 using Emgu.CV;
 using Emgu.CV.UI;
 using Emgu.CV.Util;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
+using Emgu.CV.VideoSurveillance;
+
 
 namespace Calib
 {
@@ -32,25 +35,36 @@ namespace Calib
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fpath = openFileDialog1.FileName.ToString();
+
                 imgcalib = new Image<Bgr, Byte>(fpath);
-                imgcalib = imgcalib.Resize(640, 480, INTER.CV_INTER_AREA, false);
-                change_Pix1(imgcalib);
+                Image<Bgr, Byte> imgcalib2 = new Image<Bgr, Byte>("C:\\Users\\Simon\\Desktop\\pool\\Picture 1wob.jpg");
+               
+                int height = imgcalib.Height;
+                int width = imgcalib.Width;
+
+                imgcalib = imgcalib.Resize(width/2, height/2, INTER.CV_INTER_AREA, false);
+                imgcalib2 = imgcalib2.Resize(width / 2, height / 2, INTER.CV_INTER_AREA, false);
+                pictureBox1.Image = imgcalib.ToBitmap();
+                pictureBox2.Image = imgcalib.ToBitmap();
+
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                pictureBox2.SizeMode = PictureBoxSizeMode.AutoSize;
+/*
+                Imgproc imgproc = new Imgproc();
+                positions = imgproc.findbgpoints(imgcalib);
+                int[] minmaxpositions = imgproc.findpositions(positions);
+                imgcalib = imgproc.removebackground(imgcalib, positions);
 
-                imgcalib = imgcalib.SmoothGaussian(5, 5, 2, 2);
-                Image<Gray, Byte> imgcanny = imgcalib.Convert<Gray, Byte>().Canny(new Gray(100), new Gray(80));
-                imgcanny._Dilate(2);
-                imgcanny._Erode(2);
+                imgcalib.ROI = new Rectangle(minmaxpositions[0], minmaxpositions[1], minmaxpositions[2] - minmaxpositions[0], minmaxpositions[3] - minmaxpositions[1]);
+                Image<Bgr, Byte> cropimg = imgcalib.Copy();*/
+                
+                
+                Imgproc imgproc = new Imgproc();
+                Image<Bgr, Byte> imgcalib3 = imgproc.subtractimages(imgcalib, imgcalib2);
 
-                pictureBox1.Image = imgcanny.ToBitmap();
-
+                pictureBox1.Image = imgcalib3.ToBitmap();
 
             }
-        }
-
-        public void change_Pix1(Image<Bgr, Byte> imagename)
-        {
-            pictureBox1.Image = imagename.ToBitmap();
         }
 
     }    
