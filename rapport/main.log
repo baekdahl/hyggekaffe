@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.2.14)  14 FEB 2011 12:55
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2010.12.23)  15 FEB 2011 19:14
 entering extended mode
-**C:/hyggekaffe/rapport/main.tex
-(C:/hyggekaffe/rapport/main.tex
+**main.tex
+(C:\hyggekaffe\rapport\main.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -359,7 +359,7 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 Package color Info: Driver file: pdftex.def on input line 130.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
-File: pdftex.def 2010/09/14 v0.05b Graphics/color for pdfTeX
+File: pdftex.def 2010/11/26 v0.05c Graphics/color for pdfTeX
 \Gread@gobject=\count138
 ))
 ("C:\Program Files\MiKTeX 2.9\tex\latex\pdfsync\pdfsync.sty"
@@ -405,13 +405,21 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
-Package: hyperref 2010/09/17 v6.81q Hypertext links for LaTeX
+Package: hyperref 2010/12/03 v6.81w Hypertext links for LaTeX
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2010/04/26 v1.7 LaTeX kernel commands for general use (HO)
 )
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2010/04/01 v0.9 Utility functions of pdfTeX for LuaTeX (HO)
+
+
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
@@ -430,14 +438,7 @@ Package etexcmds Info: Could not find \expanded.
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdfescape.sty"
 Package: pdfescape 2010/03/01 v1.9 Provides hex, PDF name and string conversion
 s (HO)
-
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2010/04/01 v0.9 Utility functions of pdfTeX for LuaTeX (HO)
-
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-))
+)
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
 Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
@@ -459,7 +460,7 @@ Package: kvoptions 2010/02/22 v3.7 Keyval support for LaTeX options (HO)
 \Hy@pagecounter=\count140
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
-File: pd1enc.def 2010/09/17 v6.81q Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2010/12/03 v6.81w Hyperref: PDFDocEncoding definition (HO)
 )
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\intcalc.sty"
 Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
@@ -469,26 +470,26 @@ Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `final' set `true' on input line 3798.
-Package hyperref Info: Option `colorlinks' set `false' on input line 3798.
-Package hyperref Info: Option `breaklinks' set `true' on input line 3798.
+Package hyperref Info: Option `final' set `true' on input line 3889.
+Package hyperref Info: Option `colorlinks' set `false' on input line 3889.
+Package hyperref Info: Option `breaklinks' set `true' on input line 3889.
 
 
 Package hyperref Warning: Unexpected value `truepdfduplex'
 (hyperref)                of option `unicode' instead of
-(hyperref)                `true' or 'false' on input line 3798.
+(hyperref)                `true' or 'false' on input line 3889.
 
-Package hyperref Info: Option `plainpages' set `false' on input line 3798.
-Package hyperref Info: Option `final' set `true' on input line 3798.
-Package hyperref Info: Hyper figures OFF on input line 3902.
-Package hyperref Info: Link nesting OFF on input line 3907.
-Package hyperref Info: Hyper index ON on input line 3910.
-Package hyperref Info: Plain pages OFF on input line 3917.
-Package hyperref Info: Backreferencing OFF on input line 3922.
+Package hyperref Info: Option `plainpages' set `false' on input line 3889.
+Package hyperref Info: Option `final' set `true' on input line 3889.
+Package hyperref Info: Hyper figures OFF on input line 3993.
+Package hyperref Info: Link nesting OFF on input line 3998.
+Package hyperref Info: Hyper index ON on input line 4001.
+Package hyperref Info: Plain pages OFF on input line 4008.
+Package hyperref Info: Backreferencing OFF on input line 4013.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4132.
+Package hyperref Info: Bookmarks ON on input line 4228.
 \c@Hy@tempcnt=\count142
-LaTeX Info: Redefining \url on input line 4487.
+LaTeX Info: Redefining \url on input line 4581.
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\bitset.sty"
 Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
 
@@ -498,15 +499,15 @@ Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
 \Fld@menulength=\count143
 \Field@Width=\dimen148
 \Fld@charsize=\dimen149
-Package hyperref Info: Hyper figures OFF on input line 5526.
-Package hyperref Info: Link nesting OFF on input line 5531.
-Package hyperref Info: Hyper index ON on input line 5534.
-Package hyperref Info: backreferencing OFF on input line 5541.
-Package hyperref Info: Link coloring OFF on input line 5546.
-Package hyperref Info: Link coloring with OCG OFF on input line 5551.
-Package hyperref Info: PDF/A mode OFF on input line 5556.
-LaTeX Info: Redefining \ref on input line 5596.
-LaTeX Info: Redefining \pageref on input line 5600.
+Package hyperref Info: Hyper figures OFF on input line 5665.
+Package hyperref Info: Link nesting OFF on input line 5670.
+Package hyperref Info: Hyper index ON on input line 5673.
+Package hyperref Info: backreferencing OFF on input line 5680.
+Package hyperref Info: Link coloring OFF on input line 5685.
+Package hyperref Info: Link coloring with OCG OFF on input line 5690.
+Package hyperref Info: PDF/A mode OFF on input line 5695.
+LaTeX Info: Redefining \ref on input line 5735.
+LaTeX Info: Redefining \pageref on input line 5739.
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\atbegshi.sty"
 Package: atbegshi 2010/03/25 v1.12 At begin shipout hook (HO)
@@ -523,7 +524,7 @@ ass
 Package hyperref Message: Driver: hpdftex.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
-File: hpdftex.def 2010/09/17 v6.81q Hyperref driver for pdfTeX
+File: hpdftex.def 2010/12/03 v6.81w Hyperref driver for pdfTeX
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\atveryend.sty"
 Package: atveryend 2010/03/24 v1.5 Hooks at very end of document (HO)
@@ -1123,8 +1124,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@floatcapt=\box63
 )
 (C:\hyggekaffe\rapport\main.aux (C:\hyggekaffe\rapport\includes/forside.aux)
-(C:\hyggekaffe\rapport\includes/forord.aux)
-(C:\hyggekaffe\rapport\analysis/backgroundremoval.aux))
+(C:\hyggekaffe\rapport\includes/forord.aux))
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
@@ -1282,11 +1282,40 @@ l.14 \chapter
 
 ] [4
 
-] [5]
-No file analysis/backgroundremoval.tex.
-(C:\hyggekaffe\rapport\main.bbl [6
+]
+(C:\hyggekaffe\rapport\analysis/findingtable.tex
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 5.
 
+("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
+File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 5.
+)
+(C:\hyggekaffe\rapport\analysis/backgroundremove.tex
+<images/table-no-filters.jpg, id=61, 963.6pt x 722.7pt>
+File: images/table-no-filters.jpg Graphic file (type jpg)
 
+<use images/table-no-filters.jpg>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+<images/hist2.pdf, id=72, 527.57294pt x 417.8541pt>
+File: images/hist2.pdf Graphic file (type pdf)
+ <use images/hist2.pdf>
+Underfull \vbox (badness 4543) has occurred while \output is active []
+
+ [6 <C:/hyggekaffe/rapport/images/table-no-filters.jpg> <C:/hyggekaffe/rapport/
+images/hist2.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 31--34
+
+ []
+
+<images/table-remove-cloth.jpg, id=82, 481.04718pt x 361.35pt>
+File: images/table-remove-cloth.jpg Graphic file (type jpg)
+
+<use images/table-remove-cloth.jpg>) (C:\hyggekaffe\rapport\main.bbl [7 <C:/hyg
+gekaffe/rapport/images/table-remove-cloth.jpg>] [8
 
 ]
 bibitemlist
@@ -1299,34 +1328,35 @@ FiXme Summary: Number of notes: 0,
 (FiXme)        Total: 0.
 
 AED: lastpage setting LastPage 
-[7]
+[9]
 \tf@toc=\write6
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 25.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 25.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
  (C:\hyggekaffe\rapport\main.aux (C:\hyggekaffe\rapport\includes/forside.aux) (
-C:\hyggekaffe\rapport\includes/forord.aux)
-(C:\hyggekaffe\rapport\analysis/backgroundremoval.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 25.
+C:\hyggekaffe\rapport\includes/forord.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 970FE19A519074700DB49E4187F93265;249.
  ) 
 Here is how much of TeX's memory you used:
- 13370 strings out of 494019
- 193223 string characters out of 3146498
- 317259 words of memory out of 3000000
- 16356 multiletter control sequences out of 15000+200000
- 51594 words of font info for 48 fonts, out of 3000000 for 9000
+ 13448 strings out of 494019
+ 194622 string characters out of 3146497
+ 320215 words of memory out of 3000000
+ 16418 multiletter control sequences out of 15000+200000
+ 57255 words of font info for 50 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 66i,34n,96p,474b,526s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}<C:/Program Files/M
-iKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/lm/lmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr
-17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/lm/lmss12.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/lm/lmssbx10.pfb>
-Output written on main.pdf (9 pages, 161101 bytes).
+ 66i,34n,96p,452b,526s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Fil
+es/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}<C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/lm/lmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lm
+r10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/lm/lmss12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/lm/lmssbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb
+>
+Output written on main.pdf (11 pages, 1135197 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
- 16 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 129 PDF objects out of 1000 (max. 8388607)
+ 23 named destinations out of 1000 (max. 500000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
