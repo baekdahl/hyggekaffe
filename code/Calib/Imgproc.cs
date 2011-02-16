@@ -176,9 +176,9 @@ namespace Calib
                 {
                     if ((Math.Abs(imgcalibhsv[j, i].Hue - mostCommonValueh) <= 15))
                     {
-                        if ((Math.Abs(imgcalibhsv[j, i].Value - mostCommonValuev) <= 255))
+                        if ((Math.Abs(imgcalibhsv[j, i].Value - mostCommonValuev) <= 50))
                         {
-                            if ((Math.Abs(imgcalibhsv[j, i].Satuation - mostCommonValues) <= 255))
+                            if ((Math.Abs(imgcalibhsv[j, i].Satuation - mostCommonValues) <= 50))
                             {
                                 count++;
                                 positions[count].X = i;
