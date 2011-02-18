@@ -16,10 +16,13 @@ using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using Emgu.CV.VideoSurveillance;
 
-
 namespace Calib
 {
-
+    public struct iPoint
+    {
+        public int X, Y, value;
+    }
+    
     public partial class Form1 : Form
     {
         Image<Bgr, Byte> img1;
@@ -29,6 +32,45 @@ namespace Calib
         public Form1()
         {
             InitializeComponent();
+            findblobtest();
+            //templatetest();
+        }
+
+        private void findblobtest()
+        {
+            Image<Gray, Byte> img = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 1-new.jpg");
+            img = img.Resize(img.Width / 2, img.Height / 2, INTER.CV_INTER_AREA, false);
+    
+            pictureBox1.Image = img.ToBitmap();
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            Imgproc imgproc = new Imgproc();
+            iPoint[] maximas = imgproc.findmaxima(img);
+
+            iPoint[] sortedlist = imgproc.sortiPoints(maximas,100);
+
+            foreach (iPoint points in sortedlist)
+            {
+                img.Draw(new CircleF(new Point(points.X, points.Y), 5), new Gray(0), 2);                
+            }
+
+            pictureBox1.Image = img.ToBitmap();
+
+            
+        }
+
+
+        private void templatetest()
+        {
+            Image<Gray, Byte> template = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\ball.jpg");
+            Image<Gray, Byte> table = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\pooltable2.jpg");
+
+            Image<Gray, float> match = table.MatchTemplate(template, TM_TYPE.CV_TM_CCOEFF);
+
+            pictureBox2.Image = table.ToBitmap();
+            pictureBox1.Image = match.ToBitmap();
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
