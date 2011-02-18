@@ -18,6 +18,30 @@ namespace Calib
 {
     public class Imgproc
     {
+        public iPoint[] removecloseiPoints(iPoint[] list, int threshold)
+        {
+            iPoint[] sortedlist = new iPoint[list.Length];
+            int newlistcount = -1;
+
+            for (int i = 1; i < list.Length; i++)
+            {
+                bool close = false;
+                for (int j = 1; j < list.Length - i; j++)
+                {
+                    if ((int)Math.Sqrt((Math.Pow((list[j + i].X - list[i].X), 2) + Math.Pow((list[j + i].Y - list[i].Y), 2))) < threshold)
+                    {
+                        close = true;
+                        //Debug.Write( Math.Abs((list[j].X - list[i].X) + (list[j].Y - list[i].Y))+"\n" );
+                    }
+                }
+                if (close == false) { newlistcount++; sortedlist[newlistcount] = list[i]; }                
+            }
+
+            Array.Resize(ref sortedlist,newlistcount);
+
+            return sortedlist;
+        }
+
         public iPoint[] sortiPoints(iPoint[] list, int diamondcount)
         {
             iPoint[] sortedlist = new iPoint[diamondcount];

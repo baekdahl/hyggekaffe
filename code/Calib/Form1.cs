@@ -38,7 +38,7 @@ namespace Calib
 
         private void findblobtest()
         {
-            Image<Gray, Byte> img = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 1-new.jpg");
+            Image<Gray, Byte> img = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 2.jpg");
             img = img.Resize(img.Width / 2, img.Height / 2, INTER.CV_INTER_AREA, false);
     
             pictureBox1.Image = img.ToBitmap();
@@ -48,10 +48,16 @@ namespace Calib
             iPoint[] maximas = imgproc.findmaxima(img);
 
             iPoint[] sortedlist = imgproc.sortiPoints(maximas,100);
+            iPoint[] newsortedlist = imgproc.removecloseiPoints(sortedlist, 50);
 
             foreach (iPoint points in sortedlist)
             {
-                img.Draw(new CircleF(new Point(points.X, points.Y), 5), new Gray(0), 2);                
+                //img.Draw(new CircleF(new Point(points.X, points.Y), 5), new Gray(0), 2);
+            }
+            
+            foreach (iPoint points in newsortedlist)
+            {
+                img.Draw(new CircleF(new Point(points.X, points.Y), 5), new Gray(255), 2);                
             }
 
             pictureBox1.Image = img.ToBitmap();
