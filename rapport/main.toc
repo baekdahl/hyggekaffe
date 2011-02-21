@@ -2,6 +2,7 @@
 \select@language {english}
 \contentsline {chapter}{Contents}{2}{section*.2}
 \contentsline {chapter}{\chapternumberline {1}Introduction}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Requirements specification}{3}{section.1.1}
 \contentsline {chapter}{\chapternumberline {2}Analysis}{5}{chapter.2}
 \contentsline {section}{\numberline {2.1}Pool table specifications}{5}{section.2.1}
 \contentsline {section}{\numberline {2.2}Image processing}{6}{section.2.2}

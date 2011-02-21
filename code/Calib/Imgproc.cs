@@ -169,12 +169,14 @@ namespace Calib
             return minmaxpositions;
         }
 
-        public Point[]  findbgpoints(Image<Bgr,Byte> imgcalib)
+        public Point[]  findbgpoints(Image<Bgr,Byte> img, int hue_thres)
         {
-            Image<Hsv, Byte> imgcalibhsv = imgcalib.Convert<Hsv, Byte>();
-            Point[] positions = new Point[imgcalibhsv.Width * imgcalibhsv.Height];
-            int width = imgcalibhsv.Width;
-            int height = imgcalibhsv.Height;
+            Image<Hsv, Byte> imghsv = img.Convert<Hsv, Byte>();
+            Point[] positions = new Point[imghsv.Width * imghsv.Height];
+
+            int width = imghsv.Width;
+            int height = imghsv.Height;
+
             var counth = new Dictionary<int, int>();
             var countv = new Dictionary<int, int>();
             var counts = new Dictionary<int, int>();
@@ -188,9 +190,9 @@ namespace Calib
             {
                 for (int j = 0; j < height - 1; j++)
                 {
-                    valueh = (int)imgcalibhsv[j, i].Hue;
-                    valuev = (int)imgcalibhsv[j, i].Value;
-                    values = (int)imgcalibhsv[j, i].Satuation;
+                    valueh = (int)imghsv[j, i].Hue;
+                    valuev = (int)imghsv[j, i].Value;
+                    values = (int)imghsv[j, i].Satuation;
 
                     hsvout.WriteLine("{0};{1};{2};", valueh, valuev, values);
 
@@ -260,19 +262,18 @@ namespace Calib
             }
 
             Debug.Write("h:"+mostCommonValueh+"s:"+mostCommonValues+"v:"+mostCommonValuev+"\n");
-
-
+            
             int count=-1;
 
             for (int i = 0; i < width - 1; i++)
             {
                 for (int j = 0; j < height - 1; j++)
                 {
-                    if ((Math.Abs(imgcalibhsv[j, i].Hue - mostCommonValueh) <= 15))
+                    if ((Math.Abs(imghsv[j, i].Hue - mostCommonValueh) <= hue_thres))
                     {
-                        if ((Math.Abs(imgcalibhsv[j, i].Value - mostCommonValuev) <= 50))
+                        if ((Math.Abs(imghsv[j, i].Value - mostCommonValuev) <= 255))
                         {
-                            if ((Math.Abs(imgcalibhsv[j, i].Satuation - mostCommonValues) <= 50))
+                            if ((Math.Abs(imghsv[j, i].Satuation - mostCommonValues) <= 255))
                             {
                                 count++;
                                 positions[count].X = i;
@@ -288,16 +289,14 @@ namespace Calib
             return positions;
         }
 
-        public Image<Bgr, Byte> removebackground(Image<Bgr, Byte> imgcalib, Point[] positions)
+        public Image<Bgr, Byte> removebackground(Image<Bgr, Byte> img, Point[] positions)
         {
-
-            Image<Bgr, Byte> imgcalib2 = new Image<Bgr, Byte>(imgcalib.Size);
 
             foreach (Point point in positions)
             {
-              imgcalib[point] = new Bgr(0, 0, 0);
+                img[point] = new Bgr(180, 105, 255);
             }
-            return imgcalib;
+            return img;
         }
     
     }
