@@ -18,6 +18,26 @@ namespace Calib
 {
     public class Imgproc
     {
+        public void testtest(Point[] points)
+        {
+            int meanx = 0;
+            int meany = 0;
+
+            foreach (Point point in points) {
+                meanx += point.X;
+                meany += point.Y;
+            }
+
+            meanx = meanx / points.Length;
+            meany = meany / points.Length;
+            Debug.Write(meanx + "+" + meany);
+
+
+
+
+
+        }
+
         public iPoint[] removecloseiPoints(iPoint[] list, int threshold)
         {
             iPoint[] sortedlist = new iPoint[list.Length];
@@ -294,10 +314,9 @@ namespace Calib
 
             foreach (Point point in positions)
             {
-                img[point] = new Bgr(180, 105, 255);
+                img[point] = new Bgr(255, 0, 0);
             }
             return img;
         }
-    
     }
 }

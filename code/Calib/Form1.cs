@@ -32,14 +32,15 @@ namespace Calib
         public Form1()
         {
             InitializeComponent();
-            findblobtest();
+            //findblobtest();
             //templatetest();
-            //removebackround();
+            removebackround();
         }
+
 
         private void removebackround()
         {
-            Image<Bgr, Byte> img = new Image<Bgr, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 3.jpg");
+            Image<Bgr, Byte> img = new Image<Bgr, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 1.jpg");
             img = img.Resize(img.Width / 2, img.Height / 2, INTER.CV_INTER_AREA, false);
 
             pictureBox1.Image = img.ToBitmap();
@@ -49,6 +50,7 @@ namespace Calib
 
             Point[] bgpos = imgproc.findbgpoints(img, 5);
             Image<Bgr, Byte> imgnew = imgproc.removebackground(img, bgpos);
+            imgproc.testtest(bgpos);
 
             pictureBox1.Image = imgnew.ToBitmap();
         }
