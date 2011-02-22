@@ -34,6 +34,23 @@ namespace Calib
             InitializeComponent();
             findblobtest();
             //templatetest();
+            //removebackround();
+        }
+
+        private void removebackround()
+        {
+            Image<Bgr, Byte> img = new Image<Bgr, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 3.jpg");
+            img = img.Resize(img.Width / 2, img.Height / 2, INTER.CV_INTER_AREA, false);
+
+            pictureBox1.Image = img.ToBitmap();
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            Imgproc imgproc = new Imgproc();
+
+            Point[] bgpos = imgproc.findbgpoints(img, 5);
+            Image<Bgr, Byte> imgnew = imgproc.removebackground(img, bgpos);
+
+            pictureBox1.Image = imgnew.ToBitmap();
         }
 
         private void findblobtest()
@@ -64,8 +81,7 @@ namespace Calib
 
             
         }
-
-
+        
         private void templatetest()
         {
             Image<Gray, Byte> template = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\ball.jpg");
