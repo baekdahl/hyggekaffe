@@ -12,18 +12,26 @@
 \tableofcontents
 
 \chapter{Introduction}
+	\section{Requirements specification}
+		\input{introduction/reqspec}
 
 \chapter{Analysis}
 	\section{Pool table specifications}
+		\label{sec:rules}
 		\input{analysis/pooltable}
 
-	
 \section{Image processing}
 	\subsection{Finding the table}
 		\input{analysis/findingtable}
 
 	\subsection{Removing the background}
 		\input{analysis/backgroundremove}
+
+	\subsection{Detecting the balls}
+		\input{analysis/balldetection}
+
+	\subsection{Identifying the balls}
+		\input{analysis/idball}
 
 \bibliography{kilder}
 

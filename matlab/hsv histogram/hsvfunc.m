@@ -1,18 +1,18 @@
-hcloth = hsv_cloth(:,1);
-scloth = hsv_cloth(:,2);
-vcloth = hsv_cloth(:,3);
-
-subplot(3,2,1);
-hist(hcloth,255);
-title('Cloth Hue');
-
-subplot(3,2,3);
-hist(scloth,255);
-title('Cloth Saturation');
-
-subplot(3,2,5);
-hist(vcloth,255);
-title('Cloth Value');
+% hcloth = hsv_cloth(:,1);
+% scloth = hsv_cloth(:,2);
+% vcloth = hsv_cloth(:,3);
+% 
+% subplot(3,2,1);
+% hist(hcloth,255);
+% title('Cloth Hue');
+% 
+% subplot(3,2,3);
+% hist(scloth,255);
+% title('Cloth Saturation');
+% 
+% subplot(3,2,5);
+% hist(vcloth,255);
+% title('Cloth Value');
 
 h = hsv(:,1);
 s = hsv(:,2);

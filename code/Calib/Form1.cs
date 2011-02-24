@@ -32,13 +32,32 @@ namespace Calib
         public Form1()
         {
             InitializeComponent();
-            findblobtest();
+            //findblobtest();
             //templatetest();
+            removebackround();
+        }
+
+
+        private void removebackround()
+        {
+            Image<Bgr, Byte> img = new Image<Bgr, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 1.jpg");
+            img = img.Resize(img.Width / 2, img.Height / 2, INTER.CV_INTER_AREA, false);
+
+            pictureBox1.Image = img.ToBitmap();
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            Imgproc imgproc = new Imgproc();
+
+            Point[] bgpos = imgproc.findbgpoints(img, 5);
+            Image<Bgr, Byte> imgnew = imgproc.removebackground(img, bgpos);
+            imgproc.testtest(bgpos);
+
+            pictureBox1.Image = imgnew.ToBitmap();
         }
 
         private void findblobtest()
         {
-            Image<Gray, Byte> img = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 2.jpg");
+            Image<Gray, Byte> img = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\Picture 3.jpg");
             img = img.Resize(img.Width / 2, img.Height / 2, INTER.CV_INTER_AREA, false);
     
             pictureBox1.Image = img.ToBitmap();
@@ -47,7 +66,7 @@ namespace Calib
             Imgproc imgproc = new Imgproc();
             iPoint[] maximas = imgproc.findmaxima(img);
 
-            iPoint[] sortedlist = imgproc.sortiPoints(maximas,100);
+            iPoint[] sortedlist = imgproc.sortiPoints(maximas,50);
             iPoint[] newsortedlist = imgproc.removecloseiPoints(sortedlist, 50);
 
             foreach (iPoint points in sortedlist)
@@ -64,8 +83,7 @@ namespace Calib
 
             
         }
-
-
+        
         private void templatetest()
         {
             Image<Gray, Byte> template = new Image<Gray, Byte>("C:\\hyggekaffe\\pool\\new\\ball.jpg");
