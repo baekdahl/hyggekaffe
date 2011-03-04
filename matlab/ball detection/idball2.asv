@@ -1,0 +1,47 @@
+clc
+path_ballid = 'c:/hyggekaffe/new test data/';
+
+cd (path_ballid);
+d = dir(path_ballid);
+d = d(3:length(d));
+bins = 30;
+
+for j=1:length(d),
+    path_ball = [path_ballid '/' d(j).name];
+    ball_histogram(j) = hwa_hsv(path_ball, bins);
+    ball_histogram(j).h = ball_histogram(j).h / max(ball_histogram(j).h);
+    ball_histogram(j).s = ball_histogram(j).s / max(ball_histogram(j).s);
+    ball_histogram(j).v = ball_histogram(j).v / max(ball_histogram(j).v);
+end
+
+for j=1:length(d),
+    for i=1:length(histograms_training),
+        DM_H(j,i) = L2distance(ball_histogram(j).h,histograms_training(i).h);
+        DM_S(j,i) = L2distance(ball_histogram(j).s,histograms_training(i).s);
+        
+        DM_H(j,i) = 
+        
+        
+    end
+end
+
+ball_id = zeros(length(d),1);
+ball_list = zeros(length(d),1);
+
+
+DM_H = DM_H ;%+ DM_S;
+DM_H_save = DM_H;
+
+for j=1:length(d)
+     [mini pos] = min(DM_H);
+     [mini2 pos2] = min(mini);
+     
+     ball_id(pos2) = pos(pos2);
+     
+     %DM_H(pos2,pos(pos2)) = 100;
+     
+     DM_H(:,pos(pos2)) = 100;
+     DM_H(pos(pos2),:) = 100;
+end
+
+clear bins j path_ball path_ballid bins j ball_list disth dists i d min_h min_s min_s_vec;
