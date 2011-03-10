@@ -1,4 +1,4 @@
-function [x, fval] = emd(F1, F2, W1, W2, Func)
+function [fval] = emd(F1, F2, W1, W2, Func)
 %
 % EMD   Earth Mover's Distance between two signatures
 %    [X, FVAL] = EMD(F1, F2, W1, W2, FUNC) is the Earth Mover's Distance
