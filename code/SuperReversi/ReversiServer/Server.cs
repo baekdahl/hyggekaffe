@@ -8,16 +8,20 @@ using System.Net;
 
 namespace SuperReversi
 {
-    public delegate void clientConnectDelegate(Socket client); 
+    public delegate void clientConnectDelegate(Socket client);
+    public delegate void stringDelegate(Socket client, string message);
 
     class Server
     {
         private Socket server;
-        private List<Socket> clients = new List<Socket>();
+        private Socket clientWhite;
+        private Socket clientBlack;
+
         private byte[] data = new byte[1024];
         private int size = 1024;
 
-        public clientConnectDelegate onClientConnect; 
+        public clientConnectDelegate onClientConnect;
+        public stringDelegate onReceive;
 
         public Server()
         {
@@ -31,49 +35,98 @@ namespace SuperReversi
 
         void AcceptConn(IAsyncResult iar)
         {
-            Socket oldserver = (Socket)iar.AsyncState;
-            Socket client = oldserver.EndAccept(iar);
-            clients.Add(client);
+            Socket client = server.EndAccept(iar);
+            client.BeginReceive(data, 0, size, SocketFlags.None,
+                    new AsyncCallback(ReceiveData), client);
+            addClient(client);
+            server.BeginAccept(new AsyncCallback(AcceptConn), null); //Start listening again
 
-            string stringData = "Welcome to my server";
-            byte[] message1 = Encoding.ASCII.GetBytes(stringData);
-            onClientConnect(client);
+            onClientConnect(client);     
+        }
 
-            client.BeginSend(message1, 0, message1.Length, SocketFlags.None,
-                        new AsyncCallback(SendData), client);
+        void addClient(Socket client)
+        {
+            if (clientWhite == null)
+            {
+                clientWhite = client;
+            }
+            else if (clientBlack == null)
+            {
+                clientBlack = client;
+            }
+        }
+
+        void removeClient(Socket client)
+        {
+            if (clientWhite == client)
+            {
+                clientWhite = null;
+            }
+            else if (clientBlack == client)
+            {
+                clientBlack = null;
+            }
         }
 
         void SendData(IAsyncResult iar)
         {
             Socket client = (Socket)iar.AsyncState;
             int sent = client.EndSend(iar);
-            client.BeginReceive(data, 0, size, SocketFlags.None,
-                        new AsyncCallback(ReceiveData), client);
         }
 
         void ReceiveData(IAsyncResult iar)
         {
+            
             Socket client = (Socket)iar.AsyncState;
-            int recv = client.EndReceive(iar);
-            if (recv == 0)
-            {
-                client.Close();
-                clients.Remove(client);
-                server.BeginAccept(new AsyncCallback(AcceptConn), server);
-                return;
+            try
+            {    
+                int recv = client.EndReceive(iar);
+                if (recv == 0)
+                {
+                    client.Close();
+                    removeClient(client);
+                    return;
+                }
+                string receivedData = Encoding.ASCII.GetString(data, 0, recv);
+                client.BeginReceive(data, 0, size, SocketFlags.None,
+                    new AsyncCallback(ReceiveData), client);
+
+                onReceive(client, receivedData);
             }
-            string receivedData = Encoding.ASCII.GetString(data, 0, recv);
-
-
-
-            byte[] message2 = Encoding.ASCII.GetBytes(receivedData);
-            client.BeginSend(message2, 0, message2.Length, SocketFlags.None,
-                         new AsyncCallback(SendData), client);
+            catch (SocketException e)
+            {
+                System.Diagnostics.Debug.Write(e.Message);
+                removeClient(client);
+            }
+            
         }
 
-        public void sendGameState(Socket client)
+        public ReversiState.Pieces clientSide(Socket client)
         {
-            sendMessage(client, "STATE");
+            if (clientWhite == client)
+            {
+                return ReversiState.Pieces.White;
+            }
+            return ReversiState.Pieces.Black;
+        }
+
+        public void sendGameState(Socket client, ReversiState state)
+        {
+            string stateString = state.serialize();
+            
+            sendMessage(client, "STATE:" + stateString + "\n");
+            sendMessage(client, "YOU:" + (int)clientSide(client) + "\n");
+        }
+
+        public void sendGameState(ReversiState state)
+        {
+            if (clientWhite != null) {
+                sendGameState(clientWhite, state);   
+            }
+            if (clientBlack != null)
+            {
+                sendGameState(clientWhite, state);  
+            }
         }
 
         private void sendMessage(Socket client, string message)

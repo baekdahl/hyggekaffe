@@ -21,6 +21,7 @@ namespace SuperReversi
             gameState = ReversiState.initial();
             server = new Server();
             server.onClientConnect = this.clientConnect;
+            server.onReceive = this.receiveData;
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -51,8 +52,19 @@ namespace SuperReversi
             Debug.Write("Mouse click:" + click.X + " , " + click.Y + "\n");
 
             Point gamePos = new Point((int)Math.Floor(click.X / (width+1)), (int)Math.Floor(click.Y / (height+1)));
+            if (gamePos.X < 0) gamePos.X = 0;
+            else if (gamePos.X > 7) gamePos.X = 7;
 
-            gameState = gameState.placePiece(gamePos);
+            if (gamePos.Y < 0) gamePos.Y = 0;
+            else if (gamePos.Y > 7) gamePos.Y = 7;
+
+            makeMove(gamePos);
+        }
+
+        public void makeMove(Point position, ReversiState.Pieces type = ReversiState.Pieces.None)
+        {
+            gameState = gameState.placePiece(position, type);
+            server.sendGameState(gameState);
             pictureBox1.Invalidate();
         }
 
@@ -65,7 +77,33 @@ namespace SuperReversi
             }
             else
             {
-                server.sendGameState(client);
+                server.sendGameState(client, gameState);
+            }
+        }
+
+        public void receiveData(System.Net.Sockets.Socket client, string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new stringDelegate(receiveData), new object[] {client, message});
+            }
+            else
+            {
+                if (message.IndexOf("\n") != -1)
+                {
+                    foreach (string msg in message.Split('\n'))
+                    {
+                        receiveData(client, msg);
+                    }
+                    return;
+  
+                } else if (message.IndexOf("MOVE") != -1) {
+                    message = message.Substring(message.IndexOf("MOVE:") + 5);
+
+                    string[] messageArray = message.Split(',');
+
+                    makeMove(new Point(Int32.Parse(messageArray[0]), Int32.Parse(messageArray[1])), (ReversiState.Pieces)Enum.Parse(typeof(ReversiState.Pieces), messageArray[2]));
+                }
             }
         }
 
