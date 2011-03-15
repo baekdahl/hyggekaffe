@@ -4,7 +4,7 @@ function [ dictionary ] = create_dictionary()
 
 dictionary = '';
 
-for i=32:127,
+for i=32:126,
     dictionary = [dictionary,{char(i)}];
 end
 
