@@ -180,8 +180,6 @@ namespace Calib
                 if(point.Y < miny) {miny = point.Y;}
                 if(point.Y > maxy) {maxy = point.Y;}
             }
-
-            Debug.Write(minx + "+" + miny + "+" + maxx + "+" + maxy);
             minmaxpositions[0] = minx;
             minmaxpositions[1] = miny;
             minmaxpositions[2] = maxx;
@@ -204,8 +202,6 @@ namespace Calib
             int valuev = 0;
             int values = 0;
 
-            TextWriter hsvout = new StreamWriter("hsv.txt");
-
             for (int i = 0; i < width - 1; i++)
             {
                 for (int j = 0; j < height - 1; j++)
@@ -213,8 +209,6 @@ namespace Calib
                     valueh = (int)imghsv[j, i].Hue;
                     valuev = (int)imghsv[j, i].Value;
                     values = (int)imghsv[j, i].Satuation;
-
-                    hsvout.WriteLine("{0};{1};{2};", valueh, valuev, values);
 
                     if (counth.ContainsKey(valueh))
                     {
@@ -245,8 +239,6 @@ namespace Calib
 
                 }
             }
-
-            hsvout.Close();
         
             int mostCommonValueh = 0;
             int highestCounth = 0;
@@ -281,8 +273,7 @@ namespace Calib
                 }
             }
 
-            Debug.Write("h:"+mostCommonValueh+"s:"+mostCommonValues+"v:"+mostCommonValuev+"\n");
-            
+   
             int count=-1;
 
             for (int i = 0; i < width - 1; i++)
@@ -291,17 +282,10 @@ namespace Calib
                 {
                     if ((Math.Abs(imghsv[j, i].Hue - mostCommonValueh) <= hue_thres))
                     {
-                        if ((Math.Abs(imghsv[j, i].Value - mostCommonValuev) <= 255))
-                        {
-                            if ((Math.Abs(imghsv[j, i].Satuation - mostCommonValues) <= 255))
-                            {
                                 count++;
                                 positions[count].X = i;
                                 positions[count].Y = j;
-                            }
-                        }
-                        
-                    }
+                     }
                 }
             }
 
@@ -311,12 +295,12 @@ namespace Calib
 
         public Image<Bgr, Byte> removebackground(Image<Bgr, Byte> img, Point[] positions)
         {
-
+            Image<Bgr,Byte> img2 = new Image<Bgr, Byte>(img.Size);
             foreach (Point point in positions)
             {
-                img[point] = new Bgr(255, 0, 0);
+                img2[point] = new Bgr(255, 255, 255);
             }
-            return img;
+            return img2;
         }
     }
 }

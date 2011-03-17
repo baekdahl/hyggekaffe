@@ -21,17 +21,34 @@
 		\input{analysis/pooltable}
 
 \section{Image processing}
-	\subsection{Finding the table}
-		\input{analysis/findingtable}
+		\input{analysis/intro}
 
 	\subsection{Removing the background}
+		\label{sec:removeback}
 		\input{analysis/backgroundremove}
 
+	\subsection{Finding contours}
+		\label{sec:contours}
+		\input{analysis/contour}
+
+\section{Calibration}
+	\subsection{Finding the table}
+		Finding the table is essential for the project. This will be used to determin the ROI (region of interest) and also the size of the table and balls.
+	\subsection{The ROI}
+		\input{analysis/findingtable}
+	\subsection{The exact  position}
+		\input{analysis/findingthediamonds}
+
+
+\section{Detection of balls}
 	\subsection{Detecting the balls}
 		\input{analysis/balldetection}
 
 	\subsection{Identifying the balls}
 		\input{analysis/idball}
+
+
+
 
 \bibliography{kilder}
 
