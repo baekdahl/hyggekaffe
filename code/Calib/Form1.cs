@@ -53,11 +53,12 @@ namespace Calib
 
                 imageStruct.org_img = new Image<Bgr, Byte>(fi.FullName);
                 imageStruct.org_img = imageStruct.org_img.Resize(0.5, INTER.CV_INTER_NN);
+                imageStruct.org_img = removebackground(imageStruct.org_img);
 
                 imageStruct.threshold_diamond = imageStruct.org_img.Convert<Gray, Byte>();  //Convert to Gray for thresholding
 
                 CvInvoke.cvAdaptiveThreshold(imageStruct.threshold_diamond.Ptr, imageStruct.threshold_diamond.Ptr, //Adptive threshold
-                        255, Emgu.CV.CvEnum.ADAPTIVE_THRESHOLD_TYPE.CV_ADAPTIVE_THRESH_MEAN_C, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY, 151, 10);
+                        255, Emgu.CV.CvEnum.ADAPTIVE_THRESHOLD_TYPE.CV_ADAPTIVE_THRESH_MEAN_C, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY, 201, 10);
 
                 imageStruct.threshold_diamond = imageStruct.threshold_diamond.Dilate(1);    //Dialate
                 imageStruct.threshold_diamond = imageStruct.threshold_diamond.Erode(1);     //Erode
@@ -68,7 +69,7 @@ namespace Calib
 
                 foreach (Contour<Point> contour in imageStruct.contourpoint)    //Draw contours
                 {
-                    if (Math.Abs(contour.Area - medianArea) < 3)
+                    if (Math.Abs(contour.Area - medianArea) < 5)
                     {
                         Debug.Write("\n"+contour.Area+"\n");
                         imageStruct.org_img.Draw(contour, new Bgr(0, 255, 255), 3);
