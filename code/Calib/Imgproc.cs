@@ -30,11 +30,6 @@ namespace Calib
 
             meanx = meanx / points.Length;
             meany = meany / points.Length;
-            Debug.Write(meanx + "+" + meany);
-
-
-
-
 
         }
 
@@ -51,7 +46,6 @@ namespace Calib
                     if ((int)Math.Sqrt((Math.Pow((list[j + i].X - list[i].X), 2) + Math.Pow((list[j + i].Y - list[i].Y), 2))) < threshold)
                     {
                         close = true;
-                        //Debug.Write( Math.Abs((list[j].X - list[i].X) + (list[j].Y - list[i].Y))+"\n" );
                     }
                 }
                 if (close == false) { newlistcount++; sortedlist[newlistcount] = list[i]; }                
@@ -187,7 +181,7 @@ namespace Calib
             return minmaxpositions;
         }
 
-        public Point[]  findbgpoints(Image<Bgr,Byte> img, int hue_thres)
+        public Point[]  findbgpoints(Image<Bgr,Byte> img, int hue_thres, int sat_thres)
         {
             Image<Hsv, Byte> imghsv = img.Convert<Hsv, Byte>();
             Point[] positions = new Point[imghsv.Width * imghsv.Height];
@@ -282,9 +276,12 @@ namespace Calib
                 {
                     if ((Math.Abs(imghsv[j, i].Hue - mostCommonValueh) <= hue_thres))
                     {
-                                count++;
-                                positions[count].X = i;
-                                positions[count].Y = j;
+                        if ((Math.Abs(imghsv[j, i].Satuation - mostCommonValues) <= sat_thres))
+                        {
+                            count++;
+                            positions[count].X = i;
+                            positions[count].Y = j;
+                        }
                      }
                 }
             }
@@ -293,7 +290,7 @@ namespace Calib
             return positions;
         }
 
-        public Image<Bgr, Byte> removebackground(Image<Bgr, Byte> img, Point[] positions)
+        public Image<Bgr, Byte> removebackground_thres(Image<Bgr, Byte> img, Point[] positions)
         {
             Image<Bgr,Byte> img2 = new Image<Bgr, Byte>(img.Size);
             foreach (Point point in positions)
@@ -301,6 +298,15 @@ namespace Calib
                 img2[point] = new Bgr(255, 255, 255);
             }
             return img2;
+        }
+
+        public Image<Bgr, Byte> removebackground(Image<Bgr, Byte> img, Point[] positions)
+        {
+            foreach (Point point in positions)
+            {
+                img[point] = new Bgr(255, 255, 255);
+            }
+            return img;
         }
     }
 }

@@ -24,7 +24,19 @@ namespace Calib
     {
         public int X, Y, value;
     }
-    
+
+    public struct calibImage
+    {
+        public Image<Bgr, Byte> org_img;
+        public Image<Bgr, Byte> wob_img;
+        public Image<Bgr, Byte> cropped_img;
+        public Image<Gray, Byte> thresholded;
+        public Image<Gray, Byte> threshold_diamond;
+        public List<Contour<Point>> contourpoint;
+        public Rectangle rect;
+        public double rot_angle;
+    }
+
     public partial class Form1 : Form
     {
         Point[] positions = new Point[0];
@@ -32,35 +44,83 @@ namespace Calib
         public Form1()
         {
             InitializeComponent();
-            /*
-            DirectoryInfo di = new DirectoryInfo("c://hyggekaffe//pics//rand");
+            
+            DirectoryInfo di = new DirectoryInfo("c://hyggekaffe//pics//randx");
             FileInfo[] rgFiles = di.GetFiles("*.jpg");
             foreach (FileInfo fi in rgFiles)
             {
-                 countourfind(fi.FullName, fi.Name);
-            }
-            */
+                calibImage imageStruct = new calibImage();
 
+                imageStruct.org_img = new Image<Bgr, Byte>(fi.FullName);
+                imageStruct.org_img = imageStruct.org_img.Resize(0.5, INTER.CV_INTER_NN);
+
+                imageStruct.threshold_diamond = imageStruct.org_img.Convert<Gray, Byte>();  //Convert to Gray for thresholding
+
+                CvInvoke.cvAdaptiveThreshold(imageStruct.threshold_diamond.Ptr, imageStruct.threshold_diamond.Ptr, //Adptive threshold
+                        255, Emgu.CV.CvEnum.ADAPTIVE_THRESHOLD_TYPE.CV_ADAPTIVE_THRESH_MEAN_C, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY, 151, 10);
+
+                imageStruct.threshold_diamond = imageStruct.threshold_diamond.Dilate(1);    //Dialate
+                imageStruct.threshold_diamond = imageStruct.threshold_diamond.Erode(1);     //Erode
+             
+                imageStruct.contourpoint = contourfind2(imageStruct.threshold_diamond);     //Find contours in image
+
+                double medianArea = imageStruct.contourpoint[(int)Math.Floor((double)imageStruct.contourpoint.Count / 2)].Area; //Find median size contours
+
+                foreach (Contour<Point> contour in imageStruct.contourpoint)    //Draw contours
+                {
+                    if (Math.Abs(contour.Area - medianArea) < 3)
+                    {
+                        Debug.Write("\n"+contour.Area+"\n");
+                        imageStruct.org_img.Draw(contour, new Bgr(0, 255, 255), 3);
+                        Debug.Write(contour.Area / Math.Pow(contour.Perimeter, 2));
+                    }
+                }
+
+                imageStruct.org_img.Save("c://hyggekaffe//pics//rand2//" + fi.Name);    //Save ouput image
+
+                pictureBox2.Image = imageStruct.threshold_diamond.ToBitmap();
+                pictureBox1.Image = imageStruct.org_img.ToBitmap();
+                
+            }
         }
 
-        private int countourfind(string filefull, string filename)
+        private List<Contour<Point>> contourfind2(Image<Gray,Byte> img) {
+
+            List<Contour<Point>> contourpoint = new List<Contour<Point>>();
+
+            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_CCOMP); contour != null; contour = contour.HNext)
+            {
+                Contour<Point> currentContour = contour.ApproxPoly(contour.Perimeter * 0.05);
+
+                int size = currentContour.BoundingRectangle.Height*currentContour.BoundingRectangle.Width;
+
+                if (currentContour.Convex) 
+                {
+                    contourpoint.Add(currentContour);
+                    
+                }
+                Debug.Write("\n"+contourpoint.Count+"\n");
+            }
+
+            contourpoint.Sort(delegate(Contour<Point> c1, Contour<Point> c2)
+            {
+                return c1.Area.CompareTo(c2.Area);
+            });
+
+
+            return contourpoint;
+        }
+
+        private calibImage countourfind(calibImage imageStruct)
         {
-            Image<Bgr, Byte> img = new Image<Bgr, Byte>(filefull);
-            img = img.Resize(img.Width / 3, img.Height / 3, INTER.CV_INTER_AREA);
-
-            Image<Bgr,Byte> imgwouback = removebackround(img);
-
-            Image<Gray, Byte> imgthres = imgwouback.Convert<Gray, Byte>().SmoothGaussian(5, 5, 2, 2);
-
             List<Contour<Point>> contour_array = new List<Contour<Point>>();
 
-            for (Contour<Point> contour = imgthres.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)
+            for (Contour<Point> contour = imageStruct.thresholded.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)
             {
                 Contour<Point> currentContour = contour.ApproxPoly(contour.Perimeter * 0.05);
                 contour_array.Add(currentContour);
             }
-
-
+            
             contour_array.Sort(delegate(Contour<Point> c1, Contour<Point> c2)
             {
                 return c1.Area.CompareTo(c2.Area);
@@ -69,7 +129,6 @@ namespace Calib
 
             foreach(Contour<Point> currentContour in contour_array) {
 
-                imgthres.Draw(currentContour, new Gray(150), 2);
                 Point[] pts = currentContour.ToArray();
 
                 if (currentContour.Total == 4)
@@ -81,7 +140,7 @@ namespace Calib
                     {
                         double angle = Math.Abs(edges[(i + 1) % edges.Length].GetExteriorAngleDegree(edges[i]));
                         
-                        if (angle < 80 || angle > 100)
+                        if (angle < 85 || angle > 95)
                         {
                             isRectangle = false;
                             break;
@@ -91,153 +150,42 @@ namespace Calib
                     if (isRectangle)
                     {
 
-                        if (currentContour.Area > (img.Height*img.Width)/3) {
-                        
-                            LineSegment2D norm_line = new LineSegment2D(new Point(0, 5), new Point(img.Width, 5));
-                            imgthres.Draw(norm_line, new Gray(255), 2);
+                        if (currentContour.Area > (imageStruct.thresholded.Height * imageStruct.thresholded.Width) / 3)
+                        {
+                                double x = currentContour.BoundingRectangle.X;
+                                double y = currentContour.BoundingRectangle.Y;
 
-                            double min_angle = 360;
+                                int padRail = (int)Math.Round(imageStruct.thresholded.Width * 0.1);
+                                int padSize = (int)Math.Round(imageStruct.thresholded.Width * 0.15);
+                                
+                                Rectangle rect = new Rectangle((int)x - padRail, (int)y - padRail,
+                                                       currentContour.BoundingRectangle.Width + padSize, currentContour.BoundingRectangle.Height + padSize);
 
-                            foreach(LineSegment2D edge in edges) {
-                                double rot_angle = edge.GetExteriorAngleDegree(norm_line);
-                                if (Math.Abs(rot_angle) < Math.Abs(min_angle)) { min_angle = rot_angle; }
-                            }
-                            
-                            double x = currentContour.BoundingRectangle.X;
-                            double y = currentContour.BoundingRectangle.Y;
-
-                            double newx = x * Math.Cos(min_angle / (180 * Math.PI)) - y * Math.Sin(min_angle / (180 * Math.PI));
-                            double newy = y * Math.Cos(min_angle / (180 * Math.PI)) + x * Math.Sin(min_angle / (180 * Math.PI));
-
-                            int padRail = (int)Math.Round(img.Width * 0.025);
-                            int padSize = (int)Math.Round(img.Width * 0.05);
-                            
-
-                            Rectangle rect = new Rectangle((int)newx - padRail, (int)newy - padRail,
-                                                 currentContour.BoundingRectangle.Width + padSize, currentContour.BoundingRectangle.Height + padSize);
-
-                            imgthres = imgthres.Rotate(min_angle, new Gray(0));
-                            img = img.Rotate(min_angle, new Bgr(255, 255, 255));
-
-                            img.ROI = rect;
-                            
-                            Image<Bgr, Byte> imgsave = img.Clone();
-
-                            imgsave.ToBitmap().Save("c:\\hyggekaffe\\pics\\rand2\\" + filename);
-                            pictureBox1.Image = imgthres.ToBitmap();
+                                imageStruct.rect = rect;
                         }
-                        return 0;
-                       
+                        return imageStruct;
                     }
-
                 }
-
             }
-            return 0;
+            return imageStruct;
         }
 
-        private void countourfind(Image<Bgr,Byte> img)
-        {
-            img = img.Resize(img.Width / 3, img.Height / 3, INTER.CV_INTER_AREA);
-
-            Image<Bgr, Byte> imgwouback = removebackround(img);
-
-            Image<Gray, Byte> imgthres = imgwouback.Convert<Gray, Byte>().SmoothGaussian(5, 5, 2, 2);
-
-            List<Contour<Point>> contour_array = new List<Contour<Point>>();
-
-            for (Contour<Point> contour = imgthres.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)
-            {
-                Contour<Point> currentContour = contour.ApproxPoly(contour.Perimeter * 0.05);
-                contour_array.Add(currentContour);
-            }
-
-
-            contour_array.Sort(delegate(Contour<Point> c1, Contour<Point> c2)
-            {
-                return c1.Area.CompareTo(c2.Area);
-            });
-            contour_array.Reverse();
-
-            foreach (Contour<Point> currentContour in contour_array)
-            {
-
-                imgthres.Draw(currentContour, new Gray(150), 2);
-                Point[] pts = currentContour.ToArray();
-
-                if (currentContour.Total == 4)
-                {
-                    LineSegment2D[] edges = PointCollection.PolyLine(pts, true);
-                    bool isRectangle = true;
-
-                    for (int i = 0; i < edges.Length; i++)
-                    {
-                        double angle = Math.Abs(edges[(i + 1) % edges.Length].GetExteriorAngleDegree(edges[i]));
-
-                        if (angle < 80 || angle > 100)
-                        {
-                            isRectangle = false;
-                            break;
-                        }
-                    }
-
-                    if (isRectangle)
-                    {
-
-                        if (currentContour.Area > (img.Height * img.Width) / 3)
-                        {
-
-                            LineSegment2D norm_line = new LineSegment2D(new Point(0, 5), new Point(img.Width, 5));
-                            imgthres.Draw(norm_line, new Gray(255), 2);
-
-                            double min_angle = 360;
-
-                            foreach (LineSegment2D edge in edges)
-                            {
-                                double rot_angle = edge.GetExteriorAngleDegree(norm_line);
-                                if (Math.Abs(rot_angle) < Math.Abs(min_angle)) { min_angle = rot_angle; }
-                            }
-
-                            double x = currentContour.BoundingRectangle.X;
-                            double y = currentContour.BoundingRectangle.Y;
-
-                            double newx = x * Math.Cos(min_angle / (180 * Math.PI)) - y * Math.Sin(min_angle / (180 * Math.PI));
-                            double newy = y * Math.Cos(min_angle / (180 * Math.PI)) + x * Math.Sin(min_angle / (180 * Math.PI));
-
-                            int padRail = (int)Math.Round(img.Width * 0.025);
-                            int padSize = (int)Math.Round(img.Width * 0.05);
-
-
-                            Rectangle rect = new Rectangle((int)newx - padRail, (int)newy - padRail,
-                                                 currentContour.BoundingRectangle.Width + padSize, currentContour.BoundingRectangle.Height + padSize);
-
-                            imgthres = imgthres.Rotate(min_angle, new Gray(0));
-                            img = img.Rotate(min_angle, new Bgr(255, 255, 255));
-
-                            img.ROI = rect;
-
-                            Image<Bgr, Byte> imgsave = img.Clone();
-                            
-                            pictureBox1.Image = img.ToBitmap();
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-
-        private Image<Bgr,Byte> removebackround(Image<Bgr,Byte> img)
+        private Image<Bgr,Byte> removebackground_thres(Image<Bgr,Byte> img)
         {
             Imgproc imgproc = new Imgproc();
 
-            Point[] bgpos = imgproc.findbgpoints(img, 5);
+            Point[] bgpos = imgproc.findbgpoints(img, 5, 255);
+            Image<Bgr, Byte> imgnew = imgproc.removebackground_thres(img, bgpos);
+            return imgnew;
+
+        }
+
+        private Image<Bgr, Byte> removebackground(Image<Bgr, Byte> img)
+        {
+            Imgproc imgproc = new Imgproc();
+
+            Point[] bgpos = imgproc.findbgpoints(img, 5, 255);
             Image<Bgr, Byte> imgnew = imgproc.removebackground(img, bgpos);
-            imgproc.testtest(bgpos);
-
-            pictureBox1.Image = imgnew.ToBitmap();
-
             return imgnew;
         }
 
@@ -245,7 +193,6 @@ namespace Calib
         {
             Capture capture = new Capture(); //create a camera captue
             Image<Bgr, Byte> img = capture.QueryFrame();
-            countourfind(img);
         }
 
     }    
