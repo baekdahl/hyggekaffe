@@ -102,9 +102,13 @@ namespace PoolTracker
         {
             Stopwatch sw = Stopwatch.StartNew();
             Image<Gray, byte>[] planes = { _tablePlanes[0], _tablePlanes[1] };
-            Image<Gray, float> projection = ImageUtil.backProjectPatchMasked(backgroundHist(), planes, Ball.getMask(), comparisonMethod, _tableMatchMask);
+            //Image<Gray, float> projection = ImageUtil.backProjectPatchMasked(backgroundHist(), planes, Ball.getMask(), comparisonMethod, _tableMatchMask);
+            Image<Gray, float> projection = adaptiveBallDetect(_tablePlanes[0]);
+            backProjectShow = projection.Convert<Gray, byte>();
+            backProjectShow._EqualizeHist();
             sw.Stop();
             Debug.Write("ProjTime:" + sw.ElapsedMilliseconds + Environment.NewLine);
+
 
             bool matchHigh = ImageUtil.matchHigh(comparisonMethod);
             List<Ball> returnList = new List<Ball>();
@@ -126,9 +130,10 @@ namespace PoolTracker
             int v_split = 5;
             int h_stepsize = input.Width / h_split;
             int v_stepsize = input.Height / v_split;
+            
             Image<Gray, byte> template = new Image<Gray,byte>(ballDia+2, ballDia+2);
 
-            Image<Gray, float> img_out = input.CopyBlank();
+            Image<Gray, float> img_out = new Image<Gray,float>(input.Size.Width-template.Width+1, input.Size.Height-template.Height+1);
 
             for (int h = 0; h < h_split; h++)
             {
@@ -136,6 +141,7 @@ namespace PoolTracker
                 {
                     Rectangle ROI = new Rectangle(new Point(h_stepsize * h, v_stepsize * v), new Size(h_stepsize, v_stepsize));
                     input.ROI = ROI;
+                    img_out.ROI = ROI;
 
                     DenseHistogram hist = new DenseHistogram(255, new RangeF(0, 255));
                     hist.Calculate(new Image<Gray, Byte>[] { input }, false, null);
@@ -146,9 +152,17 @@ namespace PoolTracker
                     int[] minLocation = { 0 };
                     hist.MinMax(out minValue, out maxValue, out minLocation, out maxLocation);
 
-                    img_out.ROI = ROI;
+                    //ROI.Offset(-ballDia, -ballDia);
+                    ROI.Width += ballDia+1;
+                    ROI.Height += ballDia+1;
+                    input.ROI = ROI;
+                    
                     template.Draw(new CircleF(new PointF(ballDia, ballDia), ballDia/2), new Gray(maxLocation[0]), -1);
-                    input.MatchTemplate(template, TM_TYPE.CV_TM_CCOEFF).CopyTo(img_out);
+                    Image<Gray, float> match = input.MatchTemplate(template, TM_TYPE.CV_TM_CCOEFF_NORMED);
+
+                    //img_out.ROI.Width = match.Width;
+                    //img_out.ROI.Height = match.Height;
+                    match.CopyTo(img_out);
                 }
             }
             img_out.ROI = Rectangle.Empty;
@@ -156,6 +170,5 @@ namespace PoolTracker
 
             return img_out;
         }
-    }
     }
 }

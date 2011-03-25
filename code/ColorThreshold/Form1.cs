@@ -102,7 +102,7 @@ namespace PoolTracker
 
             Image<Gray, Byte> tableMatchMask = table._tableMatchMask.Copy();
             tableMatchMask._EqualizeHist();
-            imageBox2.Image = tableMatchMask;
+            imageBox2.Image = table.backProjectShow;
 
             foreach (Ball ball in balls)
             {
