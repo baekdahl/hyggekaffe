@@ -10,7 +10,6 @@ namespace PoolTracker
 {
     class Ball
     {
-        public static int ballDia = 26;
 
         public DenseHistogram histogram;
         public Point position;
@@ -32,8 +31,8 @@ namespace PoolTracker
 
         public static Image<Gray, byte> getMask()
         {
-            float ballRadius = ballDia / 2;
-            Image<Gray, byte> ballMask = new Image<Gray, byte>(ballDia, ballDia, new Gray(0));
+            float ballRadius = PoolTable.ballDia / 2;
+            Image<Gray, byte> ballMask = new Image<Gray, byte>(PoolTable.ballDia, PoolTable.ballDia, new Gray(0));
             ballMask.Draw(new CircleF(new PointF(ballRadius, ballRadius), ballRadius), new Gray(1), -1);
 
             return ballMask;

@@ -46,8 +46,8 @@ namespace PoolTracker
                 imageBox2.Image = tableMatchMask;
 
                 logMessage("Score: " + table.bestMatch + Environment.NewLine);
-                
-                drawBallPos(imageBoxTable.Image.Bitmap, new Rectangle(ballPos.X, ballPos.Y, table.ballDia, table.ballDia));
+
+                //drawBallPos(imageBoxTable.Image.Bitmap, new Rectangle(ballPos.X, ballPos.Y, PoolTable.ballDia, PoolTable.ballDia));
                 
                 this.Refresh();
                 Application.DoEvents();
@@ -80,7 +80,7 @@ namespace PoolTracker
 
                 logMessage("Score: " + table.bestMatch + Environment.NewLine);
 
-                drawBallPos(imageBoxTable.Image.Bitmap, new Rectangle(ballPos.X, ballPos.Y, table.ballDia, table.ballDia));
+                //drawBallPos(imageBoxTable.Image.Bitmap, new Rectangle(ballPos.X, ballPos.Y, PoolTable.ballDia, PoolTable.ballDia));
 
                 this.Refresh();
                 Application.DoEvents();
@@ -104,18 +104,21 @@ namespace PoolTracker
             tableMatchMask._EqualizeHist();
             imageBox2.Image = table.backProjectShow;
 
+
             foreach (Ball ball in balls)
             {
-                drawBallPos(imageBox1.Image.Bitmap, new Rectangle(ball.position.X, ball.position.Y, table.ballDia, table.ballDia));
+                drawBallPos(imageBox1.Image.Bitmap, ball.position);
             }
        }
 
 
-        public void drawBallPos(Bitmap bitmap, Rectangle rect)
+        public void drawBallPos(Bitmap bitmap, Point center)
         {
+            int radius = PoolTable.ballDia/2;
+            Rectangle boundingRect = new Rectangle(center.X-radius, center.Y-radius, PoolTable.ballDia, PoolTable.ballDia); 
             Graphics graphics = Graphics.FromImage(bitmap);
             Pen myPen = new Pen(System.Drawing.Color.Red, 3);
-            graphics.DrawEllipse(myPen, rect);
+            graphics.DrawEllipse(myPen, boundingRect);
         }
 
         public void logMessage(string message)

@@ -21,7 +21,7 @@ namespace PoolTracker
         private Image<Hsv, byte> _tableImageHsv;
         private Image<Gray, byte>[] _tablePlanes;
         public Image<Gray, byte> _tableMatchMask;
-        public int ballDia = 26;
+        public static int ballDia = 24;
         
 
         public float bestMatch = 0;
@@ -34,6 +34,7 @@ namespace PoolTracker
             _tableImageHsv = tableImage.Convert<Hsv, byte>();
             _tablePlanes = _tableImageHsv.Split();
             _tableMatchMask = ImageUtil.thresholdAdaptiveMax(_tablePlanes[0], 1);
+            _tableMatchMask = new Image<Gray, byte>(tableImage.Width, tableImage.Height, new Gray(1));
         }
 
         public Point findBall(Image<Bgr, byte> ballImage)
@@ -94,7 +95,7 @@ namespace PoolTracker
             {
                 plane.ROI = roi;
             }
-            hist.Calculate(new Image<Gray, byte>[] { _tablePlanes[0], _tablePlanes[1] }, false, Ball.getMask());
+            //hist.Calculate(new Image<Gray, byte>[] { _tablePlanes[0], _tablePlanes[1] }, false, Ball.getMask());
             return hist;
         }
 
@@ -112,11 +113,16 @@ namespace PoolTracker
 
             bool matchHigh = ImageUtil.matchHigh(comparisonMethod);
             List<Ball> returnList = new List<Ball>();
-
+            Point coordDiff = new Point(_tablePlanes[0].Size - projection.Size);
+            //_tableMatchMask = new Image<Gray, byte>(projection.Width, projection.Height, new Gray(1));
+            _tableMatchMask.ROI = new Rectangle(coordDiff.X / 2, coordDiff.Y / 2, projection.Width, projection.Height);
             for (int i=0; i < numberOfBalls; i++) {
-                sw = Stopwatch.StartNew();
-                KeyValuePair<Point, float> extremum = ImageUtil.findExtremum(projection, _tableMatchMask, matchHigh);
-                returnList.Add(new Ball(getBallHistogram(extremum.Key), extremum.Key));
+                
+                KeyValuePair<Point, float> extremum = ImageUtil.findExtremum(projection, _tableMatchMask, false);
+
+                Point ballInTableCoords = new Point(extremum.Key.X + coordDiff.X / 2, extremum.Key.Y + coordDiff.Y / 2);
+
+                returnList.Add(new Ball(getBallHistogram(ballInTableCoords), ballInTableCoords));
                 
                 //Mark area matched in mask
                 _tableMatchMask.Draw(new CircleF(extremum.Key, ballDia - 5), new Gray(0), -1);
@@ -157,8 +163,8 @@ namespace PoolTracker
                     ROI.Height += ballDia+1;
                     input.ROI = ROI;
                     
-                    template.Draw(new CircleF(new PointF(ballDia, ballDia), ballDia/2), new Gray(maxLocation[0]), -1);
-                    Image<Gray, float> match = input.MatchTemplate(template, TM_TYPE.CV_TM_CCOEFF_NORMED);
+                    template.Draw(new CircleF(new PointF(ballDia/2, ballDia/2), ballDia/2), new Gray(maxLocation[0]), -1);
+                    Image<Gray, float> match = input.MatchTemplate(template, TM_TYPE.CV_TM_CCOEFF);
 
                     //img_out.ROI.Width = match.Width;
                     //img_out.ROI.Height = match.Height;
