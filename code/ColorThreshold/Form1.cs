@@ -93,9 +93,10 @@ namespace PoolTracker
         {
             imageBoxTable.Image = cameraImage;
 
-            Image<Bgr, byte> tableImg = cameraImage;
-            //Image<Bgr, byte> tableImg = cameraImage.Copy(new Rectangle(new Point(40, 280), new Size(780, 380)));
+            //Image<Bgr, byte> tableImg = cameraImage;
+            Image<Bgr, byte> tableImg = cameraImage.Copy(new Rectangle(new Point(80, 280), new Size(200, 150)));
             imageBox1.Image = tableImg;
+            //return;
 
             PoolTable table = new PoolTable(tableImg);
 
@@ -150,8 +151,8 @@ namespace PoolTracker
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            //startCapture(); //Online
-            runOffline();
+            startCapture(); //Online
+            //runOffline();
         }
     }
 }

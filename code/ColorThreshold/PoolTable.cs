@@ -21,7 +21,7 @@ namespace PoolTracker
         private Image<Hsv, byte> _tableImageHsv;
         private Image<Gray, byte>[] _tablePlanes;
         public Image<Gray, byte> _tableMatchMask;
-        public static int ballDia = 23;
+        public static int ballDia = 26;
         public static TM_TYPE templateMatchType = TM_TYPE.CV_TM_SQDIFF;
 
         public int numberOfBalls;
@@ -130,7 +130,7 @@ namespace PoolTracker
                 returnList.Add(new Ball(getBallHistogram(ballInTableCoords), ballInTableCoords));
                 
                 //Mark area matched in mask
-                _tableMatchMask.Draw(new CircleF(extremum.Key, ballDia - 5), new Gray(0), -1);
+                _tableMatchMask.Draw(new CircleF(extremum.Key, ballDia), new Gray(0), -1);
             }
             return returnList;
         }
@@ -142,7 +142,7 @@ namespace PoolTracker
             int h_stepsize = input.Width / h_split;
             int v_stepsize = input.Height / v_split;
 
-            Image<Bgr, byte> template = new Image<Bgr, byte>(ballDia + 5, ballDia + 5, new Bgr(0, 0, 0));
+            Image<Bgr, byte> template = new Image<Bgr, byte>(ballDia-2, ballDia-2, new Bgr(0, 0, 0));
             Image<Gray, float> img_out = new Image<Gray,float>(input.Size.Width-template.Width+1, input.Size.Height-template.Height+1);
             Image<Gray, byte>[] inputPlanes = input.Split();
 
@@ -171,8 +171,8 @@ namespace PoolTracker
                     ROI.Height += ballDia+1;
                     input.ROI = ROI;
 
-                    template = new Image<Bgr, byte>(ballDia + 5, ballDia + 5, bgColor);
-                    template.Draw(new CircleF(new PointF(template.Width / 2, template.Height / 2), ballDia / 2), new Bgr(0, 0, 0), -1);
+                    template = new Image<Bgr, byte>(template.Width, template.Height, bgColor);
+                    //template.Draw(new CircleF(new PointF(template.Width / 2, template.Height / 2), ballDia / 2), bgColor, -1);
                     
                     Image<Gray, float> match = input.MatchTemplate(template, templateMatchType);
 
