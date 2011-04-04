@@ -30,18 +30,20 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.imageBoxTable = new Emgu.CV.UI.ImageBox();
-            this.imageBox1 = new Emgu.CV.UI.ImageBox();
-            this.textBoxLog = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
+            this.imageBoxTable = new Emgu.CV.UI.ImageBox();
+            this.textBoxLog = new System.Windows.Forms.TextBox();
+            this.imageBox1 = new Emgu.CV.UI.ImageBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.imageBox3 = new Emgu.CV.UI.ImageBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxTable)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -66,51 +68,13 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(747, 439);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // imageBoxTable
-            // 
-            this.imageBoxTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBoxTable.Location = new System.Drawing.Point(3, 3);
-            this.imageBoxTable.Name = "imageBoxTable";
-            this.imageBoxTable.Size = new System.Drawing.Size(308, 210);
-            this.imageBoxTable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imageBoxTable.TabIndex = 2;
-            this.imageBoxTable.TabStop = false;
-            // 
-            // imageBox1
-            // 
-            this.imageBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBox1.Location = new System.Drawing.Point(3, 219);
-            this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(308, 211);
-            this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imageBox1.TabIndex = 3;
-            this.imageBox1.TabStop = false;
-            // 
-            // textBoxLog
-            // 
-            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLog.Location = new System.Drawing.Point(631, 3);
-            this.textBoxLog.Multiline = true;
-            this.textBoxLog.Name = "textBoxLog";
-            this.textBoxLog.Size = new System.Drawing.Size(107, 210);
-            this.textBoxLog.TabIndex = 0;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tableLayoutPanel1.Controls.Add(this.imageBox3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.imageBox2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.imageBoxTable, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBoxLog, 2, 0);
@@ -134,6 +98,55 @@
             this.imageBox2.TabIndex = 4;
             this.imageBox2.TabStop = false;
             // 
+            // imageBoxTable
+            // 
+            this.imageBoxTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBoxTable.Location = new System.Drawing.Point(3, 3);
+            this.imageBoxTable.Name = "imageBoxTable";
+            this.imageBoxTable.Size = new System.Drawing.Size(308, 210);
+            this.imageBoxTable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBoxTable.TabIndex = 2;
+            this.imageBoxTable.TabStop = false;
+            // 
+            // textBoxLog
+            // 
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxLog.Location = new System.Drawing.Point(631, 3);
+            this.textBoxLog.Multiline = true;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.Size = new System.Drawing.Size(107, 210);
+            this.textBoxLog.TabIndex = 0;
+            // 
+            // imageBox1
+            // 
+            this.imageBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox1.Location = new System.Drawing.Point(3, 219);
+            this.imageBox1.Name = "imageBox1";
+            this.imageBox1.Size = new System.Drawing.Size(308, 211);
+            this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBox1.TabIndex = 3;
+            this.imageBox1.TabStop = false;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(747, 439);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // imageBox3
+            // 
+            this.imageBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox3.Location = new System.Drawing.Point(317, 219);
+            this.imageBox3.Name = "imageBox3";
+            this.imageBox3.Size = new System.Drawing.Size(308, 211);
+            this.imageBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBox3.TabIndex = 5;
+            this.imageBox3.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,11 +158,12 @@
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -164,6 +178,7 @@
         private System.Windows.Forms.TextBox textBoxLog;
         private Emgu.CV.UI.ImageBox imageBox1;
         private Emgu.CV.UI.ImageBox imageBox2;
+        private Emgu.CV.UI.ImageBox imageBox3;
 
     }
 }
