@@ -21,15 +21,19 @@ namespace PoolTracker
         private Image<Hsv, byte> _tableImageHsv;
         private Image<Gray, byte>[] _tablePlanes;
         public Image<Gray, byte> _tableMatchMask;
-        public static int ballDia = 24;
+        public static int ballDia = 23;
+        public static TM_TYPE templateMatchType = TM_TYPE.CV_TM_SQDIFF;
+
+        public int numberOfBalls;
         
 
         public float bestMatch = 0;
 
         public Image<Gray, byte> backProjectShow;
 
-        public PoolTable(Image<Bgr, byte> tableImage)
+        public PoolTable(Image<Bgr, byte> tableImage, int numberOfBalls = 16)
         {
+            this.numberOfBalls = numberOfBalls;
             _tableImage = tableImage;
             _tableImageHsv = tableImage.Convert<Hsv, byte>();
             _tablePlanes = _tableImageHsv.Split();
@@ -104,9 +108,10 @@ namespace PoolTracker
             Stopwatch sw = Stopwatch.StartNew();
             Image<Gray, byte>[] planes = { _tablePlanes[0], _tablePlanes[1] };
             //Image<Gray, float> projection = ImageUtil.backProjectPatchMasked(backgroundHist(), planes, Ball.getMask(), comparisonMethod, _tableMatchMask);
-            Image<Gray, float> projection = adaptiveBallDetect(_tablePlanes[0]);
-            backProjectShow = projection.Convert<Gray, byte>();
-            backProjectShow._EqualizeHist();
+            Image<Gray, float> projection = adaptiveBallDetect(_tableImage);
+            backProjectShow = new Image<Gray, byte>(projection.Size);
+            CvInvoke.cvNormalize(projection.Ptr, backProjectShow.Ptr, 255, 0, NORM_TYPE.CV_MINMAX, IntPtr.Zero);
+            //backProjectShow._EqualizeHist();
             sw.Stop();
             Debug.Write("ProjTime:" + sw.ElapsedMilliseconds + Environment.NewLine);
 
@@ -117,8 +122,8 @@ namespace PoolTracker
             _tableMatchMask = new Image<Gray, byte>(projection.Width, projection.Height, new Gray(1));
             //_tableMatchMask.ROI = new Rectangle(coordDiff.X / 2, coordDiff.Y / 2, projection.Width, projection.Height);
             for (int i=0; i < numberOfBalls; i++) {
-                
-                KeyValuePair<Point, float> extremum = ImageUtil.findExtremum(projection, _tableMatchMask, false);
+
+                KeyValuePair<Point, float> extremum = ImageUtil.findExtremum(projection, _tableMatchMask, !ImageUtil.matchHigh(templateMatchType));
 
                 Point ballInTableCoords = new Point(extremum.Key.X + coordDiff.X / 2, extremum.Key.Y + coordDiff.Y / 2);
 
@@ -130,16 +135,16 @@ namespace PoolTracker
             return returnList;
         }
 
-        public Image<Gray,float> adaptiveBallDetect(Image<Gray, byte> input)
+        public Image<Gray,float> adaptiveBallDetect(Image<Bgr, byte> input)
         {
-            int h_split = 10;
-            int v_split = 5;
+            int h_split = 1;
+            int v_split = 1;
             int h_stepsize = input.Width / h_split;
             int v_stepsize = input.Height / v_split;
-            
-            Image<Gray, byte> template = new Image<Gray,byte>(ballDia+2, ballDia+2);
 
+            Image<Bgr, byte> template = new Image<Bgr, byte>(ballDia + 5, ballDia + 5, new Bgr(0, 0, 0));
             Image<Gray, float> img_out = new Image<Gray,float>(input.Size.Width-template.Width+1, input.Size.Height-template.Height+1);
+            Image<Gray, byte>[] inputPlanes = input.Split();
 
             for (int h = 0; h < h_split; h++)
             {
@@ -149,8 +154,9 @@ namespace PoolTracker
                     input.ROI = ROI;
                     img_out.ROI = ROI;
 
-                    DenseHistogram hist = new DenseHistogram(255, new RangeF(0, 255));
-                    hist.Calculate(new Image<Gray, Byte>[] { input }, false, null);
+                    RangeF histRange = new RangeF(0, 255);
+                    DenseHistogram hist = new DenseHistogram(new int[] { 255, 255, 255 }, new RangeF[] { histRange, histRange, histRange});
+                    hist.Calculate(inputPlanes, false, null);
 
                     float maxValue = 0;
                     float minValue = 0;
@@ -158,13 +164,17 @@ namespace PoolTracker
                     int[] minLocation = { 0 };
                     hist.MinMax(out minValue, out maxValue, out minLocation, out maxLocation);
 
+                    Bgr bgColor = new Bgr(maxLocation[0], maxLocation[1], maxLocation[2]);
+
                     //ROI.Offset(-ballDia, -ballDia);
                     ROI.Width += ballDia+1;
                     ROI.Height += ballDia+1;
                     input.ROI = ROI;
+
+                    template = new Image<Bgr, byte>(ballDia + 5, ballDia + 5, bgColor);
+                    template.Draw(new CircleF(new PointF(template.Width / 2, template.Height / 2), ballDia / 2), new Bgr(0, 0, 0), -1);
                     
-                    template.Draw(new CircleF(new PointF(ballDia/2, ballDia/2), ballDia/2), new Gray(maxLocation[0]), -1);
-                    Image<Gray, float> match = input.MatchTemplate(template, TM_TYPE.CV_TM_CCOEFF);
+                    Image<Gray, float> match = input.MatchTemplate(template, templateMatchType);
 
                     //img_out.ROI.Width = match.Width;
                     //img_out.ROI.Height = match.Height;

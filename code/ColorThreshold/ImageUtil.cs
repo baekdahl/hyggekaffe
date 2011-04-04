@@ -41,6 +41,13 @@ namespace PoolTracker
             return !(comparisonMethod == HISTOGRAM_COMP_METHOD.CV_COMP_CORREL || comparisonMethod == HISTOGRAM_COMP_METHOD.CV_COMP_INTERSECT);
         }
 
+        public static bool matchHigh(TM_TYPE comparisonMethod)
+        {
+            return !(
+                comparisonMethod == TM_TYPE.CV_TM_SQDIFF || 
+                comparisonMethod == TM_TYPE.CV_TM_SQDIFF_NORMED);
+        }
+
         public static Image<Gray, float> backProjectPatchMasked(DenseHistogram hist, Image<Gray, byte>[] planes, Image<Gray, byte> patchMask, HISTOGRAM_COMP_METHOD method, Image<Gray, byte> projectionMask)
         {
             int imgWidth = planes[0].Width;

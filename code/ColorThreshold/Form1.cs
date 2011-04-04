@@ -99,7 +99,7 @@ namespace PoolTracker
 
             PoolTable table = new PoolTable(tableImg);
 
-            List<Ball> balls = table.findBalls(16);
+            List<Ball> balls = table.findBalls(6);
 
             Image<Gray, Byte> tableMatchMask = table._tableMatchMask.Copy();
             tableMatchMask._EqualizeHist();
