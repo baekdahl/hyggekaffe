@@ -1,3 +1,20 @@
-When the ROI has been determined the exact position the table and the size of the table has to be found.	
+The reasons for finding the diamonds and not only the outer rails of the table are summed up here:
+
+\begin{itemize}
+	\item The diamonds provide key knowledge about pixel to meter ratio.
+	\item To be able to have the smallest ROI to search for the balls. Note that the only fixed length to find the excact playingfield are from the diamonds to the cushion as mentioned in \ref{sec:rules}
+	\item For possible later implementation of UI where diamonds act as buttons.
+\end{itemize}
 
 This will be done by finding the diamonds that are on the rails. These diamonds shoule be easily found since they are somewhat circular and different than they sourroundings. 
+
+The following approach will be used:
+\begin{enumerate}
+\item Convert captured image to grayscale.
+\item Make binary with adaptive threshold.
+\item Find contours and sort them by size
+\item Do step 1 to 3 for several images.
+\item Find the contours that remain on the table for all images.
+\end{enumerate}
+
+The caputred image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adative threshold in section \LAV NOGET

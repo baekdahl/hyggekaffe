@@ -1,0 +1,19 @@
+Where normal thresholding uses only one value for an entire image, adaptive threshold allows for the thresholding value to change according to the sourroundings. This is very good for operations that take place in scenes with different light and thereby it is more roboust.
+
+Normal thresholding is a very simple operation.\\
+
+if $P(x,y) > threshold$ then $P(x,y) = 1$
+
+else $P(x,y) = 0$\\
+
+Using adaptive threshold it becomes slightly more complicated. The threshold is now no longer static, but dynamic and depends on the sourrounding pixels in a blocksize $b$. The blocksize $b$ is a value that determin how big a portion of the sourroundings the threshold will be calculated from.\\
+
+$threshold = \sum_{k=x-b}^{x+b} \sum_{j=y-b}^{y+b} P(x,y)$
+
+$if  P(x,y) > threshold$ then $P(x,y) = 1$
+
+else $P(x,y) = 0$
+
+Furthermore it is possible to select if the mean should be a equally weighted mean or if it should be a gaussian mean which would put the closest pixels to more importance.
+
+An example of using adaptive threshold can be seen here and it is easi to see the big adavantage of adaptive threshold.
