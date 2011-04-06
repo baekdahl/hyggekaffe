@@ -2,11 +2,11 @@ The reasons for finding the diamonds and not only the outer rails of the table a
 
 \begin{itemize}
 	\item The diamonds provide key knowledge about pixel to meter ratio.
-	\item To be able to have the smallest ROI to search for the balls. Note that the only fixed length to find the excact playingfield are from the diamonds to the cushion as mentioned in \ref{sec:rules}
+	\item To be able to have the smallest ROI to search for the balls. Note that the only fixed length to find the exact playing field are from the diamonds to the cushion as mentioned in \ref{sec:rules}
 	\item For possible later implementation of UI where diamonds act as buttons.
 \end{itemize}
 
-This will be done by finding the diamonds that are on the rails. These diamonds shoule be easily found since they are somewhat circular and different than they sourroundings. 
+This will be done by finding the diamonds that are on the rails. These diamonds shoule be easily found since they are somewhat circular and different than they surroundings. 
 
 The following approach will be used:
 \begin{enumerate}
@@ -14,7 +14,29 @@ The following approach will be used:
 \item Make binary with adaptive threshold.
 \item Find contours and sort them by size
 \item Do step 1 to 3 for several images.
-\item Find the contours that remain on the table for all images.
+\item Find the contours that remain at same position throughout the sequence.
 \end{enumerate}
 
-The caputred image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adative threshold in section \LAV NOGET
+\textbf{Convert to grayscale and use adaptive threshold:}\\
+The captured image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adaptive threshold in section \ref{sec:adaptivethreshold}.\\
+\\
+\textbf{Find contours:}\\
+The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm. The is explained in \ref{sec:contours}.
+
+This will return a list of contours in the image. Many different contours are found as seen in %figure\ref{fig:allcontours} LAV CONTOURIMAGE
+
+Therefore it is necessary to sort the contours based on their size and remove those that are outliers. The area size used as reference is the median area of the list of contours. This should be approximately the area of a diamond. If the mean was used instead of the median a much larger value would be the reference, because of very big contours being found (the image in itself is a contour).
+
+The list is then sorted by removing the points that lie far away from the reference point by a 5\% interval. HUSK AT TJEKKE DETTE!!!
+
+This should generate a list of possible positions of the diamonds.\\
+\\
+\textbf{Find contours for a sequence of images:}\\
+In the testing one of the biggest problems with finding the diamonds positions was the noise introduced by various parameters (camera, lightning etc). The actual positions of the diamonds was found in every frame, but a lot of noise made found positions of diamonds elsewhere on the images. These changed from image to image.
+
+Therefore, by using a sequence of images (video) and compare the positions found it is possible to eliminate the noise and only find the positions that are of the diamonds.
+
+Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.\\
+\\
+\textbf{Find the contours that remain at same position throughout the sequence:}\\
+The point in image[0].point[0] is selected. This point position is then compared to all other points in image[1] to image[end]. If a match is found in all other images then the point is saved in a list points that are almost certainly a diamond. The same approach is used for the points image[0].point[1] to image[0].point[end].
