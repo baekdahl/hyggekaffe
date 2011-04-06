@@ -12,44 +12,83 @@
 \tableofcontents
 
 \chapter{Introduction}
-	\section{Requirements specification}
-		\input{introduction/reqspec}
 
 \chapter{Analysis}
-	\section{Pool table specifications}
-		\label{sec:rules}
-		\input{analysis/pooltable}
+	\input{analysis/intro}
+	\label{sec:analysis}
+	
+	\section{About Pool}
 
-\section{Image processing}
-		\input{analysis/intro}
+		\subsection{Pool rules and specification}
+			\label{sec:rules}
+			\input{analysis/pooltable}
+	
+		\subsection{Pool terminology}
+			\label{sec:terminology}
+			\input{analysis/terminology}
+	
+		\subsection{Pool situations}
+			\label{sec:situations}
+			\input{analysis/situations}
+		
+	\section{Other work}
+		\label{sec:otherwork}
+		\input{analysis/otherwork}
+					
+	\section{Requirements specification}
+		\label{sec:reqspec}
+		\input{analysis/reqspec}
 
-	\subsection{Adaptive threshold}
-		\label{sec:adaptivethreshold}
-		\input{analysis/adaptivethreshold}
-
-	\subsection{Removing the background}
-		\label{sec:removeback}
-		\input{analysis/backgroundremove}
-
-	\subsection{Finding contours}
-		\label{sec:contours}
-		\input{analysis/contour}
-
-\section{Calibration}
-	\subsection{Finding the table}
-		Finding the table is essential for the project. This will be used to determin the ROI (region of interest) and also the size of the table and balls.
-	\subsection{The ROI}
-		\input{analysis/findingtable}
-	\subsection{The exact  position}
-		\input{analysis/findingthediamonds}
+\chapter{Solution}
+	\label{solution}
+	\input{solution/intro}
 
 
-\section{Detection of balls}
-	\subsection{Detecting the balls}
-		\input{analysis/balldetection}
+	\section{System design and implementation}
+		\label{sec:sysdesign}
+		\input{solution/sysdesign}
+		
+	\section{Locating table and size-references}
+		\label{sec:table-intro}	
+		\input{solution/table-intro}	
+		
+			\subsection{Locate table}
+				\label{sec:table-locate}
+				\input{solution/table-locate}
+		
+			\subsection{Locate diamonds}
+				\label{sec:table-diamonds}
+				\input{solution/table-diamonds}
+		
+			\subsection{Find size-references}
+				\label{sec:table-sizes}
+				\input{solution/table-sizes}
 
-	\subsection{Identifying the balls}
-		\input{analysis/idball}
+	\section{Locating and identifying balls}
+		\label{sec:balls-intro}	
+		\input{solution/balls-intro}	
+		
+			\subsection{Locate balls}
+				\label{sec:balls-locate}
+				\input{solution/balls-locate}
+		
+			\subsection{Identifying balls}
+				\label{sec:balls-id}
+				\input{solution/balls-id}
+
+\chapter{System test}
+	\label{sec:system-test}
+	\input{test/intro}
+	
+\chapter{Conclusion}
+	\label{sec:conclusion}
+	\input{conclusion/intro}
+	
+\chapter{Future work}
+	\label{sec:futurework}
+	\input{futurework/intro}
+
+
 
 
 
