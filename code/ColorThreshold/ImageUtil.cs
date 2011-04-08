@@ -13,13 +13,14 @@ namespace PoolTracker
     {
         public static KeyValuePair<Point, float> findExtremum(Image<Gray, float> image, Image<Gray, byte> mask = null, bool findMax = true)
         {
-            KeyValuePair<Point, float> extreme = new KeyValuePair<Point,float>(new Point(-1,-1), findMax ? float.MinValue : float.MaxValue);
+            KeyValuePair<Point, float> extreme = new KeyValuePair<Point, float>(new Point(-1, -1), findMax ? float.MinValue : float.MaxValue);
+            
 
             for (int x = 0; x < image.Width; x++)
             {
                 for (int y = 0; y < image.Height; y++)
-                {  
-                    if (mask.Data[y, x, 0] == 1)
+                {
+                    if (mask.Data[y+mask.ROI.Y, x+mask.ROI.X, 0] == 1)
                     {
                         float value = image.Data[y, x, 0];
                         if (findMax)
@@ -44,7 +45,7 @@ namespace PoolTracker
         public static bool matchHigh(TM_TYPE comparisonMethod)
         {
             return !(
-                comparisonMethod == TM_TYPE.CV_TM_SQDIFF || 
+                comparisonMethod == TM_TYPE.CV_TM_SQDIFF ||
                 comparisonMethod == TM_TYPE.CV_TM_SQDIFF_NORMED);
         }
 
@@ -87,11 +88,11 @@ namespace PoolTracker
 
             return returnImg;
         }
-        
-        public static Image<Gray,byte> thresholdAdaptiveMax(Image<Gray, byte> input, int thresholdMax = 255)
+
+        public static Image<Gray, byte> thresholdAdaptiveMax(Image<Gray, byte> input, int thresholdMax = 255)
         {
-            int h_split = 10;
-            int v_split = 5;
+            int h_split = 2;
+            int v_split = 2;
             int h_stepsize = input.Width / h_split;
             int v_stepsize = input.Height / v_split;
 
@@ -126,5 +127,52 @@ namespace PoolTracker
 
             return img_out;
         }
+
+
+        public static Image<Gray, float> matchTemplateMasked(Image<Bgr, byte> input, Image<Bgr, byte> template, Image<Gray, byte> patchMask, Image<Gray, byte> inputMask)
+        {
+            int imgWidth = input.Width;
+            int imgHeight = input.Height;
+
+            Image<Gray, float> returnImg = new Image<Gray, float>(imgWidth - template.Width + 1, imgHeight - template.Height + 1);
+
+            Rectangle roi = new Rectangle(0, 0, template.Width, template.Height);
+
+            int xOffset = template.Width / 2;
+            int yOffset = template.Height / 2;
+            
+            for (int y = 0; y < returnImg.Height; y++)
+            {
+                for (int x = 0; x < returnImg.Width; x++)
+                {
+                    if (inputMask == null || inputMask.Data[yOffset + y, xOffset + x, 0] == 1)
+                    {
+                        roi.X = x;
+                        roi.Y = y;
+                        input.ROI = roi;
+
+                        float result = 0;
+                        for (int inputY = 0; inputY < input.Height; inputY++)
+                        {
+                            for (int inputX = 0; inputX < input.Width; inputX++)
+                            {
+                                for (int channel = 0; channel < input.NumberOfChannels; channel++)
+                                {
+                                    //result += (float)Math.Pow(template.Data[inputY, inputX, channel] - input.Data[y+inputY, x+inputX, channel], 2);
+                                    result += Math.Abs(template.Data[inputY, inputX, channel] - input.Data[y+inputY, x+inputX, channel]);
+                                }
+                            }
+                        }
+
+                        returnImg.Data[y, x, 0] = result;
+                    }
+                }
+            }
+            //Get rid of table roi's
+            input.ROI = Rectangle.Empty;
+
+            return returnImg;
+        }
+
     }
 }

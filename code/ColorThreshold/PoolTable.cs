@@ -38,7 +38,9 @@ namespace PoolTracker
             _tableImageHsv = tableImage.Convert<Hsv, byte>();
             _tablePlanes = _tableImageHsv.Split();
             _tableMatchMask = ImageUtil.thresholdAdaptiveMax(_tablePlanes[0], 1);
-            _tableMatchMask = new Image<Gray, byte>(tableImage.Width, tableImage.Height, new Gray(1));
+            _tableMatchMask = _tableMatchMask.Erode(7);
+
+            //_tableMatchMask = new Image<Gray, byte>(tableImage.Width, tableImage.Height, new Gray(1));
         }
 
         public Point findBall(Image<Bgr, byte> ballImage)
@@ -119,8 +121,8 @@ namespace PoolTracker
             bool matchHigh = ImageUtil.matchHigh(comparisonMethod);
             List<Ball> returnList = new List<Ball>();
             Point coordDiff = new Point(_tablePlanes[0].Size - projection.Size);
-            _tableMatchMask = new Image<Gray, byte>(projection.Width, projection.Height, new Gray(1));
-            //_tableMatchMask.ROI = new Rectangle(coordDiff.X / 2, coordDiff.Y / 2, projection.Width, projection.Height);
+            //_tableMatchMask = new Image<Gray, byte>(projection.Width, projection.Height, new Gray(1));
+            _tableMatchMask.ROI = new Rectangle(coordDiff.X / 2, coordDiff.Y / 2, projection.Width, projection.Height);
             for (int i=0; i < numberOfBalls; i++) {
 
                 KeyValuePair<Point, float> extremum = ImageUtil.findExtremum(projection, _tableMatchMask, !ImageUtil.matchHigh(templateMatchType));
@@ -174,7 +176,8 @@ namespace PoolTracker
                     template = new Image<Bgr, byte>(template.Width, template.Height, bgColor);
                     //template.Draw(new CircleF(new PointF(template.Width / 2, template.Height / 2), ballDia / 2), bgColor, -1);
                     
-                    Image<Gray, float> match = input.MatchTemplate(template, templateMatchType);
+                    //Image<Gray, float> match = input.MatchTemplate(template, templateMatchType);
+                    Image<Gray, float> match = ImageUtil.matchTemplateMasked(input, template, (Image<Gray,byte>) null, _tableMatchMask);
 
                     //img_out.ROI.Width = match.Width;
                     //img_out.ROI.Height = match.Height;
