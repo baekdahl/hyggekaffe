@@ -2,11 +2,11 @@ clc
 %clear
 
 %input_string = 'There have been some hair-raising goings-on outside the castle at Elsinore. As the terrified Horatio and Marcellus look on, the ghost of the recently deceased king appears to Prince Hamlet. The spirit beckons Hamlet offstage, and the frenzied prince follows after, ordering the witnesses to stay put.'
-input_string = 'sir sid eastman easily teases sea sick seals';
+%input_string = 'sir sid eastman easily teases sea sick seals';
 
 profile on;
 
-%input_string = import{(1)};
+input_string = import{(1)};
 
 [encoded_string dictionary] = encode(input_string);
 [p symbols] = frequency(encoded_string);
