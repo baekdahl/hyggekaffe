@@ -1,0 +1,52 @@
+1) Introduction
+
+2) Analysis
+	*Pool table specs	+MORE
+	*Pool terminology
+	*Pool table rules and regulations
+	*Pool table situations
+		-Break
+		-White/Black in hole
+		-Ball in hole
+		-Ball falls off table
+		-Ball cluttering
+
+	*Other work
+
+	*Requirement specification (Specify HARD!)
+		-What we will do:
+			Find position of table
+			Estimate table and ball dimentions 
+			Find positions of balls between frames
+			Work in mixed light conditions (!=pool standard=bar)
+			Make working prototype
+			Set camera to no saturation, focus and "good" conditions.
+
+		-What we will not do:
+			Calibrate camera (distortion and settings)
+			Track while moving
+			Obey rules
+			With difficult light conditions	
+
+3) Solution 
+
+	*System design and implementation
+		-UML
+		-EMGU C#
+		
+	*Finding table and sizes
+		Introduction
+		Locate table
+		Locate diamonds
+		Find sizes
+
+	*Finding and identifying balls (somewhat tracking).
+		Introduction
+		Locating balls
+		Identifying balls
+
+4) Test of system
+
+5) Conclusion
+
+6) Future work

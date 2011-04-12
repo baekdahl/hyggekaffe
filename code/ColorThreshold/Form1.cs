@@ -15,8 +15,9 @@ namespace PoolTracker
 {
     public partial class Form1 : Form
     {
-        Capture capture = new Capture();
+        Capture capture;
         Image<Bgr, byte> cameraImage;
+        bool busy = false;
 
         public Form1()
         {
@@ -93,8 +94,9 @@ namespace PoolTracker
         {
             imageBoxTable.Image = cameraImage;
 
-            Image<Bgr, byte> tableImg = cameraImage.Copy(new Rectangle(new Point(40, 280), new Size(780, 380)));
+            Image<Bgr, byte> tableImg = cameraImage;
             imageBox1.Image = tableImg;
+            //return;
 
             PoolTable table = new PoolTable(tableImg);
 
@@ -103,6 +105,7 @@ namespace PoolTracker
             Image<Gray, Byte> tableMatchMask = table._tableMatchMask.Copy();
             tableMatchMask._EqualizeHist();
             imageBox2.Image = table.backProjectShow;
+            imageBox3.Image = tableMatchMask;
 
 
             foreach (Ball ball in balls)
@@ -129,19 +132,33 @@ namespace PoolTracker
 
         private void startCapture()
         {
+            capture = new Capture();
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 960);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 1280);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS, 100);
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
-            {  //run this until application closed (close button click on image viewer)
-                cameraImage = capture.QueryFrame(); //draw the image obtained from camera
-                locateBalls2();
+            {  //run this until application closed (close button click on image viewer)     
+                if (!busy)
+                {
+                    cameraImage = capture.QueryFrame(); //draw the image obtained from camera
+                    cameraImage = cameraImage.Copy(new Rectangle(new Point(80, 280), new Size(200, 150)));
+                    busy = true;
+                    locateBalls2();
+                    busy = false;
+                } 
             });
+        }
+
+        private void runOffline()
+        {
+            cameraImage = new Image<Bgr, byte>("tables/stort.jpg");
+            locateBalls2();
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            startCapture();
+            //startCapture(); //Online
+            runOffline();
         }
     }
 }
