@@ -16,7 +16,6 @@ using Emgu.CV.Util;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using Emgu.CV.VideoSurveillance;
-using vflibcs;
 
 namespace Calib
 {
@@ -46,7 +45,8 @@ namespace Calib
         public Form1()
         {
             InitializeComponent();
-            generatePoolGraph();
+            FindTable findtable = new FindTable();
+            
             /*
             DirectoryInfo di = new DirectoryInfo("c://hyggekaffe//pics//randx");
             FileInfo[] rgFiles = di.GetFiles("*.jpg");
@@ -298,39 +298,6 @@ namespace Calib
             
         }
         
-        private void generatePoolGraph()
-        {
-            Graph poolGraph = new Graph();
-            poolGraph.InsertNode(new Checkable(2, 3));
-            poolGraph.InsertNode(new Checkable(2, 3));
-            poolGraph.InsertNode(new Checkable(2, 3));
-
-            poolGraph.InsertEdge(0, 1);
-            poolGraph.InsertEdge(1, 2);
-            poolGraph.InsertEdge(2, 0);
-
-            Graph foundGraph = new Graph();
-            foundGraph.InsertNode(new Checkable(2, 3));
-            foundGraph.InsertNode(new Checkable(2, 3));
-            foundGraph.InsertNode(new Checkable(2, 3));
-
-            foundGraph.InsertEdge(0, 1);
-            foundGraph.InsertEdge(1, 2);
-            foundGraph.InsertEdge(2, 0);
-
-            VfState vfs = new VfState(poolGraph, foundGraph, false, true, true);
-            bool fIsomorphic = vfs.FMatch();
-            if (fIsomorphic)
-            {
-                foreach (FullMapping fm in vfs.Mappings)
-                {
-                    int[] mapping1to2 = fm.arinodMap1To2;
-                    int[] mapping2to1 = fm.arinodMap2To1;
-                }
-            }
-            
-        }
-
-    }    
+   }    
 }
 
