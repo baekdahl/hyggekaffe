@@ -32,7 +32,7 @@ For robustly locating the diamonds the following approach has been used:
 The captured image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adaptive threshold in section \ref{sec:table-locate}.\\
 
 \textbf{Find contours:}\\
-The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm. The is explained in \ref{sec:contours}.
+The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm \cite{contour}.
 
 This will return a list of contours in the image. Many different contours are found as seen in %figure\ref{fig:allcontours} LAV CONTOURIMAGE
 
@@ -43,7 +43,7 @@ Therefore it is necessary to sort the contours based on their size and remove th
 The list is then sorted by removing the points that lie far away from the reference point by a 5\% interval. 
 %HUSK AT TJEKKE DETTE!!!
 
-The outcome is a list of possible diamonds.
+The outcome is a list of possible diamonds.\\\\
 
 \textbf{Find contours for a sequence of images:}\\
 While testing, one of the major problems with finding the diamonds positions, was the noise introduced by various parameters (camera, lightning etc). The actual positions of the diamonds was found in every frame, but a lot of noise made found positions of diamonds elsewhere in the images. 
@@ -53,9 +53,23 @@ Therefore, by using a sequence of images (video) and compare the positions found
 
 Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.\\
 
-%INDSÆT flader af billeder - som MPEG.
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.5\textwidth]{images/image_seq_numbers.pdf}
+\end{center}
+\caption{Sequence of frames. The number of frames can be set as n.}
+\label{fig:seq_img}
+\end{figure}
 
 \textbf{Find the contours that remain at same position throughout the sequence:}\\
 A arbitrary point in the first frame is chosen. In all other frames the same position is searched for a contour. If this contour exists in every frame it is saved as a diamond. If it does not exist in every image it is not saved.
 
-%INDSÆT flader af billeder - som MPEG med forskellige diamanter.
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.5\textwidth]{images/image_seq_pool.pdf}
+\end{center}
+\caption{Searching for a contour in from the first frame in all other frames.}
+\label{fig:seq_img_pool}
+\end{figure}
