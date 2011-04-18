@@ -32,7 +32,7 @@ For robustly locating the diamonds the following approach has been used:
 The captured image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adaptive threshold in section \ref{sec:table-locate}.\\
 
 \textbf{Find contours:}\\
-The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm. The is explained in \ref{sec:contours}.
+The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm \cite{contour}.
 
 This will return a list of contours in the image. Many different contours are found as seen in %figure\ref{fig:allcontours} LAV CONTOURIMAGE
 
@@ -43,7 +43,7 @@ Therefore it is necessary to sort the contours based on their size and remove th
 The list is then sorted by removing the points that lie far away from the reference point by a 5\% interval. 
 %HUSK AT TJEKKE DETTE!!!
 
-The outcome is a list of possible diamonds.
+The outcome is a list of possible diamonds.\\\\
 
 \textbf{Find contours for a sequence of images:}\\
 While testing, one of the major problems with finding the diamonds positions, was the noise introduced by various parameters (camera, lightning etc). The actual positions of the diamonds was found in every frame, but a lot of noise made found positions of diamonds elsewhere in the images. 
