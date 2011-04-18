@@ -53,9 +53,23 @@ Therefore, by using a sequence of images (video) and compare the positions found
 
 Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.\\
 
-%INDSÆT flader af billeder - som MPEG.
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.5\textwidth]{images/image_seq_numbers.pdf}
+\end{center}
+\caption{Sequence of frames. The number of frames can be set as n.}
+\label{fig:seq_img}
+\end{figure}
 
 \textbf{Find the contours that remain at same position throughout the sequence:}\\
 A arbitrary point in the first frame is chosen. In all other frames the same position is searched for a contour. If this contour exists in every frame it is saved as a diamond. If it does not exist in every image it is not saved.
 
-%INDSÆT flader af billeder - som MPEG med forskellige diamanter.
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.5\textwidth]{images/image_seq_pool.pdf}
+\end{center}
+\caption{Searching for a contour in from the first frame in all other frames.}
+\label{fig:seq_img_pool}
+\end{figure}
