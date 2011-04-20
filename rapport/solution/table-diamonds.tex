@@ -31,17 +31,30 @@ For robustly locating the diamonds the following approach has been used:
 \textbf{Convert to grayscale and use adaptive threshold:}\\
 The captured image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adaptive threshold in section \ref{sec:table-locate}.\\
 
+%Insert Image
+
 \textbf{Find contours:}\\
 The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm \cite{contour}.
 
-This will return a list of contours in the image. Many different contours are found as seen in %figure\ref{fig:allcontours} LAV CONTOURIMAGE
+This will return a list of contours in the image\ref{fig:allcontours}.
 
-Therefore it is necessary to sort the contours based on their size and remove those that are outliers. The area size used as reference is the median area of the list of contours. This should be approximately the area of a diamond. If the mean was used instead of the median a much larger value would be the reference, because of very big contours being found (in OpenCV implementation the image in itself is a contour).
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.5\textwidth]{images/allcontours.png}
+\end{center}
+\caption{All contours found in frame.}
+\label{fig:allcontours}
+\end{figure}
 
-%Make visual example of sizes and median!
+Many different contours are found as seen and therefore it is necessary to sort the contours based on their size and remove those that are outliers. A diamond should obey certain rules:
 
-The list is then sorted by removing the points that lie far away from the reference point by a 5\% interval. 
-%HUSK AT TJEKKE DETTE!!!
+\begin{itemize}
+	\item Size: The maximum diamond is [31.75 x 15.875 mm]. That is 0.0005 $m^2$. The smallest table is 3.5$m^2$. If the table completely fills up the frame the diamond can, at most, be $1/7000$ of the frame. By knowing the width and height of the image other contours above this size can be removed. Since the morphology operations changes the sizes the threshold is set at $1/3500$.
+	\item The diamond is convex.
+\end{itemize}
+
+The area size used as reference is the median area of the list of contours. This should be approximately the area of a diamond. If the mean was used instead of the median a much larger value would be the reference, because of very big contours being found (in OpenCV implementation the image in itself is a contour).
 
 The outcome is a list of possible diamonds.\\\\
 
@@ -73,3 +86,4 @@ A arbitrary point in the first frame is chosen. In all other frames the same pos
 \caption{Searching for a contour in from the first frame in all other frames.}
 \label{fig:seq_img_pool}
 \end{figure}
+
