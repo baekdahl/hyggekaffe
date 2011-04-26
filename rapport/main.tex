@@ -2,6 +2,37 @@
 \input{preamble}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{listings}
+\lstdefinelanguage{CSharp}
+{
+ morecomment = [l]{//}, 
+ morecomment = [l]{///},
+ morecomment = [s]{/*}{*/},
+ morestring=[b]", 
+ sensitive = true,
+ morekeywords = {abstract,  event,  new,  struct,
+   as,  explicit,  null,  switch,
+   base,  extern,  object,  this,
+   bool,  false,  operator,  throw,
+   break,  finally,  out,  true,
+   byte,  fixed,  override,  try,
+   case,  float,  params,  typeof,
+   catch,  for,  private,  uint,
+   char,  foreach,  protected,  ulong,
+   checked,  goto,  public,  unchecked,
+   class,  if,  readonly,  unsafe,
+   const,  implicit,  ref,  ushort,
+   continue,  in,  return,  using,
+   decimal,  int,  sbyte,  virtual,
+   default,  interface,  sealed,  volatile,
+   delegate,  internal,  short,  void,
+   do,  is,  sizeof,  while,
+   double,  lock,  stackalloc,   
+   else,  long,  static,   
+   enum,  namespace,  string}
+}
+\lstset{language=CSharp}
+
 
 
 \begin{document}
@@ -23,7 +54,7 @@
 			\label{sec:rules}
 			\input{analysis/pooltable}
 	
-		\subsection{Analysis of table and balls}
+		\subsection{Color analysis of table and balls}
 			\label{sec:analysisballstable}
 			\input{analysis/analballs}
 
@@ -60,13 +91,13 @@
 				\label{sec:table-locate}
 				\input{solution/table-locate}
 		
-			\subsection{Locate diamonds}
-				\label{sec:table-diamonds}
-				\input{solution/table-diamonds}
+			%\subsection{Locate diamonds}
+			%	\label{sec:table-diamonds}
+			%	\input{solution/table-diamonds}
 		
-			\subsection{Find size-references}
-				\label{sec:table-sizes}
-				\input{solution/table-sizes}
+			%\subsection{Find size-references}
+			%	\label{sec:table-sizes}
+			%	\input{solution/table-sizes}
 
 	\section{Locating and identifying balls}
 		\label{sec:balls-intro}	

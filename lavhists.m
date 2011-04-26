@@ -1,12 +1,12 @@
-%hsv_1 = rgb2hsv(analtable1)*255;
-%hsv_2 = rgb2hsv(analtable2)*255;
-%hsv_3 = rgb2hsv(analtable3)*255;
-%hsv_4 = rgb2hsv(analtable4)*255;
+hsv_1 = rgb2hsv(analtable1)*255;
+hsv_2 = rgb2hsv(analtable2)*255;
+hsv_3 = rgb2hsv(analtable3)*255;
+hsv_4 = rgb2hsv(analtable4)*255;
  
- hsv_1 = double(analtable1);
- hsv_2 = double(analtable2);
- hsv_3 = double(analtable3);
- hsv_4 = double(analtable4);
+%hsv_1 = double(analtable1);
+%hsv_2 = double(analtable2);
+%hsv_3 = double(analtable3);
+%hsv_4 = double(analtable4);
 
 hue_1 = hsv_1(:,:,1);
 hue_2 = hsv_2(:,:,1);
@@ -41,87 +41,96 @@ val_4 = reshape(val_4,1,[]);
 %1
 subplot(4,4,2)
 image(analtable1)
-title('2) Image');
+title('2');
 axis off
 
 subplot(4,4,6)
 hist(hue_1,100);
-title('2) Red');
+title('Hue');
 axis([0 300,0 5000])
+axis off
 
 subplot(4,4,10)
 hist(sat_1,100);
-title('2) Green')
+title('Saturation')
 axis([0 300,0 10000])
+axis off
 
 subplot(4,4,14)
 hist(val_1,100);
-title('2) Blue')
+title('Value')
 axis([0 300,0 5000])
+axis off
 
 %2
 subplot(4,4,3)
 image(analtable2)
-title('3) Image');
+title('3');
 axis off
 
 subplot(4,4,7)
 hist(hue_2,100);
-title('3) Red');
+title('Hue');
 axis([0 300,0 5000])
+axis off
 
 subplot(4,4,11)
 hist(sat_2,100);
-title('3) Green')
+title('Saturation')
 axis([0 300,0 10000])
+axis off
 
 subplot(4,4,15)
 hist(val_2,100);
-title('3) Blue')
+title('Value')
 axis([0 300,0 5000])
+axis off
 
 
 %3
 subplot(4,4,1)
 image(analtable3)
-title('1) Image');
+title('1');
 axis off
 
 subplot(4,4,5)
 hist(hue_3,100);
-title('1) Red');
+title('Hue');
 axis([0 300,0 5000])
+axis off
 
 subplot(4,4,9)
 hist(sat_3,100);
-title('1) Green')
+title('Saturation')
 axis([0 300,0 10000])
+axis off
 
 subplot(4,4,13)
 hist(val_3,100);
-title('1) Blue')
+title('Value')
 axis([0 300,0 5000])
+axis off
 
 %4
 subplot(4,4,4)
 image(analtable4)
-title('4) Image');
+title('4');
 axis off
 
 subplot(4,4,8)
 hist(hue_4,100);
-title('4) Red');
+title('Hue');
 axis([0 300,0 5000])
+axis off
 
 subplot(4,4,12)
 hist(sat_4,100);
-title('4) Green')
+title('Saturation')
 axis([0 300,0 10000])
+axis off
 
 subplot(4,4,16)
 hist(val_4,100);
-title('4) Blue')
+title('Value')
 axis([0 300,0 5000])
-
-
-
+axis off

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Google Maps JavaScript API v3 Example: Geocoding Simple</title>
+    <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet"
+          type="text/css"/>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false"></script>
+    <script type="text/javascript">
+        var geocoder;
+        var map;
+        var locations = [];
+        var line;
+
+        Array.prototype.exists = function(o) {
+            for (var i = 0; i < this.length; i++)
+                if (this[i] === o)
+                    return true;
+            return false;
+        }
+
+        function initialize() {
+            geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(-34.397, 150.644);
+            var myOptions = {
+                zoom: 8,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        }
+
+        function codeAddress() {
+            var address = document.getElementById("address").value;
+            geocoder.geocode({ 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    locations.push(results[0]);
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+        }
+
+        function calcRoute() {
+            var dist = google.maps.geometry.spherical.computeDistanceBetween(locations[0].geometry.location, locations[1].geometry.location);
+
+
+            var remaining = [];
+            for (var i=0; i < locations.length; i++) {
+                remaining.push(i);
+            }
+
+            var route = recurse(new Array(), remaining);
+
+            var coords = [];
+            for (var i=0; i < route.path.length; i++) {
+                coords.push(locations[route.path[i]].geometry.location);
+            }
+
+            if (line != null) {
+                line.setMap(null);
+            }
+
+            line = new google.maps.Polyline({
+                path: coords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            line.setMap(map);
+        }
+
+        function recurse(path, remaining) {
+            if (remaining.length == 0) {
+                path.push(path[0]);
+                return {
+                    dist: calcRouteLength(path),
+                    path: path
+                };
+            }
+
+            var shortest = {
+                dist: 9999999999
+            };
+            for (var i=0; i < remaining.length; i++) {
+                var newPath = path.slice(0);
+                newPath.push(remaining[i]);
+                var newRemaining = remaining.slice(0);
+                newRemaining.splice(i,1);
+
+                var leg = recurse(newPath, newRemaining);
+                if (leg.dist < shortest.dist) {
+                    shortest = leg;
+                }
+            }
+            return shortest;
+        }
+
+        function calcRouteLength(path)
+        {
+            var sum = 0;
+
+            for (var i = 1; i < path.length; i++) {
+                sum += google.maps.geometry.spherical.computeDistanceBetween(locations[path[i-1]].geometry.location, locations[path[i]].geometry.location);
+            }
+            return sum;
+        }
+    </script>
+</head>
+<body onload="initialize()">
+<div>
+    <input id="address" type="textbox" value="Sydney, NSW">
+    <input type="button" value="Geocode" onclick="codeAddress()">
+    <input type="button" value="Salesman!" onclick="calcRoute()">
+</div>
+<div id="map_canvas" style="height:90%;top:30px"></div>
+</body>
+</html>
