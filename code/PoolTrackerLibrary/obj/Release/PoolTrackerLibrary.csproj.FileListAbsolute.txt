@@ -1,0 +1,8 @@
+C:\hyggekaffe\code\PoolTrackerLibrary\obj\Release\ResolveAssemblyReference.cache
+C:\hyggekaffe\code\PoolTrackerLibrary\bin\Release\PoolTrackerLibrary.dll
+C:\hyggekaffe\code\PoolTrackerLibrary\bin\Release\PoolTrackerLibrary.pdb
+C:\hyggekaffe\code\PoolTrackerLibrary\bin\Release\Emgu.CV.dll
+C:\hyggekaffe\code\PoolTrackerLibrary\bin\Release\Emgu.CV.UI.dll
+C:\hyggekaffe\code\PoolTrackerLibrary\bin\Release\Emgu.Util.dll
+C:\hyggekaffe\code\PoolTrackerLibrary\obj\Release\PoolTrackerLibrary.dll
+C:\hyggekaffe\code\PoolTrackerLibrary\obj\Release\PoolTrackerLibrary.pdb
