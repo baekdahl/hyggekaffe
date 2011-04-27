@@ -23,6 +23,7 @@ namespace PoolTrackerLibrary
     {
         public Rectangle ROI;
         public double angle;
+        public Image<Bgr, Byte> mask;
 
         public TableLocator(Image<Bgr,Byte> input_image)
         {
@@ -37,6 +38,8 @@ namespace PoolTrackerLibrary
             MCvBox2D clothBox = findClothBox(imageClothID);                                 //Find bounding box of cloth
             angle = findTableAngle(clothBox);                                               //Find angle of cloth (and table).
 
+            input_image.Draw(clothBox, new Bgr(255, 255, 255), 0);
+
             Image<Bgr, Byte> rotimage = image.Rotate(angle, new Bgr(255, 255, 255));        //Rotate image and create rotimage
             imageClothID = imageClothID.Rotate(angle, new Gray(255));                       //Rotate image with cloth identified.
             MCvBox2D clothBox2 = findClothBox(imageClothID);                                //Find rotated box
@@ -45,7 +48,8 @@ namespace PoolTrackerLibrary
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
         {
-            Image<Bgr, Byte> returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI);
+            mask.ROI = ROI;
+            Image<Bgr, Byte> returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI).And(mask);
             return returnImage;
         }
 
@@ -54,7 +58,7 @@ namespace PoolTrackerLibrary
             return image = image.SmoothMedian(kernel);
         }
 
-        private static MCvBox2D findClothBox(Image<Gray, Byte> image)
+        private MCvBox2D findClothBox(Image<Gray, Byte> image)
         {
             MCvBox2D clothBox = new MCvBox2D();
 
@@ -65,6 +69,8 @@ namespace PoolTrackerLibrary
                 if (currentContour.Area > (image.Height * image.Width) / 2 && currentContour.Area < (image.Height * image.Width) / 1.01)  //Image.Size/2 < Contour < Image.Size/1.1
                 {
                     clothBox = currentContour.GetMinAreaRect();                                                                          //Get minimum rectangle that fits on contour.
+                    mask = image.Copy().Convert<Bgr,Byte>();
+                    mask.Draw(currentContour, new Bgr(255,255,255), 0);
                 }
             }
 
@@ -106,8 +112,6 @@ namespace PoolTrackerLibrary
             Rectangle ROI = box.MinAreaRect();
             return ROI;
         }
-
-
-
+        
     }
 }

@@ -38,7 +38,7 @@ namespace PoolTrackerLibrary
 
         public void startCapture()
         {
-           image = cap.QueryFrame();
+            image = cap.QueryFrame(); 
         }
 
         public void setProperties(int height, int width) 
