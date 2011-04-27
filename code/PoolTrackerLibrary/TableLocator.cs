@@ -38,7 +38,8 @@ namespace PoolTrackerLibrary
             MCvBox2D clothBox = findClothBox(imageClothID);                                 //Find bounding box of cloth
             angle = findTableAngle(clothBox);                                               //Find angle of cloth (and table).
 
-            input_image.Draw(clothBox, new Bgr(255, 255, 255), 0);
+            //Image<Bgr, Byte> imagetemp = input_image.Copy();
+            //imagetemp.Draw(clothBox, new Bgr(120, 120, 120), 10);
 
             Image<Bgr, Byte> rotimage = image.Rotate(angle, new Bgr(255, 255, 255));        //Rotate image and create rotimage
             imageClothID = imageClothID.Rotate(angle, new Gray(255));                       //Rotate image with cloth identified.
@@ -48,8 +49,14 @@ namespace PoolTrackerLibrary
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
         {
-            mask.ROI = ROI;
-            Image<Bgr, Byte> returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI).And(mask);
+            Image<Bgr, Byte> returnImage = input_image.Copy();
+
+            if (ROI.Size.Height > 0)
+            {
+                mask.ROI = ROI;
+                returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI).And(mask);
+            }
+
             return returnImage;
         }
 
