@@ -50,13 +50,8 @@ namespace PoolTrackerLibrary
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
         {
             Image<Bgr, Byte> returnImage = input_image.Copy();
-
-            if (ROI.Size.Height > 0)
-            {
-                mask.ROI = ROI;
-                returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI).And(mask);
-            }
-
+            mask.ROI = ROI;
+            returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI).And(mask);
             return returnImage;
         }
 
@@ -106,7 +101,7 @@ namespace PoolTrackerLibrary
             Debug.Write("Before:  " + angle + "\n");
 
             if (Double.IsNaN(angle)) { angle = 0; }
-            if (180 % angle < 1) { angle = 0; }
+            //if (180 % angle < 1) { angle = 0; }
             if (angle > 90) { angle = 180 - angle; }
 
             Debug.Write("After:   " + angle + "\n");

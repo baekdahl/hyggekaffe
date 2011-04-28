@@ -179,31 +179,57 @@ A mask of the found contours is made. Since the box of the contour has to have s
 
 \begin{figure}[H]
 \centering
-\subfigure[Mask of cloth and other contours.]
+\subfloat[Mask of cloth and other contours.]
 {
 	\includegraphics[width=0.3\textwidth]{images/mask_1}
 }
-\subfigure[Found contour of cloth.]
+\subfloat[Found contour of cloth.]
 {
 	\includegraphics[width=0.3\textwidth]{images/mask_2}
 }
-\label{myfigure}
-\caption{}
 \end{figure}
 
 \textbf{6) Find the angle of the cloth (and thereby table):}\\
 To find the angle of the table the bounding rectangle of the contour of the cloth is divided into lines. A sort of the length is made and the longest line is selected. This line will always be the longest side of the table, the side that should be rotated to 0\degree. \\
 
-The angle between the line and a horizontal line is calculated using the GetExteriorAngleDegree function in OpenCV\cite{opencv}. The angle is now 
+The angle between the line and a horizontal line is calculated using the GetExteriorAngleDegree function in OpenCV\cite{opencv}. The angle found led to understand that there is a slight problem with the output as shown in \ref{fig:table_angle}.
 
-%Explain problem with 180+- and so forth.
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.5\textwidth]{images/table_angle}
+\end{center}
+\caption{The angle found between horizontal line and edge of table.}
+\label{fig:table_angle}
+\end{figure}
+
+Therefore the if the angle is more than 90\degree is it calculated as angle = 180\degree-angle.\\
 
 \textbf{7) Output the angle and ROI:}\\
 The angle and the box for the non-rotated image has been calculated. Since the calibration is not a time-critical part of the solution the ROI is found simply by rotating the image and running step 5 again.  This will rotate the image and then search for the ROI of the rotated image. A faster method would be calculating the new position of the ROI based on the rotated angle.
 
 The output is as can be seen here, with the original image, secondly the found contour, thirdly the mask of the cloth and finally the output image.
 
-%INSERT IMAGE
+\begin{figure}[H]
+\centering
+\subfloat[Input image.]
+{
+	\includegraphics[width=0.4\textwidth]{images/montage_input}
+}
+\subfloat[Cloth contour.]
+{
+	\includegraphics[width=0.4\textwidth]{images/montage_contour}
+}
+\\
+\subfloat[Mask of cloth and other contours.]
+{
+	\includegraphics[width=0.4\textwidth]{images/montage_mask}
+}
+\subfloat[The output after rotating, cropping and setting mask.]
+{
+	\includegraphics[width=0.4\textwidth]{images/montage_output}
+}
+\end{figure}
 
 
 
