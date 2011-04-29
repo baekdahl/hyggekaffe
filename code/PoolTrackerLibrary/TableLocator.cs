@@ -23,7 +23,7 @@ namespace PoolTrackerLibrary
     {
         public Rectangle ROI;
         public double angle;
-        public Image<Bgr, Byte> mask;
+        public Image<Gray, Byte> mask;
 
         public TableLocator(Image<Bgr,Byte> input_image)
         {
@@ -51,7 +51,7 @@ namespace PoolTrackerLibrary
         {
             Image<Bgr, Byte> returnImage = input_image.Copy();
             mask.ROI = ROI;
-            returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI).And(mask);
+            returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI);
             return returnImage;
         }
 
@@ -71,8 +71,9 @@ namespace PoolTrackerLibrary
                 if (currentContour.Area > (image.Height * image.Width) / 2 && currentContour.Area < (image.Height * image.Width) / 1.01)  //Image.Size/2 < Contour < Image.Size/1.1
                 {
                     clothBox = currentContour.GetMinAreaRect();                                                                          //Get minimum rectangle that fits on contour.
-                    mask = image.Copy().Convert<Bgr,Byte>();
-                    mask.Draw(currentContour, new Bgr(255,255,255), 0);
+                    mask = image.CopyBlank();
+                    //mask.Draw(currentContour, new Gray(255), -1);
+                    mask.Draw(contour, new Gray(255), -1);
                 }
             }
 
