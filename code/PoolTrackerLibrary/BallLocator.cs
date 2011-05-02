@@ -17,7 +17,8 @@ namespace PoolTrackerLibrary
         public static int[] histBins = new int[] { 16, 16 };
         public static RangeF[] histRanges = new RangeF[] { new RangeF(0, 180), new RangeF(0, 255) };
 
-        private Image<Bgr, byte> _tableImage;
+        private Image<Bgr, byte> tableImage;
+        private Image<Bgr, byte> tableImageSmall;
         private Image<Hsv, byte> _tableImageHsv;
         private Image<Gray, byte>[] _tablePlanes;
         public Image<Gray, byte> _tableMatchMask;
@@ -52,10 +53,11 @@ namespace PoolTrackerLibrary
             }
 
             this.numberOfBalls = numberOfBalls;
-            _tableImage = tableImage.Resize(resizeFactor, INTER.CV_INTER_CUBIC);
+            this.tableImage = tableImage;
+            tableImageSmall = tableImage.Resize(resizeFactor, INTER.CV_INTER_CUBIC);
             _tableMatchMask = _tableMatchMask.Resize(resizeFactor, INTER.CV_INTER_CUBIC);
 
-            _tableImageHsv = _tableImage.Convert<Hsv, byte>();
+            _tableImageHsv = tableImageSmall.Convert<Hsv, byte>();
             _tablePlanes = _tableImageHsv.Split();
 
 
@@ -63,24 +65,23 @@ namespace PoolTrackerLibrary
             initialMatchMask = _tableMatchMask.Copy();
         }
 
-        private DenseHistogram getBallHistogram(Point position)
+        private Image<Bgr,byte> getBallPatch(Point position)
         {
-            Rectangle roi = new Rectangle(position, new Size(ballDiaResized, ballDiaResized));
-            DenseHistogram hist = new DenseHistogram(histBins, histRanges);
+            position.X -= ballDia / 2;
+            position.Y -= ballDia / 2;
 
-            foreach (Image<Gray, byte> plane in _tablePlanes)
-            {
-                plane.ROI = roi;
-            }
-            //hist.Calculate(new Image<Gray, byte>[] { _tablePlanes[0], _tablePlanes[1] }, false, Ball.getMask());
-            return hist;
+            tableImage.ROI = new Rectangle(position, new Size(ballDia, ballDia));
+            Image<Bgr, byte> patch = tableImage.Copy();
+            tableImage.ROI = Rectangle.Empty;
+
+            return patch;
         }
 
         public List<Ball> findBalls(int numberOfBalls)
         {
             Stopwatch sw = Stopwatch.StartNew();
 
-            Image<Gray, float> projection = adaptiveBallDetect(_tableImage);
+            Image<Gray, float> projection = adaptiveBallDetect(tableImageSmall);
             backProjectShow = new Image<Gray, byte>(projection.Size);
 
             Util.writeWatch(sw, "Projtime");
@@ -100,15 +101,14 @@ namespace PoolTrackerLibrary
                 {
                     break;
                 }
-                Debug.Write("Ball " + i + ": " + extremum.Value);
+                //Debug.Write("Ball " + i + ": " + extremum.Value);
 
                 Point ballInTableCoords = new Point(extremum.Key.X + coordDiff.X / 2, extremum.Key.Y + coordDiff.Y / 2);
-                DenseHistogram ballHist = getBallHistogram(ballInTableCoords);
 
                 ballInTableCoords.X = (int)((double)ballInTableCoords.X / resizeFactor);
                 ballInTableCoords.Y = (int)((double)ballInTableCoords.Y / resizeFactor);
 
-                returnList.Add(new Ball(ballHist, ballInTableCoords));
+                returnList.Add(new Ball(getBallPatch(ballInTableCoords), ballInTableCoords));
 
                 _tableMatchMask.Draw(new CircleF(extremum.Key, ballDiaResized), new Gray(0), -1);
             }
