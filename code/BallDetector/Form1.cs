@@ -46,18 +46,21 @@ namespace PoolTracker
 
             foreach (Ball ball in balls)
             {
-                drawBallPos(imageBox1.Image.Bitmap, ball.position);
+                drawBallPos(imageBox1.Image.Bitmap, ball);
             }
        }
 
 
-        public void drawBallPos(Bitmap bitmap, Point center)
+        public void drawBallPos(Bitmap bitmap, Ball ball)
         {
+            Point center = ball.position;
+
             int radius = BallLocator.ballDia/2;
             Rectangle boundingRect = new Rectangle(center.X-radius, center.Y-radius, BallLocator.ballDia, BallLocator.ballDia); 
             Graphics graphics = Graphics.FromImage(bitmap);
-            Pen myPen = new Pen(System.Drawing.Color.Red, 3);
+            Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
             graphics.DrawEllipse(myPen, boundingRect);
+            graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
         public void logMessage(string message)
@@ -95,7 +98,7 @@ namespace PoolTracker
         private void Form1_Shown(object sender, EventArgs e)
         {
             //startCapture(); //Online
-            startCapture("../../video/Video 1.wmv");
+            startCapture("../../video/Video 3.wmv");
         }
     }
 }

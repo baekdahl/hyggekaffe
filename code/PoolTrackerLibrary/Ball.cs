@@ -5,31 +5,26 @@ using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace PoolTrackerLibrary
 {
     public class Ball
     {
-        public DenseHistogram histogram;
+        public Image<Bgr, byte> patch;
         public Point position;
         public int ballDia;
 
         private static int[] histBins = new int[] { 16, 16 };
         private static RangeF[] histRanges = new RangeF[] { new RangeF(0, 180), new RangeF(0, 255) };
+        private static int SATURATION_WHITE = 100;
+        private static float stripedThreshold = .1F;
 
-        public Ball(Image<Hsv, byte> image, int ballDia)
+        private DenseHistogram hsHist;
+
+        public Ball(Image<Bgr,byte> ballPatch, Point pos)
         {
-            this.ballDia = ballDia;
-            histogram = new DenseHistogram(histBins, histRanges);
-            Image<Gray, byte>[] ballPlanes = image.Split();
-
-            histogram.Calculate<byte>(new Image<Gray, byte>[] { ballPlanes[0], ballPlanes[1] }, false, getMask());
-        }
-
-        public Ball(DenseHistogram hist, Point pos)
-        {
-            histogram = new DenseHistogram(histBins, histRanges);
-            hist.Copy(histogram);
+            patch = ballPatch;
             position = pos;
         }
 
@@ -40,6 +35,31 @@ namespace PoolTrackerLibrary
             ballMask.Draw(new CircleF(new PointF(ballRadius, ballRadius), ballRadius), new Gray(1), -1);
 
             return ballMask;
+        }
+
+        public bool isStriped()
+        {  
+            float whiteRatio = (float)countColors()/(patch.Size.Width*patch.Size.Height);
+            return (whiteRatio > stripedThreshold);
+        }
+
+        private int countColors()
+        {
+            Image<Gray,byte>[] patchHsv = patch.Convert<Hsv,byte>().Split();
+            int whitePixels = 0;
+
+            for (int x = 0; x < patch.Width; x++)
+            {
+                for (int y = 0; y < patch.Height; y++)
+                {
+                    if (patchHsv[1].Data[y, x, 0] < SATURATION_WHITE)
+                    {
+                        whitePixels++;
+                    }
+                }
+            }
+            Debug.Write("White pixels: " + whitePixels); 
+            return whitePixels;
         }
     }
 }
