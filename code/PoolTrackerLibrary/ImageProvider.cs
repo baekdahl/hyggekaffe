@@ -46,15 +46,12 @@ namespace PoolTrackerLibrary
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, height);
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, width);
         }
-
         /*
         public List<string> getDevices()
         {
-            List<string> devices = new List<string>();
-            cap = new Capture(0);
-            devices.Add(cap.ToString());
             return devices;
         }
         */
+
     }
 }
