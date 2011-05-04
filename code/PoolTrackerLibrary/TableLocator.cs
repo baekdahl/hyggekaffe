@@ -24,6 +24,9 @@ namespace PoolTrackerLibrary
         public Rectangle ROI;
         public double angle;
         public Image<Gray, Byte> mask;
+        private double maskarea;
+        private int histMaxValue;
+        private double maskperimeter;
 
         public TableLocator(Image<Bgr,Byte> input_image)
         {
@@ -31,7 +34,7 @@ namespace PoolTrackerLibrary
 
             Image<Gray, Byte> hue = ImageUtil.bgrToHue(image);                              //Convert image to HSV
             DenseHistogram hist = ImageUtil.makeHist(hue);                                  //Make histogram of the hue
-            int histMaxValue = ImageUtil.histMaxValue(hist);
+            histMaxValue = ImageUtil.histMaxValue(hist);
 
             Image<Gray, Byte> imageClothID = ImageUtil.twoSidedThreshold(hue, histMaxValue);//Set pixels close to the maximum value to 255, otherwise 0.
             imageClothID = median(imageClothID, 21);                                        //Run median filter
@@ -58,6 +61,21 @@ namespace PoolTrackerLibrary
             return returnImage;
         }
 
+        public bool isTableOccluded(Image<Bgr, Byte> input_image, double threshold)
+        {
+            bool occluded = false;
+            double currentMaskArea = findBiggestContour(input_image);
+
+            Debug.Write(maskarea / currentMaskArea + "\n");
+
+            if (currentMaskArea / maskarea <= threshold)
+            {
+                occluded = true;
+            }
+            
+            return occluded;
+        }
+
         private static Image<Gray, Byte> median(Image<Gray, Byte> image, int kernel)
         {
             return image = image.SmoothMedian(kernel);
@@ -74,13 +92,34 @@ namespace PoolTrackerLibrary
                 if (currentContour.Area > (image.Height * image.Width) / 2 && currentContour.Area < (image.Height * image.Width) / 1.01)  //Image.Size/2 < Contour < Image.Size/1.1
                 {
                     clothBox = currentContour.GetMinAreaRect();                                                                          //Get minimum rectangle that fits on contour.
+
+                    maskperimeter = contour.Perimeter;
+                    maskarea = contour.Area;
                     mask = image.CopyBlank();
-                    //mask.Draw(currentContour, new Gray(255), -1);
                     mask.Draw(contour, new Gray(255), -1);
                 }
             }
 
             return clothBox;
+        }
+
+        private double findBiggestContour(Image<Bgr, Byte> image)
+        {
+            double returnArea = 0;
+            Image<Gray, Byte> img = ImageUtil.bgrToHue(image).Resize(1, INTER.CV_INTER_AREA);
+            img = ImageUtil.twoSidedThreshold(img, histMaxValue);
+            img = median(img, 3);
+
+            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
+            {
+                if (contour.Area > img.Width * img.Height * 0.5)
+                {
+                    returnArea = contour.Area;
+                    Debug.Write("Per:"+contour.Perimeter / maskperimeter + "\n");
+                }
+            }
+
+            return returnArea;
         }
 
         private static double findTableAngle(MCvBox2D box)

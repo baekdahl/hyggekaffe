@@ -1,0 +1,7 @@
+Since the goal is to identify where each balls is between every shot an approach for detecting changes on the table have to be made. These changes should be changes in ball positions and not if a hand or a que is present in the image.
+
+\subsubsection{Preliminary segmentation:}
+The first step is to detect weather or not parts of the table is occluded or not. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table.\\
+
+When the table is detected\ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which have many different properties such as area and perimeter. These properties 
+
