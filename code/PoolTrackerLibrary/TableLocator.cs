@@ -50,8 +50,12 @@ namespace PoolTrackerLibrary
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
         {
             Image<Bgr, Byte> returnImage = input_image.Copy();
-            mask.ROI = ROI;
-            returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI);
+            returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255));
+            if (mask != null)
+            {
+                mask.ROI = ROI;
+                returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI);
+            }
             return returnImage;
         }
 
