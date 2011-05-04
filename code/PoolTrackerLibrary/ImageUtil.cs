@@ -198,7 +198,6 @@ namespace PoolTrackerLibrary
            return img_out;
        }
 
-
        public static Image<Gray, float> matchTemplateMasked(Image<Gray, byte>[] input, Image<Gray, byte>[] template, Image<Gray, byte> patchMask, Image<Gray, byte> inputMask)
        {
            int imgWidth = input[0].Width;
