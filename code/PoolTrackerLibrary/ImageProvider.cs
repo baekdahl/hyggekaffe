@@ -27,21 +27,23 @@ namespace PoolTrackerLibrary
         public ImageProvider(int device = 0)
         {
             cap = new Capture(device);
+            setProperties();
             startCapture();
         }
 
         public ImageProvider(string filename)
         {
             cap = new Capture(filename);
+            setProperties();
             startCapture();
         }
 
         public void startCapture()
         {
-            image = cap.QueryFrame(); 
+            image = cap.QueryFrame();
         }
 
-        public void setProperties(int height, int width) 
+        public void setProperties(int height = 1000, int width = 1000) 
         {
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, height);
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, width);
