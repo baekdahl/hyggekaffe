@@ -43,7 +43,7 @@ namespace PoolTrackerLibrary
             image = cap.QueryFrame();
         }
 
-        public void setProperties(int height = 1000, int width = 1000) 
+        public void setProperties(int height = 720, int width = 960) 
         {
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, height);
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, width);
