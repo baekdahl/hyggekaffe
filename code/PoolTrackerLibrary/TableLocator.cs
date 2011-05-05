@@ -115,6 +115,8 @@ namespace PoolTrackerLibrary
                 if (contour.Area > img.Width * img.Height * 0.5)
                 {
                     returnArea = contour.Area;
+                    Image<Gray, Byte> imgtemp = img.CopyBlank();
+                    imgtemp.Draw(contour, new Gray(255), -1);
                     Debug.Write("Per:"+contour.Perimeter / maskperimeter + "\n");
                 }
             }
