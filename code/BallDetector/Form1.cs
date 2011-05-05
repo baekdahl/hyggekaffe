@@ -19,30 +19,30 @@ namespace PoolTracker
     {
         ImageProvider imageProvider;
         Image<Bgr, byte> cameraImage;
-        bool busy = false;
 
         TableLocator tableLocator = null;
 
+        EventHandler captureHandler;
+        BallCalibration calibration;
+
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            calibration = new BallCalibration();
         }
         public void locateBalls()
         {
+
+            BallLocator locator = new BallLocator(cameraImage, calibration, tableLocator.mask);
+            List<Ball> balls = locator.findBalls(16);
+
             imageBoxTable.Image = cameraImage;
-
-            Image<Bgr, byte> tableImg = cameraImage;
-            imageBox1.Image = tableImg;
-
-            BallLocator table = new BallLocator(tableImg, 16, tableLocator.mask);
-
-            List<Ball> balls = table.findBalls(16);
-
             imageBox2.Image = tableLocator.mask;
 
-            table.initialMatchMask._EqualizeHist();
-            imageBox3.Image = table.initialMatchMask;
+            locator.initialMatchMask._EqualizeHist();
+            imageBox3.Image = locator.initialMatchMask;
 
+            imageBox1.Image = cameraImage.Copy(); // Make a copy to draw the balls on
 
             foreach (Ball ball in balls)
             {
@@ -58,9 +58,11 @@ namespace PoolTracker
             int radius = BallLocator.ballDia/2;
             Rectangle boundingRect = new Rectangle(center.X-radius, center.Y-radius, BallLocator.ballDia, BallLocator.ballDia); 
             Graphics graphics = Graphics.FromImage(bitmap);
-            Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
+            //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
+            Pen myPen = new Pen(Color.Red, 3);
             graphics.DrawEllipse(myPen, boundingRect);
-            graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
+            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
+            //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
         public void logMessage(string message)
@@ -79,26 +81,95 @@ namespace PoolTracker
             {
                 imageProvider = new ImageProvider();
             }
+        }
 
-            Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
+        private void runFrame()
+        {
+            imageProvider.startCapture();
+
+            if (tableLocator == null)
             {
-                imageProvider.startCapture();
-                
-                if (tableLocator == null) {
-                    tableLocator = new TableLocator(imageProvider.image);
-                }
+                tableLocator = new TableLocator(imageProvider.image);
+            }
 
-                cameraImage = tableLocator.getTableImage(imageProvider.image);
+            cameraImage = tableLocator.getTableImage(imageProvider.image);
 
-                locateBalls();
-                
-            });
+            locateBalls();
+        }
+
+        private void runOffline()
+        {
+            cameraImage = new Image<Bgr, byte>("tables/fracam.jpg");
+            locateBalls();
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            //startCapture(); //Online
+            //startCapture();
             startCapture("../../video/Video 3.wmv");
         }
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+            runButton.Enabled = false;
+            runFrame();
+            runButton.Enabled = true;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                captureHandler = new EventHandler(Application_Idle);
+                Application.Idle += captureHandler;
+            }
+            else
+            {
+                Application.Idle -= captureHandler;
+            }
+        }
+
+        void Application_Idle(object sender, EventArgs e)
+        {
+            imageProvider.startCapture();
+
+            if (tableLocator == null)
+            {
+                tableLocator = new TableLocator(imageProvider.image);
+            }
+
+            cameraImage = tableLocator.getTableImage(imageProvider.image);
+
+            locateBalls();
+        }
+
+        private void imageBoxCalib_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 1 && cameraImage != null)
+            {
+                imageBoxCalib.Image = cameraImage;
+                calibration = new BallCalibration(imageBoxCalib, cameraImage);
+                calibrateLabel.Text = Enum.GetName(typeof(BallColor), calibration.nextBall());
+
+                calibration.BallCalibrated += new BallCalibration.BallCalibratedHandler(calibration_BallCalibrated);
+            }
+        }
+
+        void calibration_BallCalibrated(object sender)
+        {
+            calibrateLabel.Text = Enum.GetName(typeof(BallColor), calibration.nextBall()) ;
+        }
+
+        private void calibrateLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }
