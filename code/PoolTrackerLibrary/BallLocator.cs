@@ -130,9 +130,10 @@ namespace PoolTrackerLibrary
 
             Image<Gray, byte> patchMask = Ball.getMask();
             int totalPixels = patchMask.CountNonzero()[0];
-            int ballThreshold = (int) (.5 * totalPixels);
-            int whiteThreshold = ballThreshold;
-            int stripedThreshold = (int)(.3 * ballThreshold);
+
+            int ballThreshold = (int)(calibration.ballFactor * totalPixels);
+            int whiteThreshold = (int)(calibration.whiteFactor * ballThreshold);
+            int stripedThreshold = (int)(calibration.stripedFactor * ballThreshold);
 
             Rectangle roi = new Rectangle(0, 0, patchMask.Width, patchMask.Height);
 
@@ -142,6 +143,7 @@ namespace PoolTrackerLibrary
             int[] maxScore = new int[16];
             Point[] maxPosition = new Point[16];
 
+            
 
             int patchHalf = (patchMask.Width - 1) / 2;
 
@@ -153,6 +155,7 @@ namespace PoolTrackerLibrary
                     {
                         int whitePixels = 0;
                         int[] pixels = new int[16];
+                        int satSum = 0;
 
                         int maskY = 0;
                         for (int patchY = y-patchHalf; patchY < y+patchHalf; patchY++)
@@ -180,6 +183,9 @@ namespace PoolTrackerLibrary
                                     else if (hue < calibration.hueRedLow || hue > calibration.hueRedHigh)
                                     {
                                         pixels[(int)BallColor.Red]++;
+                                        satSum += saturation;
+                                      
+                                        
                                     }
                                     else if (hue < calibration.hueYellow)
                                     {
@@ -204,6 +210,23 @@ namespace PoolTrackerLibrary
 
                         if (ballScore + whitePixels > ballThreshold) // It is a ball
                         {
+                            if (primaryIndex == (int)BallColor.Red)
+                            {
+                                int satMean = satSum / pixels[(int)BallColor.Red];
+                                if (satMean < calibration.satOrange)
+                                      {
+                                          primaryIndex = (int)BallColor.Orange;
+                                      }
+                                else if (satMean < calibration.satBrown)
+                                      {
+                                          primaryIndex = (int)BallColor.Brown;
+                                      }
+                                      else
+                                      {
+                                          primaryIndex = (int)BallColor.Red;
+                                      }
+                            }
+                            
                             if (primaryIndex != 8 && whitePixels > stripedThreshold) // It is at least striped
                             {
                                 if (whitePixels > whiteThreshold) {

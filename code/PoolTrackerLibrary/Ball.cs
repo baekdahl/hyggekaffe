@@ -28,7 +28,7 @@ namespace PoolTrackerLibrary
         BrownWhite,
         None,
     }
-    
+
     public class Ball
     {
         public Image<Bgr, byte> patch;
@@ -51,7 +51,15 @@ namespace PoolTrackerLibrary
             }
         }
 
-        public Ball(Image<Bgr,byte> ballPatch, Point pos)
+        public static int NumPixels
+        {
+            get
+            {
+                return Ball.getMask().CountNonzero()[0];
+            }
+        }
+
+        public Ball(Image<Bgr, byte> ballPatch, Point pos)
         {
             patch = ballPatch;
             position = pos;
@@ -74,10 +82,10 @@ namespace PoolTrackerLibrary
             {
                 case BallColor.Black:
                     return Brushes.Black;
-                
+
                 case BallColor.Red:
                     return Brushes.Red;
-                
+
                 case BallColor.Green:
                     return Brushes.Green;
 
@@ -94,9 +102,9 @@ namespace PoolTrackerLibrary
         {
             int x = centerPos.X - Radius, y = centerPos.Y - Radius;
             if (x < 0) x = 0;
-            if (y < 0) y = 0; 
+            if (y < 0) y = 0;
 
-            return new Rectangle(x, y, ballDia, ballDia); 
+            return new Rectangle(x, y, ballDia, ballDia);
         }
 
         public static Image<Gray, byte> getMask()
@@ -108,14 +116,14 @@ namespace PoolTrackerLibrary
         }
 
         public bool isStriped()
-        {  
-            float whiteRatio = (float)countColors()/(patch.Size.Width*patch.Size.Height);
+        {
+            float whiteRatio = (float)countColors() / (patch.Size.Width * patch.Size.Height);
             return (whiteRatio > stripedThreshold);
         }
 
         private int countColors()
         {
-            Image<Gray,byte>[] patchHsv = patch.Convert<Hsv,byte>().Split();
+            Image<Gray, byte>[] patchHsv = patch.Convert<Hsv, byte>().Split();
             int whitePixels = 0;
 
             for (int x = 0; x < patch.Width; x++)
@@ -128,7 +136,7 @@ namespace PoolTrackerLibrary
                     }
                 }
             }
-            Debug.Write("White pixels: " + whitePixels); 
+            Debug.Write("White pixels: " + whitePixels);
             return whitePixels;
         }
     }

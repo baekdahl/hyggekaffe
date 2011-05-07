@@ -65,12 +65,6 @@ namespace PoolTracker
             //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
-        public void logMessage(string message)
-        {
-            textBoxLog.AppendText(message + Environment.NewLine);
-            textBoxLog.ScrollToCaret();
-        }
-
         private void startCapture(string filename = "")
         {
             if (File.Exists(filename))
@@ -106,7 +100,7 @@ namespace PoolTracker
         private void Form1_Shown(object sender, EventArgs e)
         {
             //startCapture();
-            startCapture("../../video/Video 3.wmv");
+            startCapture("../../video/Video 7.wmv");
         }
 
         private void runButton_Click(object sender, EventArgs e)
@@ -157,6 +151,9 @@ namespace PoolTracker
                 calibrateLabel.Text = Enum.GetName(typeof(BallColor), calibration.nextBall());
 
                 calibration.BallCalibrated += new BallCalibration.BallCalibratedHandler(calibration_BallCalibrated);
+                pixelsInBall.Text = calibration.ballFactor.ToString();
+                stripedPixels.Text = calibration.stripedFactor.ToString();
+                cueWhite.Text = calibration.whiteFactor.ToString();
             }
         }
 
@@ -167,6 +164,17 @@ namespace PoolTracker
 
         private void calibrateLabel_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void calibChanged(object sender, EventArgs e)
+        {
+            if (pixelsInBall.Text.Length > 0)
+            {
+                calibration.ballFactor = float.Parse(pixelsInBall.Text);
+                calibration.stripedFactor = float.Parse(stripedPixels.Text);
+                calibration.whiteFactor = float.Parse(cueWhite.Text);
+            }
 
         }
 
