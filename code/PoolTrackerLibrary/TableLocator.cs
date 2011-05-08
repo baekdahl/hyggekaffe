@@ -36,8 +36,8 @@ namespace PoolTrackerLibrary
             DenseHistogram hist = ImageUtil.makeHist(hue);                                  //Make histogram of the hue
             histMaxValue = ImageUtil.histMaxValue(hist);
 
-            Image<Gray, Byte> imageClothID = ImageUtil.twoSidedThreshold(hue, histMaxValue);//Set pixels close to the maximum value to 255, otherwise 0.
-            imageClothID = median(imageClothID, 21);                                        //Run median filter
+            Image<Gray, Byte> imageClothID = ImageUtil.twoSidedThreshold(hue, histMaxValue,20);//Set pixels close to the maximum value to 255, otherwise 0.
+            imageClothID = median(imageClothID, 3);                                        //Run median filter
             MCvBox2D clothBox = findClothBox(imageClothID);                                 //Find bounding box of cloth
             angle = findTableAngle(clothBox);                                               //Find angle of cloth (and table).
 
@@ -66,13 +66,10 @@ namespace PoolTrackerLibrary
             bool occluded = false;
             double currentMaskArea = findBiggestContour(input_image);
 
-            Debug.Write(maskarea / currentMaskArea + "\n");
+            //Debug.Write(currentMaskArea / maskarea + "\n");
 
-            if (currentMaskArea / maskarea <= threshold)
-            {
-                occluded = true;
-            }
-            
+            if (currentMaskArea / maskarea <= threshold) { occluded = true; }
+           
             return occluded;
         }
 
@@ -107,17 +104,18 @@ namespace PoolTrackerLibrary
         {
             double returnArea = 0;
             Image<Gray, Byte> img = ImageUtil.bgrToHue(image).Resize(1, INTER.CV_INTER_AREA);
-            img = ImageUtil.twoSidedThreshold(img, histMaxValue);
+            img = ImageUtil.twoSidedThreshold(img, histMaxValue,20);
             img = median(img, 3);
 
-            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
+            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)  //Iterate through contours
             {
                 if (contour.Area > img.Width * img.Height * 0.5)
                 {
                     returnArea = contour.Area;
                     Image<Gray, Byte> imgtemp = img.CopyBlank();
                     imgtemp.Draw(contour, new Gray(255), -1);
-                    Debug.Write("Per:"+contour.Perimeter / maskperimeter + "\n");
+                    Debug.Write("Per:" + contour.Perimeter / maskperimeter + "\n");
+                    Debug.Write("Are:" + returnArea / maskarea + "\n");
                 }
             }
 

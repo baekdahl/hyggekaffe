@@ -21,5 +21,20 @@ namespace PoolTrackerLibrary
             sw.Stop();
             Debug.Write(text + ": " + sw.ElapsedMilliseconds + "ms" + Environment.NewLine);
         }
+
+        public static int getMaxIndex(int[] array)
+        {
+            int maxVal = array[0], maxIndex=0;
+
+            for (int i = 1; i < array.Length; i++ )
+            {
+                if (array[i] > maxVal)
+                {
+                    maxIndex = i;
+                    maxVal = array[i];
+                }
+            }
+            return maxIndex;
+        }
     }
 }

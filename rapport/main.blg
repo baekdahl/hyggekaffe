@@ -1,11 +1,17 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
 The style file: plain.bst
 A level-1 auxiliary file: includes/forside.aux
+A level-1 auxiliary file: includes/titelblad.aux
 A level-1 auxiliary file: includes/forord.aux
 Database file #1: kilder.bib
+Too many commas in name 1 of "Lars Bo Larsen, Rene B. Jensen, Kasper L. Jensen, Søren Larsen" for entry larsbopool
+while executing---line 1049 of file plain.bst
 Warning--empty title in poolregulations
 Warning--empty journal in poolregulations
 Warning--empty year in poolregulations
+Too many commas in name 1 of "Lars Bo Larsen, Rene B. Jensen, Kasper L. Jensen, Søren Larsen" for entry larsbopool
+while executing---line 1090 of file plain.bst
+Warning--empty title in contour
 Warning--empty journal in contour
 Warning--empty year in contour
-(There were 5 warnings)
+(There were 2 error messages)

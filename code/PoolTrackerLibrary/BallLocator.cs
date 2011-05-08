@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 using System.Drawing;
 using Emgu.CV;
-using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
 
 namespace PoolTrackerLibrary
 {
@@ -24,35 +22,41 @@ namespace PoolTrackerLibrary
         public Image<Gray, byte> _tableMatchMask;
         public Image<Gray, byte> initialMatchMask;
 
-        private static double resizeFactor = .4;
+        private static double resizeFactor = 1;
 
         public double locateThreshold = 100;
         public static int ballDia = 26;
+        public static byte backgroundThreshold;
         private int ballDiaResized;
 
         public static TM_TYPE templateMatchType = TM_TYPE.CV_TM_SQDIFF;
 
         public int numberOfBalls;
 
-
         public float bestMatch = 0;
 
         public Image<Gray, byte> backProjectShow;
+        private BallCalibration calibration;
 
-        public BallLocator(Image<Bgr, byte> tableImage, int numberOfBalls = 16, Image<Gray, byte> mask = null)
+        private byte findClothHue()
+        {
+            DenseHistogram hist = ImageUtil.makeHist(tableImage.Convert<Hsv, byte>()[0]);
+            return (byte) ImageUtil.histMaxValue(hist);
+        }
+
+        public BallLocator(Image<Bgr, byte> tableImage, BallCalibration calibration, Image<Gray, byte> mask = null)
         {
             ballDiaResized = (int)((double)ballDia * resizeFactor);
-
             _tableMatchMask = ImageUtil.thresholdAdaptiveMax(tableImage.Convert<Hsv, byte>().Split()[0], 1);
 
             if (mask != null)
             {
-                mask = mask.Erode(50);
+                mask = mask.Erode(30);
 
                 _tableMatchMask = _tableMatchMask.And(mask);
             }
 
-            this.numberOfBalls = numberOfBalls;
+            this.calibration = calibration;
             this.tableImage = tableImage;
             tableImageSmall = tableImage.Resize(resizeFactor, INTER.CV_INTER_CUBIC);
             _tableMatchMask = _tableMatchMask.Resize(resizeFactor, INTER.CV_INTER_CUBIC);
@@ -60,9 +64,9 @@ namespace PoolTrackerLibrary
             _tableImageHsv = tableImageSmall.Convert<Hsv, byte>();
             _tablePlanes = _tableImageHsv.Split();
 
-
-            //_tableMatchMask = _tableMatchMask.Erode(1);
             initialMatchMask = _tableMatchMask.Copy();
+
+            backgroundThreshold = findClothHue();
         }
 
         private Image<Bgr,byte> getBallPatch(Point position)
@@ -76,9 +80,10 @@ namespace PoolTrackerLibrary
 
             return patch;
         }
-
+        
         public List<Ball> findBalls(int numberOfBalls)
         {
+            return idBalls();
             Stopwatch sw = Stopwatch.StartNew();
 
             Image<Gray, float> projection = adaptiveBallDetect(tableImageSmall);
@@ -115,6 +120,146 @@ namespace PoolTrackerLibrary
             Util.writeWatch(sw, "BallLocate");
 
             return returnList;
+        }
+
+        public List<Ball> idBalls()
+        {
+            Image<Gray, byte>[] planes = tableImageSmall.Convert<Hsv,byte>().Split();
+            int imgWidth = planes[0].Width;
+            int imgHeight = planes[0].Height;
+
+            Image<Gray, byte> patchMask = Ball.getMask();
+            int totalPixels = patchMask.CountNonzero()[0];
+
+            int ballThreshold = (int)(calibration.ballFactor * totalPixels);
+            int whiteThreshold = (int)(calibration.whiteFactor * ballThreshold);
+            int stripedThreshold = (int)(calibration.stripedFactor * ballThreshold);
+
+            Rectangle roi = new Rectangle(0, 0, patchMask.Width, patchMask.Height);
+
+            byte backgroundLowThreshold = (byte) (backgroundThreshold - 5);
+            byte backgroundHighThreshold = (byte) (backgroundThreshold + 5);
+
+            int[] maxScore = new int[16];
+            Point[] maxPosition = new Point[16];
+
+            
+
+            int patchHalf = (patchMask.Width - 1) / 2;
+
+            for (int y = patchHalf; y < imgHeight - (patchHalf + 1); y++)
+            {
+                for (int x = patchHalf; x < imgWidth - (patchHalf + 1); x++)
+                {
+                    if (_tableMatchMask.Data[y, x, 0] == 1)
+                    {
+                        int whitePixels = 0;
+                        int[] pixels = new int[16];
+                        int satSum = 0;
+
+                        int maskY = 0;
+                        for (int patchY = y-patchHalf; patchY < y+patchHalf; patchY++)
+                        {
+                            int maskX = 0;
+                            for (int patchX = x - patchHalf; patchX < x + patchHalf; patchX++)
+                            {
+                                if (patchMask.Data[maskY, maskX, 0] == 1)
+                                {
+                                    byte hue = planes[0].Data[patchY, patchX, 0];
+                                    byte saturation = planes[1].Data[patchY, patchX, 0];
+                                    byte value = planes[2].Data[patchY, patchX, 0];
+
+                                    if (hue > backgroundLowThreshold && hue < backgroundHighThreshold) {
+                                        continue;
+                                    }
+                                    else if (value < calibration.valBlack)
+                                    {
+                                        pixels[(int)BallColor.Black]++;
+                                    }
+                                    else if (saturation < calibration.satWhite)
+                                    {
+                                        whitePixels++;
+                                    }
+                                    else if (hue < calibration.hueRedLow || hue > calibration.hueRedHigh)
+                                    {
+                                        pixels[(int)BallColor.Red]++;
+                                        satSum += saturation;
+                                      
+                                        
+                                    }
+                                    else if (hue < calibration.hueYellow)
+                                    {
+                                        pixels[(int)BallColor.Yellow]++;
+                                    }
+                                    else if (hue < calibration.hueGreen)
+                                    {
+                                        pixels[(int)BallColor.Green]++;
+                                    }
+                                    else
+                                    {
+                                        pixels[(int)BallColor.Blue]++;
+                                    }
+                                }
+                                maskX++;
+                            }
+                            maskY++;
+                        }
+
+                        int primaryIndex = Util.getMaxIndex(pixels);
+                        int ballScore = pixels[primaryIndex];
+
+                        if (ballScore + whitePixels > ballThreshold) // It is a ball
+                        {
+                            if (primaryIndex == (int)BallColor.Red)
+                            {
+                                int satMean = satSum / pixels[(int)BallColor.Red];
+                                if (satMean < calibration.satOrange)
+                                      {
+                                          primaryIndex = (int)BallColor.Orange;
+                                      }
+                                else if (satMean < calibration.satBrown)
+                                      {
+                                          primaryIndex = (int)BallColor.Brown;
+                                      }
+                                      else
+                                      {
+                                          primaryIndex = (int)BallColor.Red;
+                                      }
+                            }
+                            
+                            if (primaryIndex != 8 && whitePixels > stripedThreshold) // It is at least striped
+                            {
+                                if (whitePixels > whiteThreshold) {
+                                    primaryIndex = (int)BallColor.Cue;
+                                    ballScore = whitePixels;
+                                } else {
+                                    primaryIndex += 8; //Results in striped
+                                    ballScore += whitePixels;
+                                }
+                            }
+
+                            if (ballScore > maxScore[primaryIndex])
+                            {
+                                maxScore[primaryIndex] = ballScore;
+                                maxPosition[primaryIndex].X = x;
+                                maxPosition[primaryIndex].Y = y;
+                            }
+                        }
+                    }
+                }
+            }
+
+            List<Ball> list = new List<Ball>();
+
+            for (int i = 0; i < maxPosition.Length; i++)
+            {
+                if (maxScore[i] > 0)
+                {
+                    list.Add(new Ball(maxPosition[i], (BallColor)i));
+                }
+            }
+
+            return list;
         }
 
         /// <summary>

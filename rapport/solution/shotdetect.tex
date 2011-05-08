@@ -46,6 +46,9 @@ The two factors in \ref{eq:area} and \ref{eq:perimeter} will be found for variou
 }\\
 \end{figure}
 
+textbf{Shadow introduced:}\\
+
+
 \textbf{Occluded by cue:}\\
 \begin{figure}[H]
 \centering
@@ -73,6 +76,7 @@ The two factors in \ref{eq:area} and \ref{eq:perimeter} will be found for variou
 \end{figure}
 
 \textbf{Occluded by chair:}\\
+The chair represents a foreign object placed on the table.
 \begin{figure}[H]
 \centering
 \subfloat[Chair occluding table.]
@@ -96,10 +100,12 @@ The two factors in \ref{eq:area} and \ref{eq:perimeter} will be found for variou
 \hline Balls & 369647 & 3080 & 0.996 & 0.85  \\ 
 \hline Cue & 364619 & 4134 & 0.983 & 1.15 \\ 
 \hline Person & 348884 & 3796 & 0.940 & 1.06 \\ 
-\hline Object & 370133 & 3092 & 0.997 & 0.86 \\ 
+\hline Chair & 370133 & 3092 & 0.997 & 0.86 \\ 
 \hline 
 \end{tabular} 
 \end{figure}
+
+The area and perimeter values changes some due to noise and illumination, but the major changes comes when introducing an occlusion to the edge of the table. Objects placed within the cloth does not affect the area or perimeter.
 
 \subsection{Detect movement of balls:}
 After an occurred occlusion it is required to detect if movement of the balls is present. If there have been movement the balls would be found, identified and saved as one NAAAAAVN. If no movement is detected then the balls are expected to be in the same position which is already saved.\\

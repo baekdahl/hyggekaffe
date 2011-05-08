@@ -3,14 +3,19 @@
 \bibitem{poolregulations}
 World~Pool Association.
 
-\bibitem{hyggekaffe}
-Jesper Baekdahl, Rolf Madsen, Mikkel Thesbjerg, and Simon Have.
-\newblock Real-time marker-less drift-free orientation estimation.
-\newblock {\em International Journal of Computer Vision}, 81:128--137, 2009.
+\bibitem{emgu}
+Emgu.
+
+\bibitem{larsbopool}
+Kasper L. Jensen Søren~Larsen Lars Bo~Larsen, Rene B.~Jensen.
+\newblock Development of an automatic pool trainer.
+\newblock {\em Proceedings of the 2005 ACM SIGCHI International Conference on
+  Advances in computer entertainment technology}, 2005.
+
+\bibitem{opencv}
+OpenCV.
 
 \bibitem{contour}
 Satoshi Suzuki and Keiichi Abe.
-\newblock Topological structural analysis of digitized binary images by border
-  following.
 
 \end{thebibliography}

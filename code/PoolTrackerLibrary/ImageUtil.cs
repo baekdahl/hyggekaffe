@@ -161,8 +161,8 @@ namespace PoolTrackerLibrary
 
        public static Image<Gray, byte> thresholdAdaptiveMax(Image<Gray, byte> input, int thresholdMax = 255)
        {
-           int h_split = 2;
-           int v_split = 2;
+           int h_split = 20;
+           int v_split = 40;
            int h_stepsize = input.Width / h_split;
            int v_stepsize = input.Height / v_split;
 
@@ -184,8 +184,8 @@ namespace PoolTrackerLibrary
                    int[] minLocation = { 0 };
                    hist.MinMax(out minValue, out maxValue, out minLocation, out maxLocation);
 
-                   Image<Gray, Byte> thres_h11 = input.ThresholdBinary(new Gray(maxLocation[0] + 6), new Gray(thresholdMax));
-                   Image<Gray, Byte> thres_h22 = input.ThresholdBinaryInv(new Gray(maxLocation[0] - 6), new Gray(thresholdMax));
+                   Image<Gray, Byte> thres_h11 = input.ThresholdBinary(new Gray(maxLocation[0] + 10), new Gray(thresholdMax));
+                   Image<Gray, Byte> thres_h22 = input.ThresholdBinaryInv(new Gray(maxLocation[0] - 10), new Gray(thresholdMax));
 
                    img_out.ROI = ROI;
                    thres_h11.Or(thres_h22).CopyTo(img_out);
