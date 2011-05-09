@@ -109,14 +109,14 @@ namespace PoolTracker
         private void Form1_Shown(object sender, EventArgs e)
         {
             //startCapture();
-            startCapture("../../video/Video 7.wmv");
+            startCapture("../../video/betterSat/Video 2.wmv");
         }
 
         private void runButton_Click(object sender, EventArgs e)
         {
             runButton.Enabled = false;
-            //runFrame();
-            runOffline();
+            runFrame();
+            //runOffline();
             runButton.Enabled = true;
         }
 
@@ -133,23 +133,9 @@ namespace PoolTracker
             }
         }
 
-        void Application_Idle(object sender, EventArgs e)
+        void  Application_Idle(object sender, EventArgs e)
         {
-            imageProvider.startCapture();
-
-            if (tableLocator == null)
-            {
-                tableLocator = new TableLocator(imageProvider.image);
-            }
-
-            cameraImage = tableLocator.getTableImage(imageProvider.image);
-
-            locateBalls();
-        }
-
-        private void imageBoxCalib_Click(object sender, EventArgs e)
-        {
-
+            runFrame();
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
@@ -170,11 +156,6 @@ namespace PoolTracker
         void calibration_BallCalibrated(object sender)
         {
             calibrateLabel.Text = Enum.GetName(typeof(BallColor), calibration.nextBall()) ;
-        }
-
-        private void calibrateLabel_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void calibChanged(object sender, EventArgs e)

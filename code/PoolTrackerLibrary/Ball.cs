@@ -82,6 +82,7 @@ namespace PoolTrackerLibrary
             }
         }
 
+
         public Ball(Point pos, int whitePixels, int blackPixels, int[] hueHist, int[] satHist)
         {
             this.whitePixels = whitePixels;
@@ -113,17 +114,30 @@ namespace PoolTrackerLibrary
                 score += hueHist[i];
             }
 
-            if (whitePixels > BallThreshold)
+            if (whitePixels > WhiteThreshold)
             {
-                return BallColor.Cue;
-            }
-            else if (score + whitePixels > BallThreshold)
-            {
-                return calibration.ballHsv.Count != 0 ? findColor() : BallColor.Red;
+                score = whitePixels;
+                return BallColor.Cue; 
             }
             else if (blackPixels > BallThreshold)
             {
+                score = blackPixels;
                 return BallColor.Black;
+                
+            }
+            else if (score + whitePixels > BallThreshold)
+            {
+                score = score + whitePixels;
+                BallColor color = calibration.ballHsv.Count != 0 ? findColor() : BallColor.Red;
+
+                if (whitePixels > StripedThreshold)
+                {
+                    return color + 8;
+                }
+                else
+                {
+                    return color;
+                }  
             }
             else
             {

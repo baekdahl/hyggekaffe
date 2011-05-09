@@ -35,16 +35,19 @@
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
             this.imageBoxTable = new Emgu.CV.UI.ImageBox();
             this.imageBox1 = new Emgu.CV.UI.ImageBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.imageBoxCalib = new Emgu.CV.UI.ImageBox();
-            this.calibrateLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.runButton = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.runButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.stripedPixels = new System.Windows.Forms.TextBox();
-            this.pixelsInBall = new System.Windows.Forms.TextBox();
             this.cueWhite = new System.Windows.Forms.TextBox();
+            this.pixelsInBall = new System.Windows.Forms.TextBox();
+            this.stripedPixels = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.calibrateLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.imageBoxCalib = new PoolTrackerLibrary.ImageBoxExtended();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -52,10 +55,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -68,6 +71,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(755, 465);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
             // tabPage1
             // 
@@ -142,37 +146,6 @@
             this.imageBox1.TabIndex = 3;
             this.imageBox1.TabStop = false;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.calibrateLabel);
-            this.tabPage2.Controls.Add(this.imageBoxCalib);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(747, 439);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // imageBoxCalib
-            // 
-            this.imageBoxCalib.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBoxCalib.Location = new System.Drawing.Point(3, 3);
-            this.imageBoxCalib.Name = "imageBoxCalib";
-            this.imageBoxCalib.Size = new System.Drawing.Size(741, 433);
-            this.imageBoxCalib.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imageBoxCalib.TabIndex = 5;
-            this.imageBoxCalib.TabStop = false;
-            // 
-            // calibrateLabel
-            // 
-            this.calibrateLabel.AutoSize = true;
-            this.calibrateLabel.Location = new System.Drawing.Point(349, 31);
-            this.calibrateLabel.Name = "calibrateLabel";
-            this.calibrateLabel.Size = new System.Drawing.Size(35, 13);
-            this.calibrateLabel.TabIndex = 6;
-            this.calibrateLabel.Text = "label1";
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.checkBox1);
@@ -182,16 +155,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(107, 211);
             this.panel1.TabIndex = 6;
-            // 
-            // runButton
-            // 
-            this.runButton.Location = new System.Drawing.Point(3, 32);
-            this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(75, 23);
-            this.runButton.TabIndex = 0;
-            this.runButton.Text = "Run";
-            this.runButton.UseVisualStyleBackColor = true;
-            this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
             // checkBox1
             // 
@@ -204,8 +167,21 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // runButton
+            // 
+            this.runButton.Location = new System.Drawing.Point(3, 32);
+            this.runButton.Name = "runButton";
+            this.runButton.Size = new System.Drawing.Size(75, 23);
+            this.runButton.TabIndex = 0;
+            this.runButton.Text = "Run";
+            this.runButton.UseVisualStyleBackColor = true;
+            this.runButton.Click += new System.EventHandler(this.runButton_Click);
+            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.cueWhite);
             this.panel2.Controls.Add(this.pixelsInBall);
             this.panel2.Controls.Add(this.stripedPixels);
@@ -215,26 +191,87 @@
             this.panel2.Size = new System.Drawing.Size(107, 210);
             this.panel2.TabIndex = 7;
             // 
-            // stripedPixels
-            // 
-            this.stripedPixels.Location = new System.Drawing.Point(3, 37);
-            this.stripedPixels.Name = "stripedPixels";
-            this.stripedPixels.Size = new System.Drawing.Size(100, 20);
-            this.stripedPixels.TabIndex = 0;
-            // 
-            // pixelsInBall
-            // 
-            this.pixelsInBall.Location = new System.Drawing.Point(3, 95);
-            this.pixelsInBall.Name = "pixelsInBall";
-            this.pixelsInBall.Size = new System.Drawing.Size(100, 20);
-            this.pixelsInBall.TabIndex = 1;
-            // 
             // cueWhite
             // 
-            this.cueWhite.Location = new System.Drawing.Point(4, 151);
+            this.cueWhite.Location = new System.Drawing.Point(3, 82);
             this.cueWhite.Name = "cueWhite";
             this.cueWhite.Size = new System.Drawing.Size(100, 20);
             this.cueWhite.TabIndex = 2;
+            this.cueWhite.Leave += new System.EventHandler(this.calibChanged);
+            // 
+            // pixelsInBall
+            // 
+            this.pixelsInBall.Location = new System.Drawing.Point(3, 28);
+            this.pixelsInBall.Name = "pixelsInBall";
+            this.pixelsInBall.Size = new System.Drawing.Size(100, 20);
+            this.pixelsInBall.TabIndex = 1;
+            this.pixelsInBall.Leave += new System.EventHandler(this.calibChanged);
+            // 
+            // stripedPixels
+            // 
+            this.stripedPixels.Location = new System.Drawing.Point(5, 134);
+            this.stripedPixels.Name = "stripedPixels";
+            this.stripedPixels.Size = new System.Drawing.Size(100, 20);
+            this.stripedPixels.TabIndex = 0;
+            this.stripedPixels.Leave += new System.EventHandler(this.calibChanged);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.calibrateLabel);
+            this.tabPage2.Controls.Add(this.imageBoxCalib);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(747, 439);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // calibrateLabel
+            // 
+            this.calibrateLabel.AutoSize = true;
+            this.calibrateLabel.Location = new System.Drawing.Point(349, 31);
+            this.calibrateLabel.Name = "calibrateLabel";
+            this.calibrateLabel.Size = new System.Drawing.Size(35, 13);
+            this.calibrateLabel.TabIndex = 6;
+            this.calibrateLabel.Text = "label1";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Pixels In Ball";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(4, 66);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "White Thres";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 118);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Striped thres";
+            // 
+            // imageBoxCalib
+            // 
+            this.imageBoxCalib.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBoxCalib.Location = new System.Drawing.Point(3, 3);
+            this.imageBoxCalib.Name = "imageBoxCalib";
+            this.imageBoxCalib.Size = new System.Drawing.Size(741, 433);
+            this.imageBoxCalib.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBoxCalib.TabIndex = 5;
+            this.imageBoxCalib.TabStop = false;
             // 
             // Form1
             // 
@@ -252,13 +289,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -273,7 +310,7 @@
         private Emgu.CV.UI.ImageBox imageBox1;
         private Emgu.CV.UI.ImageBox imageBox2;
         private Emgu.CV.UI.ImageBox imageBox3;
-        private Emgu.CV.UI.ImageBox imageBoxCalib;
+        private PoolTrackerLibrary.ImageBoxExtended imageBoxCalib;
         private System.Windows.Forms.Label calibrateLabel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox checkBox1;
@@ -282,6 +319,9 @@
         private System.Windows.Forms.TextBox stripedPixels;
         private System.Windows.Forms.TextBox cueWhite;
         private System.Windows.Forms.TextBox pixelsInBall;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
 
     }
 }
