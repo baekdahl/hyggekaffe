@@ -48,11 +48,12 @@ namespace PoolTrackerLibrary
             MCvBox2D clothBox2 = findClothBox(imageClothID);                                //Find rotated box
             ROI = clothBoxToROI(clothBox2);                                                 //Convert box to rectangle ROI
 
+            /*
             tw = new StreamWriter("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\text.txt"); //Readout
             getTableImage(input_image).Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\calibimg.png");
             mask.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\calibmask.png");
             tw.WriteLine("Mask area:" + maskarea + "Perimeter:" + maskperimeter);
-            tw.WriteLine("");
+            tw.WriteLine(""); */
         }
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
