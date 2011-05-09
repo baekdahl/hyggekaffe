@@ -111,8 +111,8 @@ The green square (non occlusion) that lie between two red triangles (occlusions)
 
 The following mean-values have been calculated for the non occlusions:\\
 
-$\mu_{\gamma} = 0.998$\\
-$\mu_{\kappa} = 1.059$\\
+$\mu_{\gamma} = 0.99$\\
+$\mu_{\kappa} = 1.06$\\
 
 The occlusion detection is only done to determine if the balls position should be re-evaluated. Therefore it is not crucial that the detection is 100\% correct. A wrong detection will simply cause a re-evaluation of the balls position which would show no movement. Therefore it is optimal to make a "paranoid" classifier that would be more inclined to assume a occlusion than not.\\
 
@@ -124,6 +124,10 @@ or\\\\
 $\kappa_{detection} if \kappa > 1.04$.
 \end{center}
 
+%The only "paranoid" variable is the $\kappa$ variable.
+
 \subsection{Detect movement of balls:}
 After an occurred occlusion it is required to detect if movement of the balls is present. If there have been movement the balls would be found, identified and saved as one NAAAAAVN. If no movement is detected then the balls are expected to be in the same position which is already saved.\\
+
+To detect if there have been movement of the balls the position of each ball is compared to its position in the last saved NAAAVN. 
 
