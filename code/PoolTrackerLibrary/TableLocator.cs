@@ -27,6 +27,8 @@ namespace PoolTrackerLibrary
         private double maskarea;
         private int histMaxValue;
         private double maskperimeter;
+        TextWriter tw;
+        int count = 0;
 
         public TableLocator(Image<Bgr,Byte> input_image)
         {
@@ -37,7 +39,7 @@ namespace PoolTrackerLibrary
             histMaxValue = ImageUtil.histMaxValue(hist);
 
             Image<Gray, Byte> imageClothID = ImageUtil.twoSidedThreshold(hue, histMaxValue);//Set pixels close to the maximum value to 255, otherwise 0.
-            imageClothID = median(imageClothID, 21);                                        //Run median filter
+            imageClothID = median(imageClothID, 3);                                        //Run median filter
             MCvBox2D clothBox = findClothBox(imageClothID);                                 //Find bounding box of cloth
             angle = findTableAngle(clothBox);                                               //Find angle of cloth (and table).
 
@@ -45,6 +47,12 @@ namespace PoolTrackerLibrary
             imageClothID = imageClothID.Rotate(angle, new Gray(255));                       //Rotate image with cloth identified.
             MCvBox2D clothBox2 = findClothBox(imageClothID);                                //Find rotated box
             ROI = clothBoxToROI(clothBox2);                                                 //Convert box to rectangle ROI
+
+            tw = new StreamWriter("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\text.txt"); //Readout
+            getTableImage(input_image).Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\calibimg.png");
+            mask.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\calibmask.png");
+            tw.WriteLine("Mask area:" + maskarea + "Perimeter:" + maskperimeter);
+            tw.WriteLine("");
         }
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
@@ -66,7 +74,7 @@ namespace PoolTrackerLibrary
             bool occluded = false;
             double currentMaskArea = findBiggestContour(input_image);
 
-            Debug.Write(maskarea / currentMaskArea + "\n");
+            //Debug.Write(maskarea / currentMaskArea + "\n");
 
             if (currentMaskArea / maskarea <= threshold)
             {
@@ -91,12 +99,15 @@ namespace PoolTrackerLibrary
 
                 if (currentContour.Area > (image.Height * image.Width) / 2 && currentContour.Area < (image.Height * image.Width) / 1.01)  //Image.Size/2 < Contour < Image.Size/1.1
                 {
-                    clothBox = currentContour.GetMinAreaRect();                                                                          //Get minimum rectangle that fits on contour.
+                    if (maskperimeter==0)
+                    {
+                        maskperimeter = contour.Perimeter;
+                        maskarea = contour.Area;
+                    }
 
-                    maskperimeter = contour.Perimeter;
-                    maskarea = contour.Area;
                     mask = image.CopyBlank();
                     mask.Draw(contour, new Gray(255), -1);
+                    clothBox = currentContour.GetMinAreaRect();                                                                          //Get minimum rectangle that fits on contour.
                 }
             }
 
@@ -112,12 +123,18 @@ namespace PoolTrackerLibrary
 
             for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
             {
+
                 if (contour.Area > img.Width * img.Height * 0.5)
                 {
                     returnArea = contour.Area;
                     Image<Gray, Byte> imgtemp = img.CopyBlank();
                     imgtemp.Draw(contour, new Gray(255), -1);
-                    Debug.Write("Per:"+contour.Perimeter / maskperimeter + "\n");
+                    tw.WriteLine(returnArea + "  " + contour.Perimeter);
+                    image.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\" + count + "_img.png");
+                    imgtemp.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\" + count + "_mask.png");
+                    count++;
+                    tw.Flush();
+
                 }
             }
 
@@ -146,7 +163,6 @@ namespace PoolTrackerLibrary
             Debug.Write("Before:  " + angle + "\n");
 
             if (Double.IsNaN(angle)) { angle = 0; }
-            //if (180 % angle < 1) { angle = 0; }
             if (angle > 90) { angle = 180 - angle; }
 
             Debug.Write("After:   " + angle + "\n");

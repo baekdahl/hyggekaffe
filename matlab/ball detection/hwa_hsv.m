@@ -4,14 +4,11 @@ function [histogram] = hwa_hsv( Image_path, bins)
 
 [Image, map, alpha] = imread(Image_path);
 
-
-
 sizeimg = size(Image);
 width = sizeimg(2);
 height = sizeimg(1);
 
 Image = rgb2hsv(Image);
-Image = im2uint8(Image);
 
 pixel_count = 1;
 
@@ -28,11 +25,18 @@ for u=1:width,
     end
 end
 
-edges = 0:255;
+pixel_list_h(pixel_count) = 1;
+pixel_list_s(pixel_count) = 1;
+pixel_list_v(pixel_count) = 1;
 
-histogram.h = histc(pixel_list_h,edges);
-histogram.s = histc(pixel_list_s,edges);
-histogram.v = histc(pixel_list_v,edges);
+pixel_list_h(pixel_count+1) = 0;
+pixel_list_s(pixel_count+1) = 0;
+pixel_list_v(pixel_count+1) = 0;
+
+
+histogram.h = hist(pixel_list_h,bins);
+histogram.s = hist(pixel_list_s,bins);
+histogram.v = hist(pixel_list_v,bins);
 
 end
 
