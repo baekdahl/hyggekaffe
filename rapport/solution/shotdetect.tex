@@ -17,89 +17,112 @@ Occlusion perimeter factor:
 \label{eq:perimeter}
 \end{equation}
 
-The two factors in \ref{eq:area} and \ref{eq:perimeter} will be found for various interference with the cloth.
+\textbf{Test image with values and factors:}\\
+\begin{tabular}{|l|c|c|l|l|c|}
+\hline - & Image & Mask & A \& $\gamma$ & P \& $\kappa$ & Occlusion \\ 
+\hline
 
-\textbf{Without occlusions:}\\
+\multirow{2}{*}{Calibrated.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/calibimg.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/calibmask.png}} & A = 369861 &  & \multirow{2}{*}{}\\  
+& & & P = 3153 & & \\
+\hline
 
-\begin{figure}[H]
-\centering
-\subfloat[Cloth found in calibration.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/w_o_balls_}
-}
-\subfloat[Mask found in calibration.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/mask_calib}
-}\\
-\end{figure}
+\multirow{2}{*}{Empty table.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/0_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/0_mask.png}} & A = 369518 & P = 3185 & \multirow{2}{*}{}\\  
+& & & $\gamma$ = 0.9991 & $\kappa$ = 1.0099 & \\
+\hline
 
-\textbf{Balls on table:}\\
-\begin{figure}[H]
-\centering
-\subfloat[Balls on table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/w_balls}
-}
-\subfloat[Mask found with balls on table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/mask_w_balls}
-}\\
-\end{figure}
+\multirow{2}{*}{With balls.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/1_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/1_mask.png}} & A = 369852 & P = 3193 & \multirow{2}{*}{}\\ 
+& & & $\gamma$ = 1 & $\kappa$ = 1.0127 & \\
+\hline
 
-\textbf{Occluded by cue:}\\
-\begin{figure}[H]
-\centering
-\subfloat[Cue occluding table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/w_que}
-}
-\subfloat[Mask found with que occluding table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/mask_w_que}
-}\\
-\end{figure}
+\multirow{2}{*}{With person.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/2_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/2_mask.png}} & A = 334652 & P = 3866 & \multirow{2}{*}{\checkmark}\\  
+& & & $\gamma$ = 0.9048 & $\kappa$ = 1.2258 & \\
+\hline
 
-\textbf{Occluded by person:}\\
-\begin{figure}[H]
-\centering
-\subfloat[Person occluding table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/with_jesper}
-}
-\subfloat[Mask found with person occluding table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/mask_with_jesper}
-}\\
-\end{figure}
+\multirow{2}{*}{Que on table I.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/3_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/3_mask.png}} & A = 364515 & P = 4287 & \multirow{2}{*}{\checkmark}\\  
+& & & $\gamma$ = 0.9855 & $\kappa$ = 1.3594 & \\
+\hline
 
-\textbf{Occluded by chair:}\\
-\begin{figure}[H]
-\centering
-\subfloat[Chair occluding table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/with_chair}
-}
-\subfloat[Mask found with chair occluding table.]
-{
-	\includegraphics[width=0.3\textwidth]{images/occlutest/mask_w_chair}
-}\\
-\end{figure}
+\multirow{2}{*}{Que on table II.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/4_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/4_mask.png}} & A = 368846 & P = 3324 & \multirow{2}{*}{\checkmark}\\  
+& & & $\gamma$ = 0.9973 & $\kappa$ = 1.0541 & \\
+\hline
 
-\textbf{Comparison of values and factors:}
+\multirow{2}{*}{Que on table III.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/11_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/11_mask.png}} & A = 368555 & P = 3566 & \multirow{2}{*}{\checkmark}\\ 
+& & & $\gamma$ = 0.9965 & $\kappa$ = 1.1307 & \\
+\hline
 
-\begin{figure}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|}
-\hline  & Area & Perimeter & $\gamma$ & $\kappa$ \\ 
-\hline Calibration & 371002 & 3597 & - & - \\ 
-\hline Plain table & 369614 & 3212 & 0.996 & 0.89 \\
-\hline Balls & 369647 & 3080 & 0.996 & 0.85  \\ 
-\hline Cue & 364619 & 4134 & 0.983 & 1.15 \\ 
-\hline Person & 348884 & 3796 & 0.940 & 1.06 \\ 
-\hline Object & 370133 & 3092 & 0.997 & 0.86 \\ 
-\hline 
+\multirow{2}{*}{Que on table IV.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/12_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/12_mask.png}} & A = 362749 & P = 4458 & \multirow{2}{*}{\checkmark}\\ 
+& & & $\gamma$ = 0.9808 & $\kappa$ = 1.4138 & \\
+\hline
+
+\multirow{2}{*}{Chair on table.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/5_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/5_mask.png}} & A = 369881 & P = 3336 & \multirow{2}{*}{}\\  
+& & & $\gamma$ = 1 & $\kappa$ = 1.0578 & \\
+\hline
+
+\multirow{2}{*}{Shadow.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/6_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/6_mask.png}} & A = 366844 & P = 3780 & \multirow{2}{*}{}\\ 
+& & & $\gamma$ = 0.9918 & $\kappa$ = 1.1986 & \\
+\hline
+
+\multirow{2}{*}{Lighting I.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/7_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/7_mask.png}} & A = 314105 & P = 12473 & \multirow{2}{*}{}\\ 
+& & & $\gamma$ = 0.8493 & $\kappa$ = 3.9550 & \\
+\hline
+
+\multirow{2}{*}{Lighting II.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/8_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/8_mask.png}} & A = 368666 & P = 3339 & \multirow{2}{*}{}\\ 
+& & & $\gamma$ = 0.9968 & $\kappa$ = 1.0589 & \\
+\hline
+
+\multirow{2}{*}{Lighting III.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/14_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/14_mask.png}} & A = 368783 & P = 3291 & \multirow{2}{*}{}\\ 
+& & & $\gamma$ = 0.9971 & $\kappa$ = 1.0436 & \\
+\hline
+
+\multirow{2}{*}{Lighting IV.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/9_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/9_mask.png}} & A = 369481 & P = 3249 & \multirow{2}{*}{}\\ 
+& & & $\gamma$ = 0.9990 & $\kappa$ = 1.0305 & \\
+\hline
+
+\multirow{2}{*}{With ladder.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/10_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/10_mask.png}} & A = 324054 & P = 3721 & \multirow{2}{*}{\checkmark}\\ 
+& & & $\gamma$ = 0.8762 & $\kappa$ = 1.1801 & \\
+\hline
+
+\multirow{2}{*}{Triangle on table.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/13_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/13_mask.png}} & A = 364360 & P = 4243 & \multirow{2}{*}{\checkmark}\\ 
+& & & $\gamma$ = 0.9851 & $\kappa$ = 1.3456 & \\
+\hline
+
+\multirow{2}{*}{Hand on table.} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/15_img.png}} & \multirow{2}{*}{\includegraphics[scale=0.05]{../images/1/15_mask.png}} & A = 364787 & P = 3895 & \multirow{2}{*}{\checkmark}\\ 
+& & & $\gamma$ = 0.9863 & $\kappa$ = 1.2351 & \\
+\hline
+
 \end{tabular} 
+
+For the purpose of this system occlusion will be defined as foreign object that enter the scene from the edge of the image. Therefore the balls or the chair will not be defined as an occlusion. \\
+
+\textbf{Plot of factors:}\\
+The plot\ref{fig:occlusion_plot} does not contain "Shadow II" factors since the perimeter is very high compared to the normal. This is due to the light being altered too much which is not allowed if the system as written in the requirement specification\ref{sec:reqspec}.
+
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=0.7\textwidth]{images/occlusion_plot}
+\end{center}
+\caption{Occlusion plot. Red triangles are occlusions and green squares are not.}
+\label{fig:occlusion_plot}
 \end{figure}
+
+The red triangle (occlusion) that lie within the green square (non occlusion) is "Que on table II" which is occlusion by a small part of the que. \\
+The green square (non occlusion) that lie between two red triangles (occlusions) is "Shadow" where a shadow is introduced by a person. This was done while also changing the light.\\
+
+The following mean-values have been calculated for the non occlusions:\\
+
+$\mu_{\gamma} = 0.998$\\
+$\mu_{\kappa} = 1.059$\\
+
+The occlusion detection is only done to determine if the balls position should be re-evaluated. Therefore it is not crucial that the detection is 100\% correct. A wrong detection will simply cause a re-evaluation of the balls position which would show no movement. Therefore it is optimal to make a "paranoid" classifier that would be more inclined to assume a occlusion than not.\\
+
+Since an introduction of a foreign object will always make the contour area smaller and the perimeter bigger the values for a detection will be set to:
+
+\begin{center}
+$\gamma_{detection} if \gamma < 0.99$ \\
+or\\\\
+$\kappa_{detection} if \kappa > 1.04$.
+\end{center}
 
 \subsection{Detect movement of balls:}
 After an occurred occlusion it is required to detect if movement of the balls is present. If there have been movement the balls would be found, identified and saved as one NAAAAAVN. If no movement is detected then the balls are expected to be in the same position which is already saved.\\
