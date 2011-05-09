@@ -66,7 +66,7 @@ namespace PoolTrackerLibrary
             bool occluded = false;
             double currentMaskArea = findBiggestContour(input_image);
 
-            Debug.Write(maskarea / currentMaskArea + "\n");
+            Debug.Write(currentMaskArea / maskarea + "\n");
 
             if (currentMaskArea / maskarea <= threshold)
             {
