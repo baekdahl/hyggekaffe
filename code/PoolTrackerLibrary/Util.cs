@@ -36,5 +36,16 @@ namespace PoolTrackerLibrary
             }
             return maxIndex;
         }
+
+        public static int getMean(int[] array)
+        {
+            int sum = 0, count = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                count += (int)array[i];
+                sum += (int)array[i] * i;
+            }
+            return count == 0 ? 0 : sum / count;
+        }
     }
 }

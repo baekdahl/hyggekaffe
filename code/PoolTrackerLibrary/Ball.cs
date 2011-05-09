@@ -31,17 +31,40 @@ namespace PoolTrackerLibrary
 
     public class Ball
     {
-        public Image<Bgr, byte> patch;
         public Point position;
         public static int ballDia = 26;
         public BallColor color;
+        public int score;
 
-        private static int[] histBins = new int[] { 16, 16 };
-        private static RangeF[] histRanges = new RangeF[] { new RangeF(0, 180), new RangeF(0, 255) };
-        private static int SATURATION_WHITE = 100;
-        private static float stripedThreshold = .1F;
+        public static BallCalibration calibration;
 
-        private DenseHistogram hsHist;
+        private int whitePixels, blackPixels;
+        private int[] hueHist, satHist;
+        private int hueMean, satMean;
+
+        public static int BallThreshold
+        {
+            get
+            {
+                return (int)((double)Ball.NumPixels * calibration.ballFactor);
+            }
+        }
+
+        public static int WhiteThreshold
+        {
+            get
+            {
+                return (int)((double)BallThreshold * calibration.whiteFactor);
+            }
+        }
+        public static int StripedThreshold
+        {
+            get
+            {
+                return (int)((double)BallThreshold * calibration.stripedFactor);
+            }
+        }
+
 
         public static int Radius
         {
@@ -59,15 +82,71 @@ namespace PoolTrackerLibrary
             }
         }
 
-        public Ball(Image<Bgr, byte> ballPatch, Point pos)
+        public Ball(Point pos, int whitePixels, int blackPixels, int[] hueHist, int[] satHist)
         {
-            patch = ballPatch;
-            position = pos;
+            this.whitePixels = whitePixels;
+            this.blackPixels = blackPixels;
+            this.hueHist = hueHist;
+            this.satHist = satHist;
+            this.position = pos;
+
+            this.color = identifyBall();
         }
 
-        public Ball(int ballDia)
+        public BallColor identifyBall()
         {
-            //ballDia = ballDia;
+            int maxHueDist = 30;
+            hueMean = Util.getMaxIndex(hueHist);
+            satMean = Util.getMean(satHist);
+
+            int start = hueMean - maxHueDist;
+            if (start < 1) start += 180;
+
+            int stop = hueMean + maxHueDist;
+            if (stop > 179) stop -= 180;
+
+            score = 0;
+            for (int i = start; i != stop; i++)
+            {
+                if (i == 180) i = 0;
+
+                score += hueHist[i];
+            }
+
+            if (whitePixels > BallThreshold)
+            {
+                return BallColor.Cue;
+            }
+            else if (score + whitePixels > BallThreshold)
+            {
+                return calibration.ballHsv.Count != 0 ? findColor() : BallColor.Red;
+            }
+            else if (blackPixels > BallThreshold)
+            {
+                return BallColor.Black;
+            }
+            else
+            {
+                return BallColor.None;
+            }
+        }
+
+        private BallColor findColor()
+        {
+            double smallest = double.MaxValue;
+            BallColor best = BallColor.None;
+
+            foreach (BallColor ball in calibration.colorBalls)
+            {
+                double dist = ImageUtil.hsDist(new Hsv(hueMean, satMean, 0), calibration.ballHsv[ball]);
+                if (dist < smallest)
+                {
+                    smallest = dist;
+                    best = ball;
+                }
+            }
+
+            return best;
         }
 
         public Ball(Point pos, BallColor color)
@@ -113,31 +192,6 @@ namespace PoolTrackerLibrary
             ballMask.Draw(new CircleF(new PointF(Radius, Radius), Radius), new Gray(1), -1);
 
             return ballMask;
-        }
-
-        public bool isStriped()
-        {
-            float whiteRatio = (float)countColors() / (patch.Size.Width * patch.Size.Height);
-            return (whiteRatio > stripedThreshold);
-        }
-
-        private int countColors()
-        {
-            Image<Gray, byte>[] patchHsv = patch.Convert<Hsv, byte>().Split();
-            int whitePixels = 0;
-
-            for (int x = 0; x < patch.Width; x++)
-            {
-                for (int y = 0; y < patch.Height; y++)
-                {
-                    if (patchHsv[1].Data[y, x, 0] < SATURATION_WHITE)
-                    {
-                        whitePixels++;
-                    }
-                }
-            }
-            Debug.Write("White pixels: " + whitePixels);
-            return whitePixels;
         }
     }
 }

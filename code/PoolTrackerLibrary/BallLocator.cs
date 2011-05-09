@@ -38,6 +38,8 @@ namespace PoolTrackerLibrary
         public Image<Gray, byte> backProjectShow;
         private BallCalibration calibration;
 
+
+
         private byte findClothHue()
         {
             DenseHistogram hist = ImageUtil.makeHist(tableImage.Convert<Hsv, byte>()[0]);
@@ -67,6 +69,7 @@ namespace PoolTrackerLibrary
             initialMatchMask = _tableMatchMask.Copy();
 
             backgroundThreshold = findClothHue();
+
         }
 
         private Image<Bgr,byte> getBallPatch(Point position)
@@ -80,47 +83,6 @@ namespace PoolTrackerLibrary
 
             return patch;
         }
-        
-        public List<Ball> findBalls(int numberOfBalls)
-        {
-            return idBalls();
-            Stopwatch sw = Stopwatch.StartNew();
-
-            Image<Gray, float> projection = adaptiveBallDetect(tableImageSmall);
-            backProjectShow = new Image<Gray, byte>(projection.Size);
-
-            Util.writeWatch(sw, "Projtime");
-
-            bool matchHigh = ImageUtil.matchHigh(comparisonMethod);
-            List<Ball> returnList = new List<Ball>();
-            Point coordDiff = new Point(_tablePlanes[0].Size - projection.Size);
-
-            _tableMatchMask.ROI = new Rectangle(coordDiff.X / 2, coordDiff.Y / 2, projection.Width, projection.Height);
-
-            sw = Stopwatch.StartNew();
-            for (int i = 0; i < numberOfBalls; i++)
-            {
-
-                KeyValuePair<Point, float> extremum = ImageUtil.findExtremum(projection, _tableMatchMask, !ImageUtil.matchHigh(templateMatchType));
-                if (extremum.Value < locateThreshold)
-                {
-                    break;
-                }
-                //Debug.Write("Ball " + i + ": " + extremum.Value);
-
-                Point ballInTableCoords = new Point(extremum.Key.X + coordDiff.X / 2, extremum.Key.Y + coordDiff.Y / 2);
-
-                ballInTableCoords.X = (int)((double)ballInTableCoords.X / resizeFactor);
-                ballInTableCoords.Y = (int)((double)ballInTableCoords.Y / resizeFactor);
-
-                returnList.Add(new Ball(getBallPatch(ballInTableCoords), ballInTableCoords));
-
-                _tableMatchMask.Draw(new CircleF(extremum.Key, ballDiaResized), new Gray(0), -1);
-            }
-            Util.writeWatch(sw, "BallLocate");
-
-            return returnList;
-        }
 
         public List<Ball> idBalls()
         {
@@ -131,19 +93,15 @@ namespace PoolTrackerLibrary
             Image<Gray, byte> patchMask = Ball.getMask();
             int totalPixels = patchMask.CountNonzero()[0];
 
-            int ballThreshold = (int)(calibration.ballFactor * totalPixels);
-            int whiteThreshold = (int)(calibration.whiteFactor * ballThreshold);
-            int stripedThreshold = (int)(calibration.stripedFactor * ballThreshold);
-
             Rectangle roi = new Rectangle(0, 0, patchMask.Width, patchMask.Height);
 
-            byte backgroundLowThreshold = (byte) (backgroundThreshold - 5);
-            byte backgroundHighThreshold = (byte) (backgroundThreshold + 5);
+            byte backgroundLowThreshold = (byte) (backgroundThreshold - 10);
+            byte backgroundHighThreshold = (byte) (backgroundThreshold + 10);
 
             int[] maxScore = new int[16];
             Point[] maxPosition = new Point[16];
 
-            
+            LinkedList<Ball> candidates = new LinkedList<Ball>(); 
 
             int patchHalf = (patchMask.Width - 1) / 2;
 
@@ -153,12 +111,12 @@ namespace PoolTrackerLibrary
                 {
                     if (_tableMatchMask.Data[y, x, 0] == 1)
                     {
-                        int whitePixels = 0;
+                        int whitePixels = 0, blackPixels = 0;
                         int[] pixels = new int[16];
-                        int satSum = 0;
+                        int[] hueHist = new int[180], satHist = new int[256];
 
                         int maskY = 0;
-                        for (int patchY = y-patchHalf; patchY < y+patchHalf; patchY++)
+                        for (int patchY = y - patchHalf; patchY < y + patchHalf; patchY++)
                         {
                             int maskX = 0;
                             for (int patchX = x - patchHalf; patchX < x + patchHalf; patchX++)
@@ -169,35 +127,22 @@ namespace PoolTrackerLibrary
                                     byte saturation = planes[1].Data[patchY, patchX, 0];
                                     byte value = planes[2].Data[patchY, patchX, 0];
 
-                                    if (hue > backgroundLowThreshold && hue < backgroundHighThreshold) {
-                                        continue;
-                                    }
-                                    else if (value < calibration.valBlack)
+                                    if (hue > backgroundLowThreshold && hue < backgroundHighThreshold)
                                     {
-                                        pixels[(int)BallColor.Black]++;
+                                        continue;
                                     }
                                     else if (saturation < calibration.satWhite)
                                     {
                                         whitePixels++;
                                     }
-                                    else if (hue < calibration.hueRedLow || hue > calibration.hueRedHigh)
+                                    else if (value < calibration.valBlack)
                                     {
-                                        pixels[(int)BallColor.Red]++;
-                                        satSum += saturation;
-                                      
-                                        
-                                    }
-                                    else if (hue < calibration.hueYellow)
-                                    {
-                                        pixels[(int)BallColor.Yellow]++;
-                                    }
-                                    else if (hue < calibration.hueGreen)
-                                    {
-                                        pixels[(int)BallColor.Green]++;
+                                        blackPixels++;
                                     }
                                     else
                                     {
-                                        pixels[(int)BallColor.Blue]++;
+                                        hueHist[hue]++;
+                                        satHist[saturation]++;
                                     }
                                 }
                                 maskX++;
@@ -205,44 +150,23 @@ namespace PoolTrackerLibrary
                             maskY++;
                         }
 
-                        int primaryIndex = Util.getMaxIndex(pixels);
-                        int ballScore = pixels[primaryIndex];
+                        Ball ball = new Ball(new Point(x, y), whitePixels, blackPixels, hueHist, satHist);
 
-                        if (ballScore + whitePixels > ballThreshold) // It is a ball
+                        if (ball.color != BallColor.None)
                         {
-                            if (primaryIndex == (int)BallColor.Red)
+                            LinkedListNode<Ball> node = candidates.First;
+                            while (node != null && ball.score < node.Value.score) //Search list until we find a ball with smaller score or we reach the end of list
                             {
-                                int satMean = satSum / pixels[(int)BallColor.Red];
-                                if (satMean < calibration.satOrange)
-                                      {
-                                          primaryIndex = (int)BallColor.Orange;
-                                      }
-                                else if (satMean < calibration.satBrown)
-                                      {
-                                          primaryIndex = (int)BallColor.Brown;
-                                      }
-                                      else
-                                      {
-                                          primaryIndex = (int)BallColor.Red;
-                                      }
+                                node = node.Next;
                             }
                             
-                            if (primaryIndex != 8 && whitePixels > stripedThreshold) // It is at least striped
+                            if (node != null)
                             {
-                                if (whitePixels > whiteThreshold) {
-                                    primaryIndex = (int)BallColor.Cue;
-                                    ballScore = whitePixels;
-                                } else {
-                                    primaryIndex += 8; //Results in striped
-                                    ballScore += whitePixels;
-                                }
+                                candidates.AddBefore(node, ball);
                             }
-
-                            if (ballScore > maxScore[primaryIndex])
+                            else //We reached the end of the list. Add the ball there
                             {
-                                maxScore[primaryIndex] = ballScore;
-                                maxPosition[primaryIndex].X = x;
-                                maxPosition[primaryIndex].Y = y;
+                                candidates.AddLast(ball);
                             }
                         }
                     }
@@ -251,11 +175,17 @@ namespace PoolTrackerLibrary
 
             List<Ball> list = new List<Ball>();
 
-            for (int i = 0; i < maxPosition.Length; i++)
+            for (LinkedListNode<Ball> node = candidates.First; node != null; node = node.Next)
             {
-                if (maxScore[i] > 0)
+                Point pos = node.Value.position;
+                if (_tableMatchMask.Data[pos.Y, pos.X, 0] == 1)
                 {
-                    list.Add(new Ball(maxPosition[i], (BallColor)i));
+                    list.Add(node.Value);
+                    if (list.Count == 16)
+                    {
+                        break;
+                    }
+                    _tableMatchMask.Draw(new CircleF(pos, ballDiaResized), new Gray(0), -1);
                 }
             }
 
@@ -316,5 +246,7 @@ namespace PoolTrackerLibrary
 
             return img_out;
         }
+
+        
     }
 }

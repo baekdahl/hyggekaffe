@@ -34,7 +34,9 @@ namespace PoolTracker
         {
 
             BallLocator locator = new BallLocator(cameraImage, calibration, tableLocator.mask);
-            List<Ball> balls = locator.findBalls(16);
+            Ball.calibration = calibration; //HACK!
+
+            List<Ball> balls = locator.idBalls();
 
             imageBoxTable.Image = cameraImage;
             imageBox2.Image = tableLocator.mask;
@@ -93,7 +95,14 @@ namespace PoolTracker
 
         private void runOffline()
         {
-            cameraImage = new Image<Bgr, byte>("tables/fracam.jpg");
+            cameraImage = new Image<Bgr, byte>("tables/god.jpg");
+            if (tableLocator == null)
+            {
+                tableLocator = new TableLocator(cameraImage);
+            }
+
+            cameraImage = tableLocator.getTableImage(cameraImage);
+
             locateBalls();
         }
 
@@ -106,7 +115,8 @@ namespace PoolTracker
         private void runButton_Click(object sender, EventArgs e)
         {
             runButton.Enabled = false;
-            runFrame();
+            //runFrame();
+            runOffline();
             runButton.Enabled = true;
         }
 

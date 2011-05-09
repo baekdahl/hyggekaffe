@@ -18,15 +18,27 @@
 	*Finding and identifying balls (somewhat tracking).
 		Introduction
 			Not using video vs. only images
-			Identifying straight away vs. detect first and id after
-			
+			Identifying straight away vs. detect first and id after			
 			Problem of lighting conditions
+		
 		-Locating balls
+			-Solution ideas:
+				blob analysis
+				background cross corellation
+				template matching(as used by others?)
+				
+				
 			Balls in close proximity
 			Background changing color - ball shadows
 			Background not avaliable because other balls i close proximity
-						
+			Balls on close proximity íntroduces multivariate
+			
 		-Identifying balls
+			Identifiablity in different color spaces vs. light conditions
+			Hue space problems
+			Striped / solid
+			Counting good pixels
+				White and one color(bimodal)
 			ID by colors, shape is equal
 			Problem of balls of same color
 			Different ways the ball can face - different amount of color visible

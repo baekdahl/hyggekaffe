@@ -250,6 +250,13 @@ namespace PoolTrackerLibrary
 
            return returnImg;
        }
-  
+
+       public static double hsDist(Hsv hsv1, Hsv hsv2)
+       {
+           double hueDiff = Math.Abs(hsv1.Hue - hsv2.Hue);
+           double hueDist = Math.Min(hueDiff, 180 - hueDiff);
+           
+           return Math.Sqrt(Math.Pow(hueDist, 2) + Math.Pow(hsv1.Satuation - hsv2.Satuation, 2));
+       }
     }
 }
