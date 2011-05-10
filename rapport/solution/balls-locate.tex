@@ -22,13 +22,13 @@ P(ball) = \frac{primary + white}{total}
 \end{equation}
 By finding the non-overlapping positions in the image that maximizes this ratio the balls can be found. Balls are detected at the highest scoring position that does not already contain a ball. The system continues to detect balls until 16 balls are found or the score goes below a threshold. This threshold is set as a ratio of the total pixels in a ball.
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics{images/ballfind.pdf}
-\caption{The probability of a ball is evaluated in the image.}
-\label{fig:ballfind}
-\end{center}
-\end{figure}
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics{images/ballfind.pdf}
+%\caption{The probability of a ball is evaluated in the image.}
+%\label{fig:ballfind}
+%\end{center}
+%\end{figure}
 Figure \ref{fig:ballfind} shows the used evaluation method. A circular mask is placed in every position found by the preliminary segmentation. Inside the mask an HSV color histogram is computed. All pixels that have a hue value close to the background hue are ignored. The rest of the pixels are sorted into three categories: white pixels, black pixels and primary color. Pixels that have a saturation below a certain value are considered to be white\fixme{Explain?}. Pixels with a value below a threshold are considered to be black. To make the system as color independant as possible, value is only used to indentify black pixels. This is because the black color is insignifficant in hue-saturation space.
 
 If the evaluated position contains a ball, the color distribution in the non-black-or-white pixels should narrowly distributed around a mean that represents the ball color. If the position is between two or more balls the distribution will be multimodal and the variance higher. The pixels that are within a certain deviation of the mean hue and saturation are counted, resulting in a count of the number of primary colored pixels in the ball. A ball position will have a high number of pixels that are close to the mean, resulting in a high primary color count. If the number of black pixels are higher than the primary color count, the primary color is set to black.
