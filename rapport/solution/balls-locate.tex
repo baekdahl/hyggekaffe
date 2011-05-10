@@ -16,7 +16,7 @@ To decrease the ROI from the cloth area down to areas of the table that contains
 \end{figure}
 Figure \ref{fig:thres1} shows the result of the color threshold. In a situation like this where the balls are laying close to each other, the preliminary segmentation is not enough to successfully separate the balls. Balls in close proximity results in connected BLOBs after the threshold. These BLOBs could be separated using morphology operations but most of the information would be lost, causing the locations to lack precision. Instead of using the BLOBS directly, they are used as search regions for the balls.
 
-\subsubsection{Ball detection}
+\subsubsection{Ball features}
 To be able to detect balls in the image, we need to know the features that characterizes a ball. The following description can be formulated:
 \begin{itemize}
 \item The shape of the ball is always a circle of fixed size
@@ -33,11 +33,19 @@ If we ignore the black pixels for all balls except for the black(8), the balls o
 \begin{equation}
 P(ball) = \frac{primary + white}{total}
 \end{equation}
-By finding the non-overlapping positions in the image that maximizes this ratio the balls can be found. Balls are detected at the highest scoring position that does not already contain a ball. The system continues to detect balls until 16 balls are found or the score goes below a threshold. This threshold is set as a ratio of the total pixels in a ball.
+\subsubsection{Detection method}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{images/ballflowchart.pdf}
+\caption{Flowchart of the ball detection process.}
+\label{fig:ballflowchart}
+\end{center}
+\end{figure}
+By finding the non-overlapping positions in the image that maximizes this ratio the balls can be found. Balls are detected at the highest scoring position that does not already contain a ball. The system continues to detect balls until 16 balls are found or the score goes below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{images/ballfind.pdf}
+\includegraphics[width=0.8\textwidth]{images/ballfind.pdf}
 \caption{The probability of a ball is evaluated in the image.}
 \label{fig:ballfind}
 \end{center}
@@ -47,12 +55,25 @@ Figure \ref{fig:ballfind} shows the used evaluation method. A circular mask is p
 If the evaluated position contains a ball, the color distribution in the non-black-or-white pixels is expected to be narrowly distributed around the mean of the ball color. If the position is between two or more balls the distribution will be multimodal and the variance higher. The pixels that are within a certain deviation of the mean hue and saturation are counted, resulting in a count of the number of primary colored pixels in the ball. A ball position will have a high number of pixels that are close to the mean, resulting in a high primary color count. If the number of black pixels are higher than the primary color count, the primary color is set to black.
 \fixme{Figure showing different distributions and their resulting ball probability}
 
-As mentioned before, the ball score is computed as the sum of the primary and white pixels. If the score is above the threshold, the ball is saved in a list. When all the positions in the image has been searched, the system iterates through the list to get the final ball positions. The position and the area around  a ballwithin one ball radius is marked as matched. The next ball can then not be found any closer than one radius from the previous matches. A problem arises if a wrong match is found which intersects a not matched ball. It will then be impossible to find a new match in the region of the earlier wrong match.
+As mentioned before, the ball score is computed as the sum of the primary and white pixels. If the score is above the threshold, the ball is saved in a list. When all the positions in the image has been searched, the system iterates through the list to get the final ball positions. The position and the area around  a ball within one ball radius is marked as matched. The next ball can then not be found any closer than one radius from the previous matches. A problem arises if a wrong match is found which intersects a not matched ball. It will then be impossible to find a new match in the region of the earlier wrong match.
 Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match prevents several balls from being matched, and other balls from matching precisely.
 \begin{figure}[h]
 \begin{center}
 \includegraphics{images/wronglocate.jpg}
-\caption{Consequence of wrong location match. Red circles are ball matches}
+\caption{Consequence of wrong location detection. Red circles are ball detected balls}
 \label{fig:wronglocate}
 \end{center}
 \end{figure}
+
+\subsubsection{Detection results}
+Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
+
+\begin{figure}[h]
+  \centering
+  \subfloat[No clutter]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/detect2.jpg}}
+  \quad           
+  \subfloat[Clutter]{\label{fig:tiger}\includegraphics[width=0.48\textwidth]{images/detect1.jpg}}
+   \caption{Results of ball detection. Red circles indicate detected ball positions.}
+  \label{fig:detect}
+\end{figure}
+
