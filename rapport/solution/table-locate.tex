@@ -1,11 +1,9 @@
-There are many methods that could be used to find the ROI. The key is to find a robust one that will also not be too computationally heavy. Besides finding the ROI, the angle of the table compared to the image must also be found. This will be used to rotate the input stream from the camera to 0\degree and later crop it to the ROI. The mask of the cloth will also be found for use in other parts of the system.\\
-
-\subsubsection{Solutions ideas:}
+\subsection{Solutions ideas:}
 
 \begin{itemize}
 \setlength{\itemsep}{0mm}
 	\item Choose the ROI with user-input.
-	\item Search for the table as a big rectangle.
+	\item Search for the table as the biggest contour.
 	\item Searching for the pockets on the pool table.
 	\item Finding the diamonds and using these to determine the ROI.
 	\item Finding the most common colour (the cloth) and then find the outer points of the cloth.
@@ -14,8 +12,8 @@ There are many methods that could be used to find the ROI. The key is to find a 
 \textbf{Choose the ROI with user-input:}\\
 This method would not require any image processing, but would require the user to set the ROI. This solution could be used if the chosen solution does not return a ROI due to difficult illumination or errors.
 
-\textbf{Search for the table as a big rectangle:}\\
-The method was tried and gave mixed results. It was possible to segment the table using adaptive threshold and thereafter process it with OpenCV\ref{opencv} contour finding algorithm. This would find the outside of the table, but sometimes also the floor or anything underlying the table that was a bigger rectangle.\\
+\textbf{Search for the table as the biggest contour:}\\
+The method was tried and gave mixed results. It was possible to segment the table using adaptive threshold and thereafter process it with OpenCV \cite{opencv} contour finding algorithm. This would find the outside of the table, but sometimes also the floor or anything underlying the table that was a bigger rectangle.\\
 
 \textbf{Searching for the pockets on the pool table:}\\
 This proved to be easy to do by using the value part of the image in HSV colour space. Since the pockets are less illuminated than the rest of the table this should have a very low value. An example of this can be seen in\ref{fig:value_thres}. 
@@ -36,28 +34,28 @@ Much time was used with this approach. The idea was to find the diamonds and the
 
 Some progress was made, but eventually this method was abandoned due to the fact that many of the pool tables, including the one where pictures for this  project was taken, did not follow these regulations. The idea was also to use the distance between diamonds to determine the exact size of a ball. Another approach for this will have to be used.\\
 
-\subsubsection{Chosen solution:}
+\subsection{Chosen solution:}
 
 \textbf{Finding the most common colour (the cloth) and then find the outer points of the cloth.}\\
 This solution showed to be the most robust since the cloth will take up at least 50\% and probably more of the entire image. This makes it a prime candidate for detecting. Also even in the odd coincidence where the colour of the floor and cloth are alike, the rails of the table will separate these and thereby still make it possible to detect the cloth.\\
 
 As written in the pool table regulations \ref{sec:rules} the table has to be one of three colours: yellow-green, blue-green or electric blue. Different from the last method this seems to be the case for every pool table. That they have a solid colour which stands out.\\
 
-This fact will be used as part of the solution for this problem. As shown on histograms in \ref{sec:analysisballstable} the hue part of the HSV colour space will to be good for separating the cloth from the rails and surroundings. Hue also has the useful property of being somewhat indifferent to the lightning which will make it more robust for this solution.\\
+This fact will be used as part of the solution for this problem. As shown on histograms in \ref{sec:analysisballstable} the hue part of the HSV colour space will to be good for separating the cloth from the rails and surroundings. Hue also has the useful property of, in theory, indifferent to illumination which should make it more robust for this solution. A flowchart of the solution can be seen in \ref{fig:tabledetect_flowchart}
 
 %INDSÆT HISTOGRAM m. HUE over de fire forskellige billeder.
 
-The solution consists of the following steps:
-\begin{enumerate}
-\setlength{\itemsep}{0mm}
-	\item Convert the input image to HSV and make a new image for the hue.
-	\item Make a histogram of the value in the hue image.
-	\item Identify the pixels close to the maximum value of the hue histogram.
-	\item Remove noise by using a median filter.
-	\item Find the bounding box of the cloth and make a binary mask.
-	\item Find the angle of the cloth (and thereby table).
-	\item Output the ROI, angle and mask.
-\end{enumerate}
+%The solution consists of the following steps:
+%\begin{enumerate}
+%\setlength{\itemsep}{0mm}
+%	\item Convert the input image to HSV and make a new image for the hue.
+%	\item Make a histogram of the value in the hue image.
+%	\item Identify the pixels close to the maximum value of the hue histogram.
+%	\item Remove noise by using a median filter.
+%	\item Find the bounding box of the cloth and make a binary mask.
+%	\item Find the angle of the cloth (and thereby table).
+%	\item Output the ROI, angle and mask.
+%\end{enumerate}
 
 \begin{figure}[H]
 \begin{center}
@@ -78,7 +76,7 @@ Using the class DenseHistogram in OpenCV\cite{opencv} the histogram is computed 
 \textbf{3) Identify the pixels close to the maximum value of the hue histogram.}\\
 After finding the bin with the maximum value an iteration of the whole image is done to identify pixels close to the maximum value. The pixels that lie close are set to 255 (white) and the others are set as 0 (black). A threshold of $\pm$ 20 is set based on different tries. Since the illumination of the cloth is not exactly the same this value have to be higher than first expected.\\
 
-The image after the cloth identification can be seen in\ref{fig:aftercloth}.
+The image after the cloth identification can be seen in \ref{fig:aftercloth}.
 
 \begin{figure}[H]
 \begin{center}
@@ -102,7 +100,7 @@ To remove noise from the image a median filter will be used. This allows the con
 \end{figure}
 
 \textbf{5) Find the bounding box of the cloth and make a binary mask:}\\
-The cloth now appears as the biggest BLOB in the image. To find the bounding box of the cloth OpenCVs\ref{fig:opencv} FindContours function is used. It uses the metod Suzuki85 developed by S. Suzuki and K. Abe\cite{contour}. The function will be used on the image with certain fixed parameters as seen in the code here:
+The cloth now appears as the biggest BLOB in the image. To find the bounding box of the cloth OpenCVs \cite{opencv} FindContours function is used. It uses the metod Suzuki85 developed by S. Suzuki and K. Abe \cite{contour}. The function will be used on the image with certain fixed parameters as seen in the code here:
 
 \begin{lstlisting}
  private MCvBox2D findClothBox(Image<Gray, Byte> image)
