@@ -1,4 +1,4 @@
-Since the goal is to identify where each balls is between every shot an approach for detecting changes on the table have to be made. These changes should be changes in ball positions and not if a hand or a que is present in the image.\\
+Since the goal is to identify where each ball is between every shot an approach for detecting changes on the table have to be made. These changes should be changes in ball positions and not if a hand or a que is present in the image. Therefore a method for detecting if the table is occluded and a method for detecting ball movement has to be made.\\
 
 \subsection{Detect occlusions:}
 The first step is to detect weather or not parts of the table is occluded or not. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the table is detected to be occluded then there will be no detection of balls before the table is no longer occluded. This will bring down faulty detections caused by cue or foreign objects.\\
@@ -7,13 +7,13 @@ When the table is detected\ref{sec:table-locate}, a mask for the cloth is made. 
 
 Occlusion area factor:
 \begin{equation}
-\gamma = \frac{Area_{current mask}}{Area_{calibrated mask}}
+\gamma = \frac{A_{current}}{A_{calibrated}}
 \label{eq:area}
 \end{equation}
 
 Occlusion perimeter factor:
 \begin{equation}
-\kappa = \frac{Perimeter_{current mask}}{Perimeter_{calibrated mask}}
+\kappa = \frac{P_{current}}{P_{calibrated}}
 \label{eq:perimeter}
 \end{equation}
 
@@ -108,7 +108,7 @@ The plot\ref{fig:occlusion_plot} does not contain "Shadow II" factors since the 
 
 The red triangle (occlusion) that lie within the green square (non occlusion) is "Que on table II" which is occlusion by a small part of the que.\\
 
-The green square (non occlusion) that lie between two red triangles (occlusions) is "Shadow" where a shadow is introduced by a person. This was done while also changing the light. The area factor is very close to normal, but the perimeter is not due to significant light changes underneath the left cushion.\\
+The green square (non occlusion) that lie between two red diamonds (occlusions) is "Shadow" where a shadow is introduced by a person. This was done while also changing the light. The area factor is very close to normal, but the perimeter is not due to significant light changes underneath the left cushion.\\
 
 The following mean-values have been calculated for the non occlusions:\\
 
