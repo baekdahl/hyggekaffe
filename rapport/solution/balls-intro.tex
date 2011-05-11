@@ -22,4 +22,7 @@ The uniform color of the table cloth can be utilized to apply a threshold to the
 
 As will be mentioned later in this section, the idea of using this kind of segmentation to reduce the ROI is not a bad idea, but using the pixels in a BLOB can cause problems if all ball pixels are not included, or pixels that does not belong to the BLOB are included. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
 
-\subsubsection{Ball probability estimation}
+\subsubsection{Chosen Solution: Ball probability estimation}
+A pool ball consists of one primary color and white. By counting the number of pixels inside a circular area which satisfies this, a ball probability can be estimated. The positions in the image having the highest probabilities are considered ball locations and can be passed on to the identifier.
+
+The identification process can be seperated into two steps: determining if the ball is solid or striped and determining the color of the ball. The ball is considered striped if the ratio between white and colored pixels are above a certain level.
