@@ -1,7 +1,12 @@
 1) Introduction stortion and settings)
 			Track while moving
 			Obey rules
-			With difficult light conditions	
+			With difficult light conditions
+			
+Ball Analysis
+	Identifiablity in different color spaces vs. light conditions
+	Hue space problems
+	Striped / solid
 
 3) Solution 
 
@@ -34,9 +39,6 @@
 			Balls on close proximity íntroduces multivariate
 			
 		-Identifying balls
-			Identifiablity in different color spaces vs. light conditions
-			Hue space problems
-			Striped / solid
 			Counting good pixels
 				White and one color(bimodal)
 			ID by colors, shape is equal
