@@ -1,7 +1,30 @@
-Small introduction.\\
+As expressed in section \ref{sec:reqspec} a working prototype will be constructed. It will consist of a GUI (graphical user interface) which will guide the user through the system.\\
 
-\subsection{Program run flow}
-The goal is to record a game of pool between every shots. To do this automatic, the program will have to know when a shot has been made and when to stop recording. The program flowchart can be seen in \ref{fig:program_flowchart}.\\
+When the system is installed and the program is used for the first time, it will prompt the user to calibrate. The calibration will consist of finding the table and having the user to identify the balls with mouse clicks. The calibration will only be done once. When the system is calibrated the program will load the calibration configurations every time it starts. Re-calibration will have to be done if the camera or table changes position or if the balls are exchanged.\\
+
+For normal use the system will have the options of recording pool games and viewing previously played games. The recording will consist of the position of each ball for every change in the game. Every change is defined as a state. A game change is defined as:\\ 
+\begin{itemize}
+	\item The positions of the balls have changed.
+	\item When the number of balls have changed.
+\end{itemize}
+
+\subsection{Program flow}
+The goal is to record a the positions of the balls between every game change and save this as a state. To do this automatically, the program will have to know when new state has occurred and when the game is finished. The system will check for new states when the following condition been fulfilled:
+
+\begin{itemize}
+	\item  A foreign object (que, hand etc.) has been introduced onto the cloth of the pool table and afterwards removed.
+\end{itemize}
+
+The system will save a new state if the following condition is fulfilled:
+
+\begin{itemize}
+	\item If ball positions or number of balls have changed.
+\end{itemize}
+
+These conditions are based on the knowledge that a human interaction with the game will introduce a foreign object on the cloth.  An introduction of a foreign object does not necessarily conclude a changed positions or number, therefore the positions will have to be re-evaluated from the last positions.
+
+
+The program flowchart can be seen in \ref{fig:program_flowchart}.\\
 
 \begin{figure}[H]
 \begin{center}
@@ -12,7 +35,7 @@ The goal is to record a game of pool between every shots. To do this automatic, 
 \label{fig:program_flowchart}
 \end{figure}
 
-The game will start when the user decides to do so. The detection of occlusions will be explained in \ref{sec:shotdetection}. The movement of balls will be detected in\ref{sec:shotdetection} based on the balls positions which will be found in \ref{sec:balls-locate}.
+The game will start when the user decides to do so. The detection of human interaction will be explained in section \ref{sec:shotdetection}. The movement of balls will be explained in section in\ref{sec:shotdetection} based on the balls positions which will be found in section \ref{sec:balls-locate}.
 
 \subsection{Calibration flow}
 The calibration have to be done every time the camera changes position or when the system is installed for the first time. The calibration is done to locate table and to train the system with the colors of the balls. The calibration flowchart can be seen in \ref{fig:calib_flowchart}.\\
@@ -26,19 +49,6 @@ The calibration have to be done every time the camera changes position or when t
 \label{fig:program_flowchart}
 \end{figure}
 
-Table location is explained in \ref{sec:table-locate}. The calibration of balls is explained in\ref{sec:ASKLDALD}.
+Table location is explained in \ref{sec:table-locate}. The calibration of balls is explained in\ref{sec:identify-balls}.
 
-\subsection{Code implementation}
-The system is written in C\# using Microsoft Visual Studio 10. Since OpenCV\cite{opencv} is not compatible with C\# natively we use Emgu\cite{emgu} which is a wrapper for OpenCV to use in C\#. 
-
-The design of the system has been done using UML diagrams. UML makes it easier knowing which parts communicated with other parts, their included methods and properties. The UML diagram for the PoolTracker can be seen in \ref{fig:uml}.
-
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=0.8\textwidth]{images/UML}
-\end{center}
-\caption{UML diagram of PoolTracker.}
-\label{fig:uml}
-\end{figure}
 
