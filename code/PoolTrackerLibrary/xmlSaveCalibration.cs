@@ -15,17 +15,18 @@ namespace PoolTrackerLibrary
 {
     class xmlSaveCalibration
     {
-        string filename = "config.xml";
-
-        public static void saveMask(Image<Gray, Byte> mask)
+    
+        public string filename = "config.xml";
+        XmlDocument configXml = new XmlDocument();
+                
+    public void saveMask(Image<Gray, Byte> mask)
         {
-            if(File.Exists(filename)) {
-
+            if(File.Exists(filename)) 
+            {
+                configXml.Load(filename);
 
             }
-
-
-        }
+    }
 
 
 
