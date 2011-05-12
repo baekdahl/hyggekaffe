@@ -145,7 +145,7 @@ int main()
 	CvFont font;
 	CvPoint ballLocation;
 	
-	cvInitFont(&font, CV_FONT_HERSHEY_PLAIN, 2.0f, 2.0f, 1.0f, 2);
+	cvInitFont(&font, CV_FONT_HERSHEY_PLAIN, 1.0f, 1.0f, 1.0f, 1.5f);
 	
 	cvNamedWindow( "Table", 0);
 	cvNamedWindow( "Back Projection",0);
@@ -176,8 +176,10 @@ int main()
 			//Display the matched balls on original image
 			ballLocation.x += (patchx/2)+1;
 			ballLocation.y += patchy/2+1;
-			cvCircle(table, ballLocation, 14, cvScalar(0,0,255), 2);
-			cvPutText(table, intToStr(ballNum).c_str(), ballLocation, &font, cvScalar(0,0,255));
+			cvCircle(table, ballLocation, 14, cvScalar(255,255,255), 2);
+			ballLocation.x += 2;
+			ballLocation.y += 2;
+			cvPutText(table, intToStr(ballNum).c_str(), ballLocation, &font, cvScalar(255,255,255));
 			cvShowImage("Table", table);
 			
 			

@@ -61,9 +61,9 @@ namespace PoolTracker
             Rectangle boundingRect = new Rectangle(center.X-radius, center.Y-radius, BallLocator.ballDia, BallLocator.ballDia); 
             Graphics graphics = Graphics.FromImage(bitmap);
             //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
-            Pen myPen = new Pen(Color.Red, 3);
+            Pen myPen = new Pen(Color.White, 3);
             graphics.DrawEllipse(myPen, boundingRect);
-            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
+            //graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
             //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
@@ -109,7 +109,8 @@ namespace PoolTracker
         private void Form1_Shown(object sender, EventArgs e)
         {
             //startCapture();
-            startCapture("../../video/betterSat/Video 2.wmv");
+            //startCapture("../../video/betterSat/Video 3.wmv");
+            startCapture("../../video/Video 3.wmv");
         }
 
         private void runButton_Click(object sender, EventArgs e)

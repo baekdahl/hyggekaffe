@@ -101,10 +101,10 @@ namespace PoolTrackerLibrary
             satMean = Util.getMean(satHist);
 
             int start = hueMean - maxHueDist;
-            if (start < 1) start += 180;
+            if (start < 1) start += 179;
 
             int stop = hueMean + maxHueDist;
-            if (stop > 179) stop -= 180;
+            if (stop > 179) stop -= 179;
 
             score = 0;
             for (int i = start; i != stop; i++)
@@ -117,18 +117,19 @@ namespace PoolTrackerLibrary
             if (whitePixels > WhiteThreshold)
             {
                 score = whitePixels;
-                return BallColor.Cue; 
+                return BallColor.Red; 
             }
             else if (blackPixels > BallThreshold)
             {
                 score = blackPixels;
-                return BallColor.Black;
+                return BallColor.Red;
                 
             }
             else if (score + whitePixels > BallThreshold)
             {
                 score = score + whitePixels;
-                BallColor color = calibration.ballHsv.Count != 0 ? findColor() : BallColor.Red;
+                return BallColor.Red;
+                //BallColor color = calibration.ballHsv.Count != 0 ? findColor() : BallColor.Red;
 
                 if (whitePixels > StripedThreshold)
                 {
