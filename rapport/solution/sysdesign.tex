@@ -1,28 +1,27 @@
-As expressed in section \ref{sec:reqspec} a working prototype will be constructed. It will consist of a GUI (graphical user interface) which will guide the user through the system.\\
+As mentioned in section \ref{sec:reqspec}, it is the goal of this project to construct a working prototype. It will include a GUI (graphical user interface) which will guide the user through the system.\\
 
-When the system is installed and the program is used for the first time, it will prompt the user to calibrate. The calibration will consist of finding the table and having the user to identify the balls with mouse clicks. The calibration will only be done once. When the system is calibrated the program will load the calibration configurations every time it starts. Re-calibration will have to be done if the camera or table changes position or if the balls are exchanged.\\
+When the system is installed and the program is run for the first time, it will prompt the user to calibrate. The calibration will consist of finding the table and having the user to identify the balls with mouse clicks. The calibration will only be done once. When the system is calibrated the program will load the calibration configurations every time it starts. Re-calibration will have to be done if the camera or table changes position or if the system is installed in a place where the balls have different colors.\\
 
-For normal use the system will have the options of recording pool games and viewing previously played games. The recording will consist of the position of each ball for every change in the game. Every change is defined as a state. A game change is defined as:\\ 
+For normal use the system will have the options of recording pool games and viewing previously recorded games. The recording will consist of the position of each ball for every change in the game state. The game state is considered to have changed if one of the following occurs:\\ 
 \begin{itemize}
 	\item The positions of the balls have changed.
 	\item When the number of balls have changed.
 \end{itemize}
 
 \subsection{Program flow}
-The goal is to record a the positions of the balls between every game change and save this as a state. To do this automatically, the program will have to know when new state has occurred and when the game is finished. The system will check for new states when the following condition been fulfilled:
-
+The goal is to record the positions of the balls between every change in the game and save this as a state. To do this automatically, the program will have to know when the state has changed and when the game is finished. A state change will only occur when players interact with the table, i.e. they either strike a ball using a cue or move balls manually. Because of this, checking for state changes only has to be done when human interaction has been detected. We define human interaction as the following event:
 \begin{itemize}
 	\item  A foreign object (que, hand etc.) has been introduced onto the cloth of the pool table and afterwards removed.
 \end{itemize}
 
-The system will save a new state if the following condition is fulfilled:
+The system will save a new state if one of the following conditions is fulfilled:
 
 \begin{itemize}
-	\item If ball positions or number of balls have changed.
+	\item The number of balls has changed
+	\item The position of one or more balls has changed
 \end{itemize}
 
-These conditions are based on the knowledge that a human interaction with the game will introduce a foreign object on the cloth.  An introduction of a foreign object does not necessarily conclude a changed positions or number, therefore the positions will have to be re-evaluated from the last positions.
-
+These conditions are based on the knowledge that human interaction will introduce a foreign object on the cloth.  An introduction of a foreign object does not necessarily conclude a change in the game state, therefore the newly sampled game state will be compared to the latest saved game state.
 
 The program flowchart can be seen in \ref{fig:program_flowchart}.\\
 
