@@ -21,8 +21,17 @@ Experiments with matching a simple one-colored template against the balls proved
 Using histograms extracted from balls in training data, the histograms are backprojected against the entire image of the pool table. This is done by computing the histogram inside a mask in every image position, and then assigning a score to the position by measuring the difference between the sampled and model training histogram.
 
 This process is similar to the template matching described above, but instead of taking into account the structure of the image, i.e. where the different colors are inside the ball, this method evaluates the distribution of the colors regardless of structure.
-
+\begin{figure}[H]
+  \centering
+  \subfloat[Good match]{\label{fig:backProjectGood}\includegraphics[width=0.48\textwidth]{images/backprojectGood.png}}
+  \quad           
+  \subfloat[Bad match]{\label{fig:backProjectBad}\includegraphics[width=0.48\textwidth]{images/backprojectBad.png}}
+   \caption{Results of the backprojection method. Labeled white circles indicate identified balls.}
+  \label{fig:backprojectResults}
+\end{figure}
 Backprojection has some problems because of the different ways that a ball can face. The measure of similarity between the histograms is dependent of the distributions to have the same kind of structure. If the two histograms are equal, but one is shifted, the output will be that they are different. A simpler comparisson where e.g. only the mean is used to measure how close the ball distribution is to the model.
+
+Figure \ref{fig:backprojectResults} shows results of experiments of backprojection methods. The model histograms that results in a good match against \ref{fig:backProjectGood}, has problems in \ref{fig:backProjectBad} where the balls are facing differently.
 
 \subsubsection{BLOB analysis}
 The uniform color of the table cloth can be utilized to apply a threshold to the image resulting in BLOBs representing ball locations. The BLOBs can be separated using morphology operations to separate balls in close proximity. The center position of BLOBs or a feature like the bounding circle, can be used to mark the center point of a ball. Pixels that are inside a BLOB is extracted for further processing to identify the ball.
