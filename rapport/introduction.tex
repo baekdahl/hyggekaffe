@@ -1,9 +1,15 @@
 \subsection{Project Background}
-The inspiration for this project comes from the article "Development of an Automatic Pool Trainer"\cite{larsbopool} made by Lars Bo et al. Where that project focused on making a pool trainer with only two different balls detected, this project will focus on detecting all balls. 
+The inspiration for this project comes from the article "Development of an Automatic Pool Trainer"\cite{larsbopool} by LB Larsen et al which focused on making a pool trainer with only two different balls. The goal in this project is to extend the detection and matching part to be able to track a complete game of 8-ball pool with all 16 balls.
 \\\\
-The reason for making a robust PoolTracker are mainly for entertainment. The solution developed could be used for making a more developed pool trainer, a game for computer or console or simply for tracking balls to improve and understand your own strengths and weaknesses within the game of pool.
+Tracking pool games could be used for many different purposes. The pool trainer in \cite{larsbopool} could be extended to be able to train in environments that include more than two balls. This would provide for a more realistic training session when you have more than one choice of target. 
+
+An automatic scoring system could be implemented by keeping track of which balls are still on the table.
+
+The implementation used as an example in this project, is a pool history system, which makes the player able to se how the game has progressed by keeping track of the different states throughout the game. This will make the player able to improve and understand his own strengths and weaknesses.
 \\\\
-The focus is to make a robust, easy to use and simple solution that will not require the user to set many parameters. It is very important that this is archived since small glitches and failure to detect balls and table will make the user abandon the solution. The use of a standard webcam will make the solution inexpensive which is a key point when developing for personal use and entertainment.
+Previous attempts to track pool balls like \cite{supportBilliard} and \cite{ARPool}, only considered a 9-ball game where balls are separated and not positioned together in clusters. This project aims to detect and separate balls that are positioned in clusters, and to identify up to 16 balls, which is required for tracking a 8-ball game.
+\\\\
+It is a goal of this project to create a usable prototype, which could be installed by an end-user without having knowledge of computer vision. This requires the system to be adaptive towards variables like different lighting and ball colors. The user should be able to, place a camera above the pool table, turn on the system and after a short calibration process, track a pool game. The use of a standard webcam will make the solution inexpensive which is a key point when developing for personal use and entertainment.
 \\\\
 The solution will not include actual live tracking, but only the balls positions between shots. Further development of the solution could include this. As in \cite{larsbopool} the solution could also be expanded to use a projector to show ball positions, help lines for shooting balls in pockets and training environments. 
 

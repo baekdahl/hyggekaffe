@@ -6,7 +6,10 @@
 Ball Analysis
 	Identifiablity in different color spaces vs. light conditions
 	Hue space problems
-	Striped / solid
+	Striped / solid (Calculate the ratio between white and colored pixels)
+		Graf x-akse: white-ratio: solid(no number), solid(number), striped(min), striped(max), cue ball
+		husk at histogrammer ikke inkluderer low sat
+		value histogram for den sorte og den hvide
 
 3) Solution 
 
