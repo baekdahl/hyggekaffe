@@ -60,6 +60,9 @@
     </Compile>
     <Compile Include="ImageProvider.cs" />
     <Compile Include="ImageUtil.cs" />
+    <Compile Include="PictureBoxExtended.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PoolGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableLocator.cs" />

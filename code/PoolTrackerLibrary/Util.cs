@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Emgu.CV.Structure;
 
 namespace PoolTrackerLibrary
 {
@@ -20,6 +21,14 @@ namespace PoolTrackerLibrary
         {
             sw.Stop();
             Debug.Write(text + ": " + sw.ElapsedMilliseconds + "ms" + Environment.NewLine);
+        }
+
+        public static Stopwatch getWatch()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            return sw;
         }
 
         public static int getMaxIndex(int[] array)
@@ -46,6 +55,26 @@ namespace PoolTrackerLibrary
                 sum += (int)array[i] * i;
             }
             return count == 0 ? 0 : sum / count;
+        }
+
+        public static double vectorLength(double[] vector)
+        {
+            return Math.Sqrt(Math.Pow(vector[0],2) + Math.Pow(vector[1],2) + Math.Pow(vector[2],2));
+        }
+
+        public static double shortestAngle(Bgr color1, Bgr color2)
+        {
+            return shortestAngle(new double[] { color1.Blue, color1.Green, color1.Red }, new double[] { color2.Blue, color2.Green, color2.Red });
+        }
+
+        public static double shortestAngle(double[] vector1, double[] vector2)
+        {
+            double dotProduct = vector1[0] * vector2[0] + vector1[1] * vector2[1] + vector1[2] * vector2[2];
+
+            double result = Math.Sqrt(1-Math.Pow(dotProduct / (vectorLength(vector1)*vectorLength(vector2)),2));
+
+            return result;
+
         }
     }
 }

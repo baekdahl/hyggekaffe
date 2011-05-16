@@ -11,7 +11,40 @@ namespace PoolTrackerLibrary
     public class ImageBoxExtended : ImageBox
     {
 
+        private int circleCursor = 0;
+        private PaintEventHandler paint_CircleCursorHandler;
 
+        public int CircleCursor
+        {
+            set
+            {
+                circleCursor = value;
+
+                if (circleCursor > 0)
+                {
+                    paint_CircleCursorHandler += new PaintEventHandler(Paint_CircleCursor);
+                    Paint += paint_CircleCursorHandler;
+                }
+            }
+            get
+            {
+                return circleCursor;
+            }
+        }
+
+        void Paint_CircleCursor(object sender, PaintEventArgs e)
+        {
+            Point local = MousePositionOnImage;
+            //local.X -= circleCursor/2;
+            //local.Y -= circleCursor;
+            if (local.X > this.Width - 10)
+            {
+                int i;
+            }
+
+
+            e.Graphics.FillEllipse(Brushes.Red, local.X, local.Y, circleCursor, circleCursor);
+        }
 
         #region Events
 
@@ -171,13 +204,13 @@ namespace PoolTrackerLibrary
 
             //	Make sure our control width and height are not 0 and our image width and height are not 0
 
-            if (Width == 0 || Height == 0 || Image.Bitmap.Width == 0 || Image.Bitmap.Height == 0) return coordinates;
+            if (Width == 0 || Height == 0 || GetImageSize().Width == 0 || GetImageSize().Height == 0) return coordinates;
 
             //	This is the one that gets a little tricky.  Essentially, need to check the aspect ratio of the image to the aspect ratio of the control
 
             // to determine how it is being rendered
 
-            float imageAspect = (float)Image.Bitmap.Width / Image.Bitmap.Height;
+            float imageAspect = (float)GetImageSize().Width / GetImageSize().Height;
 
             float controlAspect = (float)Width / Height;
 
@@ -190,13 +223,13 @@ namespace PoolTrackerLibrary
 
                 //	This means that we are limited by width, meaning the image fills up the entire control from left to right
 
-                float ratioWidth = (float)Image.Bitmap.Width / Width;
+                float ratioWidth = (float)GetImageSize().Width / Width;
 
                 newX *= ratioWidth;
 
-                float scale = (float)Width / Image.Bitmap.Width;
+                float scale = (float)Width / GetImageSize().Width;
 
-                float displayHeight = scale * Image.Bitmap.Height;
+                float displayHeight = scale * GetImageSize().Height;
 
                 float diffHeight = Height - displayHeight;
 
@@ -213,13 +246,13 @@ namespace PoolTrackerLibrary
 
                 //	This means that we are limited by height, meaning the image fills up the entire control from top to bottom
 
-                float ratioHeight = (float)Image.Bitmap.Height / Height;
+                float ratioHeight = (float)GetImageSize().Height / Height;
 
                 newY *= ratioHeight;
 
-                float scale = (float)Height / Image.Bitmap.Height;
+                float scale = (float)Height / GetImageSize().Height;
 
-                float displayWidth = scale * Image.Bitmap.Width;
+                float displayWidth = scale * GetImageSize().Width;
 
                 float diffWidth = Width - displayWidth;
 
@@ -264,9 +297,9 @@ namespace PoolTrackerLibrary
 
             //	First, get the ratio (image to control) the height and width
 
-            float ratioWidth = (float)Image.Bitmap.Width / Width;
+            float ratioWidth = (float)GetImageSize().Width / Width;
 
-            float ratioHeight = (float)Image.Bitmap.Height / Height;
+            float ratioHeight = (float)GetImageSize().Height / Height;
 
             //	Scale the points by our ratio
 
@@ -309,9 +342,9 @@ namespace PoolTrackerLibrary
 
             // To do this, we know that the image is centered, so we get the difference in size (width and height) of the image to the control
 
-            int diffWidth = Width - Image.Bitmap.Width;
+            int diffWidth = Width - GetImageSize().Width;
 
-            int diffHeight = Height - Image.Bitmap.Height;
+            int diffHeight = Height - GetImageSize().Height;
 
             //	We now divide in half to accomadate each side of the image
 
@@ -387,7 +420,7 @@ namespace PoolTrackerLibrary
 
                     Point p = TranslatePointToImageCoordinates(e.Location);
 
-                    if (p.X >= 0 && p.X < Image.Bitmap.Width && p.Y >= 0 && p.Y < Image.Bitmap.Height)
+                    if (p.X >= 0 && p.X < GetImageSize().Width && p.Y >= 0 && p.Y < GetImageSize().Height)
                     {
 
                         MouseEventArgs ne = new MouseEventArgs(e.Button, e.Clicks, p.X, p.Y, e.Delta);
