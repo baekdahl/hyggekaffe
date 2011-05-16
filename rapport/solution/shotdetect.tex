@@ -11,7 +11,7 @@ The first step is to detect weather or not the cloth is occluded. This occlusion
 
 When the table is detected, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.\\
 
-For this purpose of this method only foreign object introduced from the edge and in will be considered as a foreign object. Therefore a que from the edge of the table would be detected, but a ball or laying on the table will not.\\
+For this purpose of this method only foreign object introduced from the edge and in will be considered as a foreign object. Therefore a que from the edge of the table would be detected, but a ball or laying on the table will not.
 
 Occlusion area factor:
 \begin{equation}

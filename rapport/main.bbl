@@ -24,6 +24,12 @@ M.~Takahashi, T.~Kasai, and Y.~Suzuki.
 \newblock Support system for pocket billiards.
 \newblock In {\em SICE Annual Conference, 2008}, pages 3233 --3236, aug. 2008.
 
+\bibitem{autoscore}
+J.~Tang and P.K. Wang.
+\newblock An auto-scoring billiards system.
+\newblock In {\em Machine Learning and Cybernetics, 2009 International
+  Conference on}, volume~6, pages 3305 --3309, july 2009.
+
 \bibitem{ARPool}
 Hideaki Uchiyama and Hideo Saito.
 \newblock Ar display of visual aids for supporting pool games by online
