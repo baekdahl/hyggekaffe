@@ -29,3 +29,42 @@ Three different images of the pool table and one image with the cloth cut out ar
 The success of the system depends on the identifier to be able to separate the pool balls from each other. To analyze the separability, histograms of all the different solid balls has been computed. This has been done in hue-saturation space, to see if it is possible to be independent of brightness. Being independent of brightness will make the system more resistant towards changes in light. The histograms are grouped together based on the color similarity, to visualize how the colors can be separated
 
 \input{analysis/ballhists}
+
+\textbf{Ball color composition}\\
+To be able to detect whether or not a ball is solid or striped it is important to know how much white is in a ball. The images used can be seen in figure \ref{fig:ballscompo} which is based on the balls used in this project.
+
+\begin{figure}[H]
+\centering
+\subfloat[Solid ball with number turned up.]
+{
+	\includegraphics[width=0.2\textwidth]{images/fy.png}
+}
+\subfloat[Striped ball with minimum white.]
+{
+	\includegraphics[width=0.2\textwidth]{images/fymax.png}
+}
+\subfloat[Striped ball with maximum white.]
+{
+	\includegraphics[width=0.2	\textwidth]{images/fymin.png}
+}
+
+\caption{Ball color compositions.}
+\label{fig:ballscompo}
+\end{figure}
+
+In table \ref{fig:ballscompotable} the percentage of white pixels can be seen.\\
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+	\hline Figure & a) & b) & c) \\ 
+	\hline Color & 583217 & 548839 & 175858 \\ 
+	\hline White & 137359 & 173401 & 542900 \\ 
+	\hline Percentage & 19.0\% & 24.0\% & 75.5\% \\ 
+	\hline
+\end{tabular}
+\caption{Table with ball color composition.}
+\label{fig:ballscompotable}
+\end{table}
+

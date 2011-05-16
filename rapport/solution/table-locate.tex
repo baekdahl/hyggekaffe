@@ -186,8 +186,8 @@ Therefore the if the angle is more than 90\degree is it calculated as angle = 18
 
 \textbf{7) Output the ROI, angle and mask:}\\
 The angle and the box for the non-rotated image has been calculated. Since the calibration is not a time-critical part of the solution the ROI is found simply by rotating the image and running step 5 again.  This will rotate the image and then search for the ROI of the rotated image. A faster method would be calculating the new position of the ROI based on the rotated angle.
-
-The output is as can be seen here, with the original image, secondly the found contour, thirdly the mask of the cloth and finally the output image.
+\\\\
+The output can be seen in figure \ref{fig:tablelocateoutput}, with the original image, secondly the found ROI, thirdly the mask of the cloth and finally the output image.
 
 \begin{figure}[H]
 \centering
@@ -195,12 +195,12 @@ The output is as can be seen here, with the original image, secondly the found c
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_input}
 }
-\subfloat[Cloth contour.]
+\subfloat[Cloth ROI.]
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_contour}
 }
 \\
-\subfloat[Mask of cloth and other contours.]
+\subfloat[Mask of cloth.]
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_mask}
 }
@@ -208,6 +208,7 @@ The output is as can be seen here, with the original image, secondly the found c
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_output}
 }
+\label{fig:tablelocateoutput}
 \end{figure}
 
 If the box for the non-rotated image is not found, then the angle is also not found. In this case the program will return a failure which indicates that the table is not found.
