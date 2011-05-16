@@ -24,11 +24,14 @@ namespace PoolTrackerLibrary
         public Rectangle ROI;
         public double angle;
         public Image<Gray, Byte> mask;
-        private double maskarea;
-        private int histMaxValue;
-        private double maskperimeter;
-        TextWriter tw;
-        int count = 0;
+        public double maskarea;
+        public int histMaxValue;
+        public double maskperimeter;
+
+        public TableLocator()
+        {
+            Config.load(this);
+        }
 
         public TableLocator(Image<Bgr,Byte> input_image)
         {
@@ -48,12 +51,6 @@ namespace PoolTrackerLibrary
             MCvBox2D clothBox2 = findClothBox(imageClothID);                                //Find rotated box
             ROI = clothBoxToROI(clothBox2);                                                 //Convert box to rectangle ROI
 
-            /*
-            tw = new StreamWriter("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\text.txt"); //Readout
-            getTableImage(input_image).Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\calibimg.png");
-            mask.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\calibmask.png");
-            tw.WriteLine("Mask area:" + maskarea + "Perimeter:" + maskperimeter);
-            tw.WriteLine(""); */
         }
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
@@ -61,7 +58,7 @@ namespace PoolTrackerLibrary
             Image<Bgr, Byte> returnImage = input_image.Copy();
             returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255));
             
-            if (mask != null)
+            if (mask != null & ROI.Height < input_image.Height & ROI.Width < input_image.Width)
             {
                 mask.ROI = ROI;
                 returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI);
@@ -70,14 +67,13 @@ namespace PoolTrackerLibrary
             return returnImage;
         }
 
-        public bool isTableOccluded(Image<Bgr, Byte> input_image, double threshold)
+        public bool isTableOccluded(Image<Bgr, Byte> input_image, double area_threshold=0.99, double perimeter_threshold=1.04)
         {
             bool occluded = false;
-            double currentMaskArea = findBiggestContour(input_image);
+            double[] currentMask = findBiggestContour(input_image);
 
-            //Debug.Write(maskarea / currentMaskArea + "\n");
 
-            if (currentMaskArea / maskarea <= threshold)
+            if (currentMask[0] / maskarea <= area_threshold | currentMask[1] / maskperimeter > perimeter_threshold)
             {
                 occluded = true;
             }
@@ -115,9 +111,11 @@ namespace PoolTrackerLibrary
             return clothBox;
         }
 
-        private double findBiggestContour(Image<Bgr, Byte> image)
+        private double[] findBiggestContour(Image<Bgr, Byte> image)
         {
-            double returnArea = 0;
+            double returnArea=0;
+            double returnPerimeter=0;
+
             Image<Gray, Byte> img = ImageUtil.bgrToHue(image).Resize(1, INTER.CV_INTER_AREA);
             img = ImageUtil.twoSidedThreshold(img, histMaxValue);
             img = median(img, 3);
@@ -128,18 +126,13 @@ namespace PoolTrackerLibrary
                 if (contour.Area > img.Width * img.Height * 0.5)
                 {
                     returnArea = contour.Area;
+                    returnPerimeter = contour.Perimeter;
                     Image<Gray, Byte> imgtemp = img.CopyBlank();
                     imgtemp.Draw(contour, new Gray(255), -1);
-                    tw.WriteLine(returnArea + "  " + contour.Perimeter);
-                    image.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\" + count + "_img.png");
-                    imgtemp.Save("C:\\Documents and Settings\\Home\\Desktop\\occlutest\\1\\" + count + "_mask.png");
-                    count++;
-                    tw.Flush();
-
                 }
             }
 
-            return returnArea;
+            return new double[] {returnArea, returnPerimeter};
         }
 
         private static double findTableAngle(MCvBox2D box)
@@ -161,12 +154,9 @@ namespace PoolTrackerLibrary
 
             double angle = Math.Abs(horizontalLine.GetExteriorAngleDegree(linelist[3]));
 
-            Debug.Write("Before:  " + angle + "\n");
-
             if (Double.IsNaN(angle)) { angle = 0; }
             if (angle > 90) { angle = 180 - angle; }
 
-            Debug.Write("After:   " + angle + "\n");
             return angle;
 
         }

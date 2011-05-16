@@ -1,0 +1,31 @@
+As described in section \ref{sec:sysdesign} the system will be able to save and load calibration configurations. For simplicity these values will be saved in an XML file when the user chooses so. Every time the system loads theses values will be loaded into the program. This will save the user from having to calibrate every time the system starts. If the values are not set, the program will prompt the user to calibrate.\\
+
+The values and items saved are:
+\begin{itemize}
+	\item Table angle: The angle which the input image has to be rotated before it is cropped.
+	\item Table ROI: the region of interest which the table will be cropped to.
+	\item Hue most occured value: The value used to remove the cloth color.
+	\item Mask perimeter: The value used to detect human interaction.
+	\item Mask area: The value used to detect human interaction.
+	\item Mask image: The mask is saved as "mask.png" and not in the xml file.
+\end{itemize}
+
+An example of this is illustrated here:
+
+\lstset{language=XML}
+\begin{lstlisting}
+  <?xml version="1.0" encoding="UTF-8" ?> 
+  <Config>
+  	<tableAngle>0,265871783084435</tableAngle> 
+  	<tableMaskArea>363073</tableMaskArea> 
+  	<tablehistMaxValue>92</tablehistMaxValue> 
+  	<tableMaskPerimeter>3093,20013356209</tableMaskPerimeter> 
+  	<tableROI>
+		   <X>37</X> 
+		   <Y>243</Y> 
+		   <Width>866</Width> 
+		   <Height>456</Height> 
+    </tableROI>
+  </Config>
+\end{lstlisting}
+
