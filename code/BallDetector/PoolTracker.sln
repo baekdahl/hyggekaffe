@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallDetection", "BallDetection.csproj", "{9014642E-2BB4-415B-A2A6-C44A2225A1FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolTrackerLibrary", "..\PoolTrackerLibrary\PoolTrackerLibrary.csproj", "{C57FF2C4-7C69-4D5A-B6A6-CCDDB2A02DC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorCalibrator", "..\ColorCalibrator\ColorCalibrator.csproj", "{A615F714-5C01-4191-B6FB-8E587F896569}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C97210D-4748-4D83-9A4E-41C38B27BA55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

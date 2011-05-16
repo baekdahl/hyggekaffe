@@ -63,7 +63,7 @@ namespace PoolTracker
             //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
             Pen myPen = new Pen(Color.White, 3);
             graphics.DrawEllipse(myPen, boundingRect);
-            //graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
+            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
             //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
@@ -109,8 +109,8 @@ namespace PoolTracker
         private void Form1_Shown(object sender, EventArgs e)
         {
             //startCapture();
-            //startCapture("../../video/betterSat/Video 3.wmv");
-            startCapture("../../video/Video 3.wmv");
+            startCapture("../../video/betterSat/Video 3.wmv");
+            //startCapture("../../video/Video 3.wmv");
         }
 
         private void runButton_Click(object sender, EventArgs e)
@@ -143,7 +143,7 @@ namespace PoolTracker
         {
             if (tabControl1.SelectedIndex == 1 && cameraImage != null)
             {
-                imageBoxCalib.Image = cameraImage;
+                imageBoxCalib.Image = cameraImage.Bitmap;
                 calibration = new BallCalibration(imageBoxCalib, cameraImage);
                 calibrateLabel.Text = Enum.GetName(typeof(BallColor), calibration.nextBall());
 
@@ -170,6 +170,25 @@ namespace PoolTracker
 
         }
 
-        
+        private void imageBoxCalib_MouseMoveOverImage(object sender, MouseEventArgs e)
+        {
+            Image <Bgr,byte> ball = calibration.tableImage.Copy(Ball.roiFromCenter(imageBoxCalib.MousePositionOnImage));
+            Image <Hsv, byte> ballHsv = ball.Convert<Hsv,byte>();
+
+            imageBoxBallPreview.Image = ball.Copy(Ball.getMask());
+            histogramBox1.ClearHistogram();
+            histogramBox1.GenerateHistograms(ball, 255);
+            histogramBox1.Refresh();
+        }
+
+        private void imageBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }     
     }
 }

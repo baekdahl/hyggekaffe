@@ -35,12 +35,14 @@ namespace PoolTrackerLibrary
         public static int ballDia = 26;
         public BallColor color;
         public int score;
+        public DenseHistogram hist;
 
         public static BallCalibration calibration;
 
         private int whitePixels, blackPixels;
         private int[] hueHist, satHist;
         private int hueMean, satMean;
+        private Image<Bgr, byte> image;
 
         public static int BallThreshold
         {
@@ -54,14 +56,14 @@ namespace PoolTrackerLibrary
         {
             get
             {
-                return (int)((double)BallThreshold * calibration.whiteFactor);
+                return (int)((double)Ball.NumPixels * calibration.whiteFactor);
             }
         }
         public static int StripedThreshold
         {
             get
             {
-                return (int)((double)BallThreshold * calibration.stripedFactor);
+                return (int)((double)Ball.NumPixels * calibration.stripedFactor);
             }
         }
 
@@ -91,10 +93,15 @@ namespace PoolTrackerLibrary
             this.satHist = satHist;
             this.position = pos;
 
-            this.color = identifyBall();
+            this.color = calculateProbabilty();
         }
 
-        public BallColor identifyBall()
+        public void imageFromTable(Image <Bgr,byte> tableImage)
+        {
+            this.image = tableImage.Copy(roiFromCenter(position));
+        }
+
+        public BallColor calculateProbabilty()
         {
             int maxHueDist = 30;
             hueMean = Util.getMaxIndex(hueHist);
@@ -117,19 +124,19 @@ namespace PoolTrackerLibrary
             if (whitePixels > WhiteThreshold)
             {
                 score = whitePixels;
-                return BallColor.Red; 
+                return BallColor.Cue; 
             }
             else if (blackPixels > BallThreshold)
             {
                 score = blackPixels;
-                return BallColor.Red;
+                return BallColor.Black;
                 
             }
             else if (score + whitePixels > BallThreshold)
             {
                 score = score + whitePixels;
-                return BallColor.Red;
-                //BallColor color = calibration.ballHsv.Count != 0 ? findColor() : BallColor.Red;
+
+                BallColor color = BallColor.Red;
 
                 if (whitePixels > StripedThreshold)
                 {
@@ -146,22 +153,35 @@ namespace PoolTrackerLibrary
             }
         }
 
-        private BallColor findColor()
+        public BallColor findColor()
         {
-            double smallest = double.MaxValue;
-            BallColor best = BallColor.None;
-
-            foreach (BallColor ball in calibration.colorBalls)
+            if (calibration.ballBgr.Count == 0)
             {
-                double dist = ImageUtil.hsDist(new Hsv(hueMean, satMean, 0), calibration.ballHsv[ball]);
-                if (dist < smallest)
+                return BallColor.Red;
+            }
+            int[] votes = new int[16];
+
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
                 {
-                    smallest = dist;
-                    best = ball;
+                    BallColor nearest = calibration.nearestBallColor(image[y, x], false);
+                    votes[(int)nearest]++;
                 }
             }
 
-            return best;
+            int maxIndex = 0, max = 0;
+            for (int i = 1; i < votes.Length; i++)
+            {
+                if (votes[i] > max)
+                {
+                    max = votes[i];
+                    maxIndex = i;
+                }
+            }
+            this.color = (BallColor)maxIndex;
+
+            return this.color;
         }
 
         public Ball(Point pos, BallColor color)
@@ -199,6 +219,18 @@ namespace PoolTrackerLibrary
             if (y < 0) y = 0;
 
             return new Rectangle(x, y, ballDia, ballDia);
+        }
+
+        public static DenseHistogram histogram(Image<Bgr,byte> image, Point pos)
+        {
+            image.ROI = (pos == Point.Empty) ? Rectangle.Empty : roiFromCenter(pos);
+            
+            RangeF range = new RangeF(0,255);
+            DenseHistogram hist = new DenseHistogram(new int[] {256, 256, 256}, new RangeF[] { range, range, range });
+            hist.Calculate(image.Split(), false, null);
+
+            image.ROI = Rectangle.Empty;
+            return hist;
         }
 
         public static Image<Gray, byte> getMask()

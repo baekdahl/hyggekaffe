@@ -18,14 +18,15 @@ namespace PoolTrackerLibrary
 
         public Dictionary<BallColor, Image<Bgr,byte>> ballSamples = new Dictionary<BallColor,Image<Bgr,byte>>();
         public Dictionary<BallColor, Hsv> ballHsv = new Dictionary<BallColor, Hsv>();
+        public Dictionary<BallColor, Bgr> ballBgr = new Dictionary<BallColor, Bgr>();
 
         public Image<Bgr, byte> tableImage;
 
-        public int hueRedLow = 12, hueYellow = 25, hueGreen = 100, hueRedHigh = 210, satWhite = 40, valBlack = 50;
+        public int hueRedLow = 12, hueYellow = 25, hueGreen = 100, hueRedHigh = 210, satWhite = 150, valBlack = 50;
         public int satOrange = 200, satBrown = 225;
 
         public float ballFactor = .3F;
-        public float whiteFactor = 1.0F;
+        public float whiteFactor = .8F;
         public float stripedFactor = .3F;
 
         public delegate void BallCalibratedHandler(object sender);
@@ -34,40 +35,39 @@ namespace PoolTrackerLibrary
 
         private const int HUE = 0, SAT = 1, VAL = 2;
 
-        public BallCalibration(ImageBox imageBox, Image<Bgr, byte> tableImage)
+        private BallColor[, ,] colorDistanceTable;
+
+        public BallCalibration(PictureBoxExtended imageBox, Image<Bgr, byte> tableImage)
         {
-            imageBox.Paint += imageBox_Paint;
-            imageBox.MouseMove += imageBox_MouseMove;
+            imageBox.MouseMoveOverImage += imageBox_MouseMove;
             imageBox.Click += imageBox_Click;
             this.tableImage = tableImage.Copy();
+
+            
         }
 
         public BallCalibration()
         {
-        }
+            ballBgr[BallColor.Cue] = new Bgr(255, 255, 255);
+            ballBgr[BallColor.Black] = new Bgr(0, 0, 0);
+            ballBgr[BallColor.Red] = new Bgr(14, 13, 162);
+            ballBgr[BallColor.Orange] = new Bgr(31, 56, 176);
+            ballBgr[BallColor.Brown] = new Bgr(26, 38, 111);
+            ballBgr[BallColor.Yellow] = new Bgr(47, 190, 245);
+            ballBgr[BallColor.Green] = new Bgr(15, 51, 18);
+            ballBgr[BallColor.Blue] = new Bgr(18, 5, 0);
 
-        void imageBox_Paint(object sender, PaintEventArgs e)
-        {
-            ImageBox imageBox = (ImageBox)sender;
-
-            Point local = imageBox.PointToClient(Cursor.Position);
-            int ballRadius = 10;
-            local.X -= ballRadius;
-            local.Y -= ballRadius;
-            local.X = (int)(local.X / imageBox.ZoomScale);
-            local.Y = (int)(local.Y / imageBox.ZoomScale);
-
-            e.Graphics.FillEllipse(Brushes.Red, local.X , local.Y , 20, 20);
+            //buildDistanceTable();
         }
 
         void imageBox_MouseMove(object sender, MouseEventArgs e)
         {
-            ((ImageBox)sender).Invalidate();
+            ((Control)sender).Invalidate();
         }
 
         void imageBox_Click(object sender, EventArgs e)
         {
-            ImageBoxExtended imageBox = (ImageBoxExtended)sender;
+            PictureBoxExtended imageBox = (PictureBoxExtended)sender;
 
             Point local = imageBox.MousePositionOnImage;
             setNextValue(local);
@@ -126,6 +126,17 @@ namespace PoolTrackerLibrary
             return new Hsv(hue, satAvg, 0);
         }
 
+        private Bgr findBgr(Image<Bgr, byte> ball)
+        {
+            DenseHistogram hist = Ball.histogram(ball, Point.Empty);
+
+            float minVal, maxVal;
+            int[] maxLoc, minLoc;
+            hist.MinMax(out minVal, out maxVal, out minLoc, out maxLoc);
+
+            return new Bgr(maxLoc[0], maxLoc[1], maxLoc[2]);
+        }
+
         private int findMaxColor(Image<Bgr,byte> image, int channel)
         {
             Image<Gray, byte> mask = Ball.getMask();
@@ -174,13 +185,58 @@ namespace PoolTrackerLibrary
             Image<Gray,byte> mask = Ball.getMask();
             Image<Gray, byte>[] hsv = tableImage.Convert<Hsv, byte>().Split();
 
-            valBlack = findMaxColor(ballSamples[BallColor.Black], VAL);
-            satWhite = findMaxColor(ballSamples[BallColor.Cue], SAT);
-
-            foreach (BallColor color in colorBalls)
+            //valBlack = findMaxColor(ballSamples[BallColor.Black], VAL);
+            //satWhite = 150;// findMaxColor(ballSamples[BallColor.Cue], SAT);
+                
+            Bgr white = new Bgr(255, 255, 255);
+            foreach (BallColor color in calibratableBalls)
             {  
-                ballHsv[color] = findBallColor(ballSamples[color]);
+            //    ballHsv[color] = findBallColor(ballSamples[color]);
+                ballBgr[color] = findBgr(ballSamples[color]);
+                double angle = Util.shortestAngle(ballBgr[color], white);
+                Debug.Write("Angle : " + color.ToString() + " : " + angle);
             }
+        }
+
+        public BallColor nearestBallColor(Bgr color, bool useDistanceTable = true)
+        {
+            if (useDistanceTable && colorDistanceTable != null)
+            {
+                return colorDistanceTable[(int)color.Blue, (int)color.Green, (int)color.Red];
+            }
+            
+            double smallest = double.MaxValue;
+            BallColor best = BallColor.None;
+
+            foreach (BallColor ball in calibratableBalls)
+            {
+                double dist = Util.shortestAngle(color, ballBgr[ball]);
+                if (dist < smallest)
+                {
+                    smallest = dist;
+                    best = ball;
+                }
+            }
+
+            return best;
+        }
+
+        private void buildDistanceTable()
+        {
+            Stopwatch sw = Util.getWatch();
+            colorDistanceTable = new BallColor[256, 256, 256];
+
+            for (int blue = 0; blue < 256; blue++)
+            {
+                for (int green = 0; green < 256; green++)
+                {
+                    for (int red = 0; red < 256; red++)
+                    {
+                        colorDistanceTable[blue, green, red] = nearestBallColor(new Bgr(blue, green, red), false);
+                    }
+                }
+            }
+            Util.writeWatch(sw, "Build distance table");
         }
     }
 }

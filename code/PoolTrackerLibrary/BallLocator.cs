@@ -180,7 +180,17 @@ namespace PoolTrackerLibrary
                 Point pos = node.Value.position;
                 if (_tableMatchMask.Data[pos.Y, pos.X, 0] == 1)
                 {
-                    list.Add(node.Value);
+                    Ball ball = node.Value;
+
+                    Stopwatch sw = Util.getWatch();
+                    ball.imageFromTable(tableImage);
+                    Util.writeWatch(sw, "Found hist " + list.Count);
+
+                    sw.Start();
+                    ball.findColor();
+                    Util.writeWatch(sw, "Found ballcolor of ball " + list.Count);
+                    
+                    list.Add(ball);
                     if (list.Count == 16)
                     {
                         break;
@@ -191,62 +201,6 @@ namespace PoolTrackerLibrary
 
             return list;
         }
-
-        /// <summary>
-        ///     Detects where balls are located in an image of the pooltable. The balls locations can then be extracted by finding maximal points of the returned image.
-        /// </summary>
-        /// <param name="input">An image containing pool balls on the cloth</param>
-        /// <returns>Image where large values are more likely to be balls</returns>
-        public Image<Gray, float> adaptiveBallDetect(Image<Bgr, byte> input)
-        {
-            int h_split = 1;
-            int v_split = 1;
-            int h_stepsize = input.Width / h_split;
-            int v_stepsize = input.Height / v_split;
-
-            Image<Bgr, byte> template = new Image<Bgr, byte>(ballDiaResized - 2, ballDiaResized - 2, new Bgr(0, 0, 0));
-            Image<Gray, float> img_out = new Image<Gray, float>(input.Size.Width - template.Width + 1, input.Size.Height - template.Height + 1);
-            Image<Gray, byte>[] inputPlanes = input.Split();
-
-            for (int h = 0; h < h_split; h++)
-            {
-                for (int v = 0; v < v_split; v++)
-                {
-                    Rectangle ROI = new Rectangle(new Point(h_stepsize * h, v_stepsize * v), new Size(h_stepsize, v_stepsize));
-                    input.ROI = ROI;
-                    img_out.ROI = ROI;
-
-                    RangeF histRange = new RangeF(0, 255);
-                    DenseHistogram hist = new DenseHistogram(new int[] { 255, 255, 255 }, new RangeF[] { histRange, histRange, histRange });
-                    hist.Calculate(inputPlanes, false, null);
-
-                    float maxValue = 0;
-                    float minValue = 0;
-                    int[] maxLocation = { 0 };
-                    int[] minLocation = { 0 };
-                    hist.MinMax(out minValue, out maxValue, out minLocation, out maxLocation);
-
-                    Bgr bgColor = new Bgr(maxLocation[0], maxLocation[1], maxLocation[2]);
-
-                    ROI.Width += ballDiaResized + 1;
-                    ROI.Height += ballDiaResized + 1;
-                    input.ROI = ROI;
-
-                    template = new Image<Bgr, byte>(template.Width, template.Height, bgColor);
-
-                    Image<Gray,Byte>[] templatePlanes = template.Split();
-
-                    Image<Gray, float> match = ImageUtil.matchTemplateMasked(inputPlanes, templatePlanes, (Image<Gray, byte>)null, _tableMatchMask);
-
-                    match.CopyTo(img_out);
-                }
-            }
-            img_out.ROI = Rectangle.Empty;
-            input.ROI = Rectangle.Empty;
-
-            return img_out;
-        }
-
         
     }
 }
