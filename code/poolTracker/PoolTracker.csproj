@@ -129,7 +129,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\hyggekaffe\code\PoolTrackerLibrary\PoolTrackerLibrary.csproj">
+    <ProjectReference Include="..\PoolTrackerLibrary\PoolTrackerLibrary.csproj">
       <Project>{C57FF2C4-7C69-4D5A-B6A6-CCDDB2A02DC2}</Project>
       <Name>PoolTrackerLibrary</Name>
     </ProjectReference>

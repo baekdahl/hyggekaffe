@@ -26,6 +26,9 @@ namespace PoolTrackerLibrary
 
         Capture cap;
 
+        /// <summary>
+        /// Returns the latest captured frame from the stream. If nescesarry a new frame is captured before the image is returned
+        /// </summary>
         public Image<Bgr, byte> Image
         {
             get

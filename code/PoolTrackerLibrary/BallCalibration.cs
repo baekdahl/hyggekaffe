@@ -28,7 +28,7 @@ namespace PoolTrackerLibrary
         public float whiteRatioInCue = .8F;
         public float ballFactor = .3F;
         public float whiteFactor = .8F;
-        public float stripedFactor = .3F;
+        public float stripedFactor = .19F;
 
         public delegate void BallCalibratedHandler(object sender);
 

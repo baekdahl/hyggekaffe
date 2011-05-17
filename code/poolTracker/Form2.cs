@@ -23,11 +23,17 @@ namespace PoolTracker
 {
     public partial class Form2 : Form
     {
-        Image<Bgr, Byte> image;
+        Image<Bgr, Byte> originalImage;
+
+        /// <summary>
+        /// Output from tablecalibrator showing only the table
+        /// </summary>
+        Image<Bgr, byte> tableImage;
         ImageProvider img;
         TableLocator tab;
         string stream;
         bool game8ball;
+        BallCalibration calibration = new BallCalibration();
 
         public Form2()
         {
@@ -37,26 +43,63 @@ namespace PoolTracker
         public void Run() 
         {
 
-            img = new ImageProvider();
+            img = new ImageProvider(stream);
             //tab = new TableLocator();
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
-                img.startCapture();
-                image = img.image;
+                originalImage = img.Image;
 
-                if (tab != null)
+                if (originalImage != null && tab != null && tabControl1.SelectedIndex == 0)
                 {
-                    showImage1(tab.getTableImage(image));
-                    Debug.Write("Table is occluded:" + tab.isTableOccluded(image)+"\n");
+                    tableImage = tab.getTableImage(originalImage);
+                    showImage1(tableImage);
+
+                    if (!tab.isTableOccluded(originalImage))
+                    {
+                        locateBalls();
+                    }
+                    else
+                    {
+                        Debug.Write("Table is occluded\n");
+                    }
                 }
 
-                if (tabControl1.TabIndex==2)
+                if (tabControl1.SelectedIndex == 2)
                 {
-                    showImageCalibrateInput(image);
+                    showImageCalibrateInput(originalImage);
                 }
 
             });
+        }
+
+        public void locateBalls()
+        {
+
+            BallLocator locator = new BallLocator(tableImage, calibration, tab.mask);
+            Ball.calibration = calibration; //HACK!
+
+            List<Ball> balls = locator.idBalls();
+
+            foreach (Ball ball in balls)
+            {
+                drawBallPos(imageBox1.Image.Bitmap, ball);
+            }
+        }
+
+
+        public void drawBallPos(Bitmap bitmap, Ball ball)
+        {
+            Point center = ball.position;
+
+            int radius = BallLocator.ballDia / 2;
+            Rectangle boundingRect = new Rectangle(center.X - radius, center.Y - radius, BallLocator.ballDia, BallLocator.ballDia);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
+            Pen myPen = new Pen(Color.White, 3);
+            graphics.DrawEllipse(myPen, boundingRect);
+            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
+            //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
         public void showBalls()
@@ -126,8 +169,9 @@ namespace PoolTracker
         {
             if (img != null)
             {
-                tab = new TableLocator(image);
-                showImageCalibrateFound(tab.getTableImage(image));
+                tab = new TableLocator(originalImage);
+                showImageCalibrateFound(tab.getTableImage(originalImage));
+                startBallCalibration();
             }
         }
 
@@ -138,8 +182,47 @@ namespace PoolTracker
 
         private void button4_Click(object sender, EventArgs e)
         {
-            tab.isTableOccluded(tab.getTableImage(image), 0.99);
+            tab.isTableOccluded(tab.getTableImage(originalImage), 0.99);
         }
 
+        private void tabPage3_Enter(object sender, EventArgs e)
+        {
+            startBallCalibration();   
+        }
+
+        void startBallCalibration()
+        {
+            if (originalImage != null && tab != null) //If image is ready AND table calibrated a new calibration is started
+            {
+                Image<Bgr, byte> tableImage = tab.getTableImage(originalImage);
+                if (tableImage != null)
+                {
+                    imageBoxCalib.Image = tableImage.Bitmap;
+                    calibration = new BallCalibration(imageBoxCalib, tableImage);
+                    calibrateLabel.Text = calibration.nextBall().ToString(); //Tell the user what ball he should click
+
+                    //Register eventhandler to update label when next ball should be clicked
+                    calibration.BallCalibrated += new BallCalibration.BallCalibratedHandler(calibration_BallCalibrated);
+
+                }
+            }
+        }
+
+        void calibration_BallCalibrated(object sender)
+        {
+            calibrateLabel.Text = Enum.GetName(typeof(BallColor), calibration.nextBall());
+        }
+
+        private void imageBoxCalib_MouseMoveOverImage(object sender, MouseEventArgs e)
+        {
+            Point imagePos = imageBoxCalib.MousePositionOnImage;
+
+            if (imagePos.X < calibration.tableImage.Size.Width - Ball.ballDia && imagePos.Y < calibration.tableImage.Size.Height - Ball.ballDia)
+            {
+                Image<Bgr, byte> ball = calibration.tableImage.Copy(Ball.roiFromCenter(imagePos));
+                imageBoxBallPreview.Image = ball.Copy(Ball.getMask());
+            }
+
+        }
     }
 }

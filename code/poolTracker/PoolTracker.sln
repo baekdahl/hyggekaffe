@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolTracker", "PoolTracker.csproj", "{ECFDE134-4A1D-4003-8790-06CB5E674E1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolTrackerLibrary", "..\..\..\..\..\..\hyggekaffe\code\PoolTrackerLibrary\PoolTrackerLibrary.csproj", "{C57FF2C4-7C69-4D5A-B6A6-CCDDB2A02DC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolTrackerLibrary", "..\PoolTrackerLibrary\PoolTrackerLibrary.csproj", "{C57FF2C4-7C69-4D5A-B6A6-CCDDB2A02DC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
