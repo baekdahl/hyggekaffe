@@ -54,6 +54,7 @@
     <Compile Include="Ball.cs" />
     <Compile Include="BallCalibration.cs" />
     <Compile Include="BallLocator.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="ImageBoxExtended.cs">
       <SubType>Component</SubType>

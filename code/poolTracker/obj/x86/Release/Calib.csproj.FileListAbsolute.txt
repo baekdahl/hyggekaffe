@@ -1,0 +1,33 @@
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.Form2.resources
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.Properties.Resources.resources
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Bin\Calib.exe
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Bin\Calib.pdb
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.exe
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.pdb
+C:\Users\Simon\Dropbox\Simon Backup\Bin\Calib.exe
+C:\Users\Simon\Dropbox\Simon Backup\Bin\Calib.pdb
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.Form2.resources
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.Properties.Resources.resources
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.exe
+C:\Users\Simon\Dropbox\Simon Backup\Calib\obj\x86\Release\Calib.pdb
+C:\Users\Simon\Desktop\test\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Simon\Desktop\test\obj\x86\Release\Calib.Form2.resources
+C:\Users\Simon\Desktop\test\obj\x86\Release\Calib.Properties.Resources.resources
+C:\Users\Simon\Desktop\test\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Simon\Desktop\test\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Simon\Desktop\test\obj\x86\Release\Calib.exe
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\Calib.Form2.resources
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\Calib.Properties.Resources.resources
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\Calib.exe
+C:\Users\Simon\Dropbox\Simon Backup\poolTracker\obj\x86\Release\Calib.pdb
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\poolTracker\obj\x86\Release\Calib.exe
+C:\Documents and Settings\Home\My Documents\Dropbox\Simon Backup\poolTracker\obj\x86\Release\Calib.pdb
