@@ -29,7 +29,7 @@ namespace PoolTrackerLibrary
             if (File.Exists(filename))
             {
                 configXml.Load(filename);
-                XmlNodeList nodelist = configXml.GetElementsByTagName("Config");
+                XmlNodeList nodelist = configXml.GetElementsByTagName("Table");
                 nodelist[0].ChildNodes[0].InnerText = tab.angle.ToString();
                 nodelist[0].ChildNodes[1].InnerText = tab.maskarea.ToString();
                 nodelist[0].ChildNodes[2].InnerText = tab.histMaxValue.ToString();
@@ -42,6 +42,42 @@ namespace PoolTrackerLibrary
                                 
                 configXml.Save(filename);
             }
+        }
+
+        public static void save(BallColor ballname, Bgr color) 
+        {
+            if (File.Exists(filename))
+            {
+                configXml.Load(filename);
+                XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
+
+                for(int i=0; i < nodelist.Count; i++) 
+                {
+                    if(nodelist[0].ChildNodes[i].Name==ballname.ToString()) 
+                    {
+                        nodelist[0].ChildNodes[i].ChildNodes[0].InnerText = color.Blue.ToString();
+                        nodelist[0].ChildNodes[i].ChildNodes[1].InnerText = color.Green.ToString();
+                        nodelist[0].ChildNodes[i].ChildNodes[2].InnerText = color.Red.ToString();
+                    }
+                }
+
+                configXml.Save(filename);
+            }
+
+        }
+
+        public static void save(int ballsize)
+        {
+            if (File.Exists(filename))
+            {
+                configXml.Load(filename);
+                XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
+                nodelist[0].ChildNodes[0].InnerText = ballsize.ToString();
+                configXml.Save(filename);
+
+            }
+
+
         }
 
         public static void load(TableLocator tab)
@@ -64,6 +100,42 @@ namespace PoolTrackerLibrary
 
                 tab.ROI = new Rectangle(x, y, width, height);               
             }
+
+        }
+
+        public static Bgr load(BallColor ballname) 
+        {
+            Bgr returncolor = new Bgr();
+            if (File.Exists(filename))
+            {
+                configXml.Load(filename);
+                XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
+
+                for(int i=0; i < nodelist.Count; i++) 
+                {
+                    if(nodelist[0].ChildNodes[i].ToString()==ballname.ToString()) 
+                    {
+                        returncolor.Blue = Convert.ToDouble(nodelist[1].ChildNodes[i].ChildNodes[0].InnerText);
+                        returncolor.Green = Convert.ToDouble(nodelist[1].ChildNodes[i].ChildNodes[1].InnerText);
+                        returncolor.Red = Convert.ToDouble(nodelist[1].ChildNodes[i].ChildNodes[2].InnerText);
+                    }
+                }
+
+                
+            }
+            return returncolor;
+        }
+
+        public static int load()
+        {
+            int ballsize = 0;
+            if (File.Exists(filename))
+            {
+                configXml.Load(filename);
+                XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
+                ballsize = Convert.ToInt16(nodelist[0].ChildNodes[0].InnerText);
+            }
+            return ballsize;
 
         }
     }
