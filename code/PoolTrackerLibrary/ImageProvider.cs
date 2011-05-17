@@ -40,7 +40,7 @@ namespace PoolTrackerLibrary
 
         public void startCapture()
         {
-            image = cap.QueryFrame();
+            image = cap.QueryFrame().Resize(0.5, INTER.CV_INTER_AREA);
         }
 
         public void setProperties(int height = 720, int width = 960) 
