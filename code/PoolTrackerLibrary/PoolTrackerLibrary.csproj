@@ -54,6 +54,7 @@
     <Compile Include="Ball.cs" />
     <Compile Include="BallCalibration.cs" />
     <Compile Include="BallLocator.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="ImageBoxExtended.cs">
       <SubType>Component</SubType>
@@ -67,7 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableLocator.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="xmlSaveCalibration.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
