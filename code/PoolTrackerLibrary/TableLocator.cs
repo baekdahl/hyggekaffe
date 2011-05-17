@@ -30,7 +30,7 @@ namespace PoolTrackerLibrary
 
         public TableLocator()
         {
-            Config.load(this);
+            //Config.load(this);
         }
 
         public TableLocator(Image<Bgr,Byte> input_image)

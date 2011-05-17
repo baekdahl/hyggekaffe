@@ -67,7 +67,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableLocator.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="xmlSaveCalibration.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

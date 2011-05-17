@@ -76,5 +76,10 @@ namespace PoolTrackerLibrary
             return result;
 
         }
+
+        public static double euclideanDistance(Bgr c1, Bgr c2)
+        {
+            return Math.Sqrt(Math.Pow(c1.Blue - c2.Blue, 2) + Math.Pow(c1.Green - c2.Green, 2) + Math.Pow(c1.Red - c2.Red, 2));
+        }
     }
 }

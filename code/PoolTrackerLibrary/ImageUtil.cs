@@ -30,10 +30,10 @@ namespace PoolTrackerLibrary
            return image.Convert<Hsv, byte>().Split()[0];
        }
 
-       public static DenseHistogram makeHist(Image<Gray, Byte> image) 
+       public static DenseHistogram makeHist(Image<Gray, Byte> image, Image<Gray,byte> mask = null) 
        {
-            DenseHistogram hist = new DenseHistogram(255, new RangeF(0, 255));  //Make histogram with 255 bins in range from 0-255
-            hist.Calculate(new Image<Gray, Byte>[] {  image   }, false, null);  //Calculate the histogram from the image with no accumulation and no mask.
+            DenseHistogram hist = new DenseHistogram(256, new RangeF(0, 255));  //Make histogram with 256 bins in range from 0-255
+            hist.Calculate(new Image<Gray, Byte>[] { image }, false, mask);  //Calculate the histogram from the image with no accumulation and no mask.
             return hist;                                                        //Return the histogram
        }
 
@@ -47,6 +47,23 @@ namespace PoolTrackerLibrary
 
            return maxLocation[0];
 
+       }
+
+       public static int histMeanValue(DenseHistogram hist, int start = 0, int end = -1)
+       {
+           if (end == -1)
+           {
+               end = (int)hist.Ranges[0].Max + 1;
+           }
+
+           int sum = 0, number = 0;
+           for (int i = start; i < end; i++)
+           {
+               number += (int)hist[i];
+               sum += (int)hist[i] * i;
+           }
+
+           return number > 0 ? sum / number : 0;
        }
 
        public static Image<Gray, Byte> twoSidedThreshold(Image<Gray, Byte> image, int threshold, int deviation = 10, bool rangeToZero = false) 

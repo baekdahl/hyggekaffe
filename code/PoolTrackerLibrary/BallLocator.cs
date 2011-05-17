@@ -22,9 +22,8 @@ namespace PoolTrackerLibrary
         public Image<Gray, byte> _tableMatchMask;
         public Image<Gray, byte> initialMatchMask;
 
-        private static double resizeFactor = 1;
+        private static double resizeFactor = .5;
 
-        public double locateThreshold = 100;
         public static int ballDia = 26;
         public static byte backgroundThreshold;
         private int ballDiaResized;
@@ -38,6 +37,17 @@ namespace PoolTrackerLibrary
         public Image<Gray, byte> backProjectShow;
         private BallCalibration calibration;
 
+        private int totalPixels;
+
+
+        private int LocateThreshold {
+         get {
+             
+             return (int)((float)totalPixels * calibration.ballFactor);
+         }
+        }
+            
+            
 
 
         private byte findClothHue()
@@ -70,6 +80,9 @@ namespace PoolTrackerLibrary
 
             backgroundThreshold = findClothHue();
 
+            Image<Gray, byte> patchMask = Ball.getMask().Resize(resizeFactor, INTER.CV_INTER_CUBIC);
+            totalPixels = patchMask.CountNonzero()[0];
+
         }
 
         private Image<Bgr,byte> getBallPatch(Point position)
@@ -90,18 +103,18 @@ namespace PoolTrackerLibrary
             int imgWidth = planes[0].Width;
             int imgHeight = planes[0].Height;
 
-            Image<Gray, byte> patchMask = Ball.getMask();
+            Image<Gray, byte> patchMask = Ball.getMask().Resize(resizeFactor, INTER.CV_INTER_CUBIC);
             int totalPixels = patchMask.CountNonzero()[0];
 
             Rectangle roi = new Rectangle(0, 0, patchMask.Width, patchMask.Height);
 
-            byte backgroundLowThreshold = (byte) (backgroundThreshold - 10);
-            byte backgroundHighThreshold = (byte) (backgroundThreshold + 10);
+            byte backgroundLowThreshold = (byte) (backgroundThreshold - 12);
+            byte backgroundHighThreshold = (byte) (backgroundThreshold + 12);
 
             int[] maxScore = new int[16];
             Point[] maxPosition = new Point[16];
 
-            LinkedList<Ball> candidates = new LinkedList<Ball>(); 
+            LinkedList<int[]> candidates = new LinkedList<int[]>(); 
 
             int patchHalf = (patchMask.Width - 1) / 2;
 
@@ -131,14 +144,15 @@ namespace PoolTrackerLibrary
                                     {
                                         continue;
                                     }
-                                    else if (saturation < calibration.satWhite)
-                                    {
-                                        whitePixels++;
-                                    }
                                     else if (value < calibration.valBlack)
                                     {
                                         blackPixels++;
                                     }
+                                    else if (saturation < calibration.satWhite)
+                                    {
+                                        whitePixels++;
+                                    }
+                                    
                                     else
                                     {
                                         hueHist[hue]++;
@@ -150,23 +164,24 @@ namespace PoolTrackerLibrary
                             maskY++;
                         }
 
-                        Ball ball = new Ball(new Point(x, y), whitePixels, blackPixels, hueHist, satHist);
+                        int score = calculateProbabilty(hueHist, satHist, whitePixels, blackPixels); 
 
-                        if (ball.color != BallColor.None)
+                        if (score > LocateThreshold)
                         {
-                            LinkedListNode<Ball> node = candidates.First;
-                            while (node != null && ball.score < node.Value.score) //Search list until we find a ball with smaller score or we reach the end of list
+                            int[] newNode = new int[] { score, x, y };
+                            LinkedListNode<int[]> node = candidates.First;
+                            while (node != null && score < node.Value[0]) //Search list until we find a ball with smaller score or we reach the end of list
                             {
                                 node = node.Next;
                             }
                             
                             if (node != null)
                             {
-                                candidates.AddBefore(node, ball);
+                                candidates.AddBefore(node, newNode);
                             }
                             else //We reached the end of the list. Add the ball there
                             {
-                                candidates.AddLast(ball);
+                                candidates.AddLast(newNode);
                             }
                         }
                     }
@@ -175,20 +190,18 @@ namespace PoolTrackerLibrary
 
             List<Ball> list = new List<Ball>();
 
-            for (LinkedListNode<Ball> node = candidates.First; node != null; node = node.Next)
+            for (LinkedListNode<int[]> node = candidates.First; node != null; node = node.Next)
             {
-                Point pos = node.Value.position;
+                Point pos = new Point(node.Value[1], node.Value[2]);
                 if (_tableMatchMask.Data[pos.Y, pos.X, 0] == 1)
                 {
-                    Ball ball = node.Value;
-
-                    Stopwatch sw = Util.getWatch();
+                    Ball ball = new Ball(pos, BallColor.None);
+                    ball.position.X = (int)(ball.position.X / resizeFactor);
+                    ball.position.Y = (int)(ball.position.Y / resizeFactor);
                     ball.imageFromTable(tableImage);
-                    Util.writeWatch(sw, "Found hist " + list.Count);
 
-                    sw.Start();
                     ball.findColor();
-                    Util.writeWatch(sw, "Found ballcolor of ball " + list.Count);
+
                     
                     list.Add(ball);
                     if (list.Count == 16)
@@ -201,6 +214,55 @@ namespace PoolTrackerLibrary
 
             return list;
         }
-        
+
+        public int calculateProbabilty(int[] hueHist, int[] satHist, int whitePixels, int blackPixels)
+        {
+            int maxHueDist = 30;
+            int hueMean = Util.getMaxIndex(hueHist);
+            int satMean = Util.getMean(satHist);
+
+            int start = hueMean - maxHueDist;
+            if (start < 1) start += 179;
+
+            int stop = hueMean + maxHueDist;
+            if (stop > 179) stop -= 179;
+
+            int score = 0;
+            for (int i = start; i != stop; i++)
+            {
+                if (i == 180) i = 0;
+
+                score += hueHist[i];
+            }
+            /*
+            if (whitePixels > WhiteThreshold)
+            {
+               return whitePixels;
+            }
+            else if (blackPixels > BallThreshold)
+            {
+                return blackPixels;
+            }
+            else if (score + whitePixels > BallThreshold)
+            {
+            */
+
+            if (blackPixels > score)
+            {
+                return blackPixels + whitePixels;
+            }
+            else
+            {
+                return score + whitePixels;// + blackPixels;
+            }
+
+            
+            /*}
+           
+           else
+           {
+               return 0;
+           }*/
+        }
     }
 }

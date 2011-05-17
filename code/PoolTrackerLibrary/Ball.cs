@@ -52,18 +52,29 @@ namespace PoolTrackerLibrary
             }
         }
 
+        /// <summary>
+        /// Because of variance, the cue ball will not have 100% whitepixels. This number is the number of white pixels in a cue ball.
+        /// </summary>
+        public static int PixelsInWhiteBall
+        {
+            get
+            {
+                return (int)((double)Ball.NumPixels * calibration.whiteRatioInCue);
+            }
+        }
+
         public static int WhiteThreshold
         {
             get
             {
-                return (int)((double)Ball.NumPixels * calibration.whiteFactor);
+                return (int)(PixelsInWhiteBall * calibration.whiteFactor);
             }
         }
         public static int StripedThreshold
         {
             get
             {
-                return (int)((double)Ball.NumPixels * calibration.stripedFactor);
+                return (int)(PixelsInWhiteBall * calibration.stripedFactor);
             }
         }
 
@@ -93,7 +104,7 @@ namespace PoolTrackerLibrary
             this.satHist = satHist;
             this.position = pos;
 
-            this.color = calculateProbabilty();
+            //this.color = calculateProbabilty();
         }
 
         public void imageFromTable(Image <Bgr,byte> tableImage)
@@ -101,57 +112,7 @@ namespace PoolTrackerLibrary
             this.image = tableImage.Copy(roiFromCenter(position));
         }
 
-        public BallColor calculateProbabilty()
-        {
-            int maxHueDist = 30;
-            hueMean = Util.getMaxIndex(hueHist);
-            satMean = Util.getMean(satHist);
 
-            int start = hueMean - maxHueDist;
-            if (start < 1) start += 179;
-
-            int stop = hueMean + maxHueDist;
-            if (stop > 179) stop -= 179;
-
-            score = 0;
-            for (int i = start; i != stop; i++)
-            {
-                if (i == 180) i = 0;
-
-                score += hueHist[i];
-            }
-
-            if (whitePixels > WhiteThreshold)
-            {
-                score = whitePixels;
-                return BallColor.Cue; 
-            }
-            else if (blackPixels > BallThreshold)
-            {
-                score = blackPixels;
-                return BallColor.Black;
-                
-            }
-            else if (score + whitePixels > BallThreshold)
-            {
-                score = score + whitePixels;
-
-                BallColor color = BallColor.Red;
-
-                if (whitePixels > StripedThreshold)
-                {
-                    return color + 8;
-                }
-                else
-                {
-                    return color;
-                }  
-            }
-            else
-            {
-                return BallColor.None;
-            }
-        }
 
         public BallColor findColor()
         {
@@ -159,16 +120,8 @@ namespace PoolTrackerLibrary
             {
                 return BallColor.Red;
             }
-            int[] votes = new int[16];
-
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    BallColor nearest = calibration.nearestBallColor(image[y, x], false);
-                    votes[(int)nearest]++;
-                }
-            }
+            
+            int[] votes = calibration.countVotesForBalls(image);
 
             int maxIndex = 0, max = 0;
             for (int i = 1; i < votes.Length; i++)
@@ -180,6 +133,16 @@ namespace PoolTrackerLibrary
                 }
             }
             this.color = (BallColor)maxIndex;
+
+            if (votes[0] > WhiteThreshold)
+            {
+                this.color = BallColor.Cue;
+                
+            }
+            else if (votes[0] > StripedThreshold && color < BallColor.Black)
+            {
+                this.color += 8;   
+            }
 
             return this.color;
         }

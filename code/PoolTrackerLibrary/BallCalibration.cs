@@ -13,7 +13,7 @@ namespace PoolTrackerLibrary
 {
     public class BallCalibration
     {
-        public BallColor[] calibratableBalls = {BallColor.Cue, BallColor.Black, BallColor.Red, BallColor.Orange, BallColor.Brown, BallColor.Yellow, BallColor.Green, BallColor.Blue};
+        public BallColor[] calibratableBalls = {BallColor.Cue, BallColor.Black, BallColor.Red, BallColor.Orange, BallColor.Brown, BallColor.Yellow, BallColor.Green, BallColor.Blue, BallColor.Purple};
         public BallColor[] colorBalls = {BallColor.Red, BallColor.Orange, BallColor.Brown, BallColor.Yellow, BallColor.Green, BallColor.Blue };
 
         public Dictionary<BallColor, Image<Bgr,byte>> ballSamples = new Dictionary<BallColor,Image<Bgr,byte>>();
@@ -22,9 +22,10 @@ namespace PoolTrackerLibrary
 
         public Image<Bgr, byte> tableImage;
 
-        public int hueRedLow = 12, hueYellow = 25, hueGreen = 100, hueRedHigh = 210, satWhite = 150, valBlack = 50;
+        public int hueRedLow = 12, hueYellow = 25, hueGreen = 100, hueRedHigh = 210, satWhite = 150, valBlack = 60;
         public int satOrange = 200, satBrown = 225;
 
+        public float whiteRatioInCue = .8F;
         public float ballFactor = .3F;
         public float whiteFactor = .8F;
         public float stripedFactor = .3F;
@@ -56,6 +57,7 @@ namespace PoolTrackerLibrary
             ballBgr[BallColor.Yellow] = new Bgr(47, 190, 245);
             ballBgr[BallColor.Green] = new Bgr(15, 51, 18);
             ballBgr[BallColor.Blue] = new Bgr(18, 5, 0);
+            ballBgr[BallColor.Purple] = new Bgr(18, 5, 0);
 
             //buildDistanceTable();
         }
@@ -128,74 +130,35 @@ namespace PoolTrackerLibrary
 
         private Bgr findBgr(Image<Bgr, byte> ball)
         {
-            DenseHistogram hist = Ball.histogram(ball, Point.Empty);
+            Image<Gray, byte>[] planes = ball.Split();
+            int[] maxLoc = new int[3];
 
-            float minVal, maxVal;
-            int[] maxLoc, minLoc;
-            hist.MinMax(out minVal, out maxVal, out minLoc, out maxLoc);
+            for (int color = 0; color < 3; color++)
+            {
+                DenseHistogram hist = ImageUtil.makeHist(planes[color], Ball.getMask());
+                //maxLoc[color] = ImageUtil.histMaxValue(hist);
+                maxLoc[color] = ImageUtil.histMeanValue(hist);
+            }
 
             return new Bgr(maxLoc[0], maxLoc[1], maxLoc[2]);
-        }
-
-        private int findMaxColor(Image<Bgr,byte> image, int channel)
-        {
-            Image<Gray, byte> mask = Ball.getMask();
-            int ballPixels = mask.CountNonzero()[0];
-            int threshold = (int)((float)ballPixels * 0.4);
-
-            DenseHistogram hist = make1DHist(image, channel);
-
-            int pixels = 0;
-            for (int i = 0; i < 255; i++)
-            {
-                pixels += (int)hist[i];
-                if (pixels > threshold)
-                {
-                    return i;
-                }
-            }
-
-            return 255;
-        }
-
-        private DenseHistogram make1DHist(Image<Bgr, byte> image, int channel)
-        {
-            Image<Gray, byte> mask = Ball.getMask();
-            DenseHistogram hist = new DenseHistogram(255, new RangeF(0, 255));
-            hist.Calculate(new Image<Gray, byte>[] { image.Convert<Hsv, byte>().Split()[channel] }, false, mask);
-            return hist;
-        }
-
-        private int getAverageInRange(Image<Bgr, byte> image, int channel, int start, int end)
-        {
-            DenseHistogram hist = make1DHist(image, channel);
-
-            int sum = 0, number = 0;
-            for (int i = start; i < end; i++)
-            {
-                number += (int)hist[i];
-                sum += (int)hist[i] * i;        
-            }
-           
-            return number > 0 ? sum / number : 0;
         }
 
         private void performCalibration()
         {
             Image<Gray,byte> mask = Ball.getMask();
             Image<Gray, byte>[] hsv = tableImage.Convert<Hsv, byte>().Split();
-
-            //valBlack = findMaxColor(ballSamples[BallColor.Black], VAL);
-            //satWhite = 150;// findMaxColor(ballSamples[BallColor.Cue], SAT);
                 
             Bgr white = new Bgr(255, 255, 255);
             foreach (BallColor color in calibratableBalls)
             {  
-            //    ballHsv[color] = findBallColor(ballSamples[color]);
                 ballBgr[color] = findBgr(ballSamples[color]);
                 double angle = Util.shortestAngle(ballBgr[color], white);
-                Debug.Write("Angle : " + color.ToString() + " : " + angle);
+                Debug.Write(color.ToString() + "color:"+ ballBgr[color].ToString() + "angle: " + angle + Environment.NewLine);
             }
+            int[] cueVotes = countVotesForBalls(ballSamples[BallColor.Cue]);
+
+            whiteRatioInCue = (float)cueVotes[0] / Ball.NumPixels;
+            Debug.Write("WhiteRatioInCue: " + whiteRatioInCue);
         }
 
         public BallColor nearestBallColor(Bgr color, bool useDistanceTable = true)
@@ -210,7 +173,8 @@ namespace PoolTrackerLibrary
 
             foreach (BallColor ball in calibratableBalls)
             {
-                double dist = Util.shortestAngle(color, ballBgr[ball]);
+                //double dist = Util.shortestAngle(color, ballBgr[ball]);
+                double dist = Util.euclideanDistance(color, ballBgr[ball]);
                 if (dist < smallest)
                 {
                     smallest = dist;
@@ -219,6 +183,27 @@ namespace PoolTrackerLibrary
             }
 
             return best;
+        }
+
+        public int[] countVotesForBalls(Image<Bgr, byte> image)
+        {
+            if (ballBgr.Count == 0)
+            {
+                return null;
+            }
+
+            int[] votes = new int[16];
+
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    BallColor nearest = nearestBallColor(image[y, x], false);
+                    votes[(int)nearest]++;
+                }
+            }
+
+            return votes;
         }
 
         private void buildDistanceTable()
