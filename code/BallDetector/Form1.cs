@@ -81,14 +81,13 @@ namespace PoolTracker
 
         private void runFrame()
         {
-            imageProvider.startCapture();
-
+            cameraImage = imageProvider.Image;
             if (tableLocator == null)
             {
-                tableLocator = new TableLocator(imageProvider.image);
+                tableLocator = new TableLocator(cameraImage);
             }
 
-            cameraImage = tableLocator.getTableImage(imageProvider.image);
+            cameraImage = tableLocator.getTableImage(cameraImage);
 
             locateBalls();
         }
@@ -109,8 +108,8 @@ namespace PoolTracker
         private void Form1_Shown(object sender, EventArgs e)
         {
             //startCapture();
-            startCapture("../../video/betterSat/Video 3.wmv");
-            //startCapture("../../video/Video 3.wmv");
+            //startCapture("../../video/betterSat/Video 3.wmv");
+            startCapture("../../video/Video 7.wmv");
         }
 
         private void runButton_Click(object sender, EventArgs e)
