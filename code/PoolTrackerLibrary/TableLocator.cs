@@ -66,19 +66,23 @@ namespace PoolTrackerLibrary
             return returnImage;
         }
 
-        public bool isTableOccluded(Image<Bgr, Byte> input_image, double area_threshold=0.99, double perimeter_threshold=1.08)
+        public bool isTableOccluded(Image<Bgr, Byte> input_image, double area_threshold=0.98, double perimeter_threshold=1.08, int resizefactor=1)
         {
             bool occluded = false;
-            double[] currentMask = findBiggestContour(input_image);
+            Image<Bgr, Byte> resizedimg = input_image.Clone().Resize((1 / (double)resizefactor), INTER.CV_INTER_AREA);
+            double[] currentMask = findBiggestContour(resizedimg);
 
-            if (currentMask[0] / maskarea <= area_threshold | currentMask[1] / maskperimeter > perimeter_threshold)
+            double maskRatioArea = (currentMask[0] * resizefactor * resizefactor) / maskarea;
+            double maskRatioPerimeter = (currentMask[1] * resizefactor) / maskperimeter;
+
+            if (maskRatioArea <= area_threshold | maskRatioPerimeter > perimeter_threshold)
             {
                 occluded = true;
             }
 
             Debug.Write("Table is occluded: " + occluded + "\n");
-            Debug.Write("Area:" + currentMask[0] / maskarea + "\n");
-            Debug.Write("Perimeter:" + currentMask[1] / maskperimeter + "\n" + "\n");
+            Debug.Write("Area:" + maskRatioArea + "\n");
+            Debug.Write("Perimeter:" + maskRatioPerimeter + "\n" + "\n");
      
             return occluded;
         }

@@ -43,7 +43,7 @@ namespace PoolTrackerLibrary
 
         public void captureFrame()
         {
-            image = cap.QueryFrame().Resize(0.5, INTER.CV_INTER_NN);  //Resize to half - saves tons of computationtime.
+            image = cap.QueryFrame().Resize(0.5, INTER.CV_INTER_LINEAR);  //Resize to half - saves tons of computationtime.
         }
 
         public ImageProvider(int device = 0)

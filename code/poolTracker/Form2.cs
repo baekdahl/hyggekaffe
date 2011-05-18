@@ -35,6 +35,22 @@ namespace PoolTracker
         bool game8ball;
         BallCalibration calibration = new BallCalibration();
 
+        private static int lastTick;
+        private static int lastFrameRate;
+        private static int frameRate;
+
+        public static int CalculateFrameRate()
+        {
+            if (System.Environment.TickCount - lastTick >= 1000)
+            {
+                lastFrameRate = frameRate;
+                frameRate = 0;
+                lastTick = System.Environment.TickCount;
+            }
+            frameRate++;
+            return lastFrameRate;
+        }
+
         public Form2()
         {
             InitializeComponent();
@@ -54,6 +70,7 @@ namespace PoolTracker
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
                 originalImage = img.Image;
+                this.Text = "PoolTracker running with FPS:" + CalculateFrameRate().ToString();
 
                 if (originalImage != null && tab != null && tabControl1.SelectedIndex == 0)
                 {
