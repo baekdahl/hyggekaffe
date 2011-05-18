@@ -19,16 +19,24 @@ namespace PoolTrackerLibrary
     public class Config
     {
     
-        public static string filename = "config.xml";
+        private static string filename = "config.xml";
         static XmlDocument configXml = new XmlDocument();
+
+        public static  string Filename
+        {
+            get 
+            {
+                return configFilePath() + filename;
+            }
+        }
 
         public static void save(TableLocator tab)
         {
             tab.mask.Save("mask.png");
 
-            if (File.Exists(filename))
+            if (File.Exists(Filename))
             {
-                configXml.Load(filename);
+                configXml.Load(Filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Table");
                 nodelist[0].ChildNodes[0].InnerText = tab.angle.ToString();
                 nodelist[0].ChildNodes[1].InnerText = tab.maskarea.ToString();
@@ -40,15 +48,15 @@ namespace PoolTrackerLibrary
                 nodelist[0].ChildNodes[4].ChildNodes[2].InnerText = tab.ROI.Width.ToString();
                 nodelist[0].ChildNodes[4].ChildNodes[3].InnerText = tab.ROI.Height.ToString();
                                 
-                configXml.Save(filename);
+                configXml.Save(Filename);
             }
         }
 
         public static void save(BallColor ballname, Bgr color) 
         {
-            if (File.Exists(filename))
+            if (File.Exists(Filename))
             {
-                configXml.Load(filename);
+                configXml.Load(Filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
 
                 for (int i = 0; i < nodelist[0].ChildNodes.Count; i++) 
@@ -61,31 +69,36 @@ namespace PoolTrackerLibrary
                     }
                 }
 
-                configXml.Save(filename);
+                configXml.Save(Filename);
             }
 
         }
 
         public static void save(int ballsize)
         {
-            if (File.Exists(filename))
+            if (File.Exists(Filename))
             {
-                configXml.Load(filename);
+                configXml.Load(Filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
                 nodelist[0].ChildNodes[0].InnerText = ballsize.ToString();
-                configXml.Save(filename);
+                configXml.Save(Filename);
 
             }
 
 
         }
 
+        private static string configFilePath()
+        {
+            return System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\";
+        }
+
         public static void load(TableLocator tab)
         {
-            tab.mask = new Image<Gray, Byte>("mask.png");
-            if (File.Exists(filename))
+            tab.mask = new Image<Gray, Byte>(configFilePath() + "mask.png");
+            if (File.Exists(Filename))
             {
-                configXml.Load(filename);
+                configXml.Load(Filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Table");
 
                 tab.angle = Convert.ToDouble(nodelist[0].ChildNodes[0].InnerText);
@@ -106,9 +119,9 @@ namespace PoolTrackerLibrary
         public static Bgr load(BallColor ballname) 
         {
             Bgr returncolor = new Bgr();
-            if (File.Exists(filename))
+            if (File.Exists(Filename))
             {
-                configXml.Load(filename);
+                configXml.Load(Filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
 
                 for(int i=0; i < nodelist[0].ChildNodes.Count; i++) 
@@ -129,9 +142,9 @@ namespace PoolTrackerLibrary
         public static int load()
         {
             int ballsize = 0;
-            if (File.Exists(filename))
+            if (File.Exists(Filename))
             {
-                configXml.Load(filename);
+                configXml.Load(Filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
                 ballsize = Convert.ToInt16(nodelist[0].ChildNodes[0].InnerText);
             }
