@@ -25,9 +25,9 @@ namespace PoolTrackerLibrary
         public int hueRedLow = 12, hueYellow = 25, hueGreen = 100, hueRedHigh = 210, satWhite = 150, valBlack = 60;
         public int satOrange = 200, satBrown = 225;
 
-        public float whiteRatioInCue = .8F;
-        public float ballFactor = .3F;
-        public float whiteFactor = .8F;
+        public float whiteRatioInCue = .93F;
+        public float ballFactor = .24F;
+        public float whiteFactor = .75F;
         public float stripedFactor = .19F;
 
         public delegate void BallCalibratedHandler(object sender);
@@ -43,8 +43,6 @@ namespace PoolTrackerLibrary
             imageBox.MouseMoveOverImage += imageBox_MouseMove;
             imageBox.Click += imageBox_Click;
             this.tableImage = tableImage.Copy();
-
-            
         }
 
         public BallCalibration()

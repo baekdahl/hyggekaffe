@@ -43,7 +43,7 @@ namespace PoolTrackerLibrary
 
         public void captureFrame()
         {
-            image = cap.QueryFrame();
+            image = cap.QueryFrame().Resize(0.5, INTER.CV_INTER_NN);  //Resize to half - saves tons of computationtime.
         }
 
         public ImageProvider(int device = 0)
@@ -58,7 +58,6 @@ namespace PoolTrackerLibrary
         {
             cap = new Capture(filename);
             autoRun = false;
-            setProperties();
             //startCapture();
         }
 
@@ -100,19 +99,11 @@ namespace PoolTrackerLibrary
             }
         }
 
-
-
         public void setProperties(int height = 720, int width = 960) 
         {
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, height);
             cap.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, width);
         }
-        /*
-        public List<string> getDevices()
-        {
-            return devices;
-        }
-        */
 
     }
 }

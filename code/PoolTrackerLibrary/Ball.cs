@@ -32,7 +32,7 @@ namespace PoolTrackerLibrary
     public class Ball
     {
         public Point position;
-        public static int ballDia = 26;
+        public static int ballDia = 26;     //Simon: Have to be defined somehow in calibration. :) <-- My name!
         public BallColor color;
         public int score;
         public DenseHistogram hist;

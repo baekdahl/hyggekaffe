@@ -30,7 +30,7 @@ namespace PoolTrackerLibrary
 
         public TableLocator()
         {
-            //Config.load(this);
+            Config.load(this);
         }
 
         public TableLocator(Image<Bgr,Byte> input_image)
@@ -50,7 +50,7 @@ namespace PoolTrackerLibrary
             imageClothID = imageClothID.Rotate(angle, new Gray(255));                       //Rotate image with cloth identified.
             MCvBox2D clothBox2 = findClothBox(imageClothID);                                //Find rotated box
             ROI = clothBoxToROI(clothBox2);                                                 //Convert box to rectangle ROI
-
+            mask.ROI = ROI;                                                                 //Set ROI for mask
         }
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
@@ -60,7 +60,6 @@ namespace PoolTrackerLibrary
             
             if (mask != null & ROI.Height < input_image.Height & ROI.Width < input_image.Width)
             {
-                mask.ROI = ROI;
                 returnImage = input_image.Rotate(angle, new Bgr(255, 255, 255)).Copy(ROI);
             }
 
@@ -72,14 +71,15 @@ namespace PoolTrackerLibrary
             bool occluded = false;
             double[] currentMask = findBiggestContour(input_image);
 
-            Debug.Write("Area:" + currentMask[0] / maskarea + "\n");
-            Debug.Write("Perimeter:" + currentMask[1] / maskperimeter + "\n");
-
             if (currentMask[0] / maskarea <= area_threshold | currentMask[1] / maskperimeter > perimeter_threshold)
             {
                 occluded = true;
             }
-            
+
+            Debug.Write("Table is occluded: " + occluded + "\n");
+            Debug.Write("Area:" + currentMask[0] / maskarea + "\n");
+            Debug.Write("Perimeter:" + currentMask[1] / maskperimeter + "\n" + "\n");
+     
             return occluded;
         }
 
@@ -92,7 +92,7 @@ namespace PoolTrackerLibrary
         {
             MCvBox2D clothBox = new MCvBox2D();
 
-            for (Contour<Point> contour = image.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
+            for (Contour<Point> contour = image.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)  //Iterate through contours
             {
                 Contour<Point> currentContour = contour.ApproxPoly(contour.Perimeter * 0.001);                                           //Approximate a polygon with certain precision.
 
@@ -122,7 +122,7 @@ namespace PoolTrackerLibrary
             img = ImageUtil.twoSidedThreshold(img, histMaxValue);
             img = median(img, 3);
 
-            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
+            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)  //Iterate through contours
             {
 
                 if (contour.Area > img.Width * img.Height * 0.5)

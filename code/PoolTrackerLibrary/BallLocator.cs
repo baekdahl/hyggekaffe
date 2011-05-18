@@ -22,9 +22,9 @@ namespace PoolTrackerLibrary
         public Image<Gray, byte> _tableMatchMask;
         public Image<Gray, byte> initialMatchMask;
 
-        private static double resizeFactor = .5;
+        private static double resizeFactor = 1;
 
-        public static int ballDia = 26;
+        public static int ballDia = 26;                 //Both definded here and in Ball.cs
         public static byte backgroundThreshold;
         private int ballDiaResized;
 

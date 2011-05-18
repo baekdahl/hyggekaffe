@@ -1,87 +1,62 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Config>
   <Table>
-    <tableAngle>0,265871783084435</tableAngle>
-    <tableMaskArea>363073</tableMaskArea>
-    <tablehistMaxValue>92</tablehistMaxValue>
-    <tableMaskPerimeter>3093,20013356209</tableMaskPerimeter>
+    <tableAngle>8,1859280705377</tableAngle>
+    <tableMaskArea>92633</tableMaskArea>
+    <tablehistMaxValue>93</tablehistMaxValue>
+    <tableMaskPerimeter>1573,57776832581</tableMaskPerimeter>
     <tableROI>
-      <X>37</X>
-      <Y>243</Y>
-      <Width>866</Width>
-      <Height>456</Height>
+      <X>21</X>
+      <Y>52</Y>
+      <Width>440</Width>
+      <Height>230</Height>
     </tableROI>
   </Table>
   <Ball>
-    <Size>400</Size>
     <Cue>
-      <B>255</B>
-      <G>255</G>
-      <R>255</R>
+      <B>172</B>
+      <G>208</G>
+      <R>202</R>
     </Cue>
     <Yellow>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>15</B>
+      <G>159</G>
+      <R>221</R>
     </Yellow>
     <Blue>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>104</B>
+      <G>28</G>
+      <R>7</R>
     </Blue>
     <Red>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>44</B>
+      <G>33</G>
+      <R>195</R>
     </Red>
     <Purple>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>67</B>
+      <G>39</G>
+      <R>35</R>
     </Purple>
     <Orange>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>77</B>
+      <G>83</G>
+      <R>227</R>
     </Orange>
     <Green>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>45</B>
+      <G>91</G>
+      <R>7</R>
     </Green>
     <Brown>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>33</B>
+      <G>31</G>
+      <R>121</R>
     </Brown>
     <Black>
-      <B>
-      </B>
-      <G>
-      </G>
-      <R>
-      </R>
+      <B>33</B>
+      <G>43</G>
+      <R>32</R>
     </Black>
     <YellowWhite>
       <B>

@@ -42,9 +42,14 @@ namespace PoolTracker
 
         public void Run() 
         {
-
+            bool occluded = true;
             img = new ImageProvider(stream);
-            //tab = new TableLocator();
+            
+            tab = new TableLocator();
+            loadBallCalibration();
+
+            Ball.ballDia = (int)(26 * 0.5);
+            BallLocator.ballDia = (int)(26 * 0.5);
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
@@ -55,13 +60,15 @@ namespace PoolTracker
                     tableImage = tab.getTableImage(originalImage);
                     showImage1(tableImage);
 
-                    if (!tab.isTableOccluded(originalImage))
+                    if (!tab.isTableOccluded(originalImage))//==occluded)
                     {
+                        //occluded = !occluded;
                         locateBalls();
                     }
+                    
                     else
                     {
-                        Debug.Write("Table is occluded\n");
+                        //Debug.Write("Table is occluded\n");
                     }
                 }
 
@@ -75,7 +82,6 @@ namespace PoolTracker
 
         public void locateBalls()
         {
-
             BallLocator locator = new BallLocator(tableImage, calibration, tab.mask);
             Ball.calibration = calibration; //HACK!
 
@@ -86,7 +92,6 @@ namespace PoolTracker
                 drawBallPos(imageBox1.Image.Bitmap, ball);
             }
         }
-
 
         public void drawBallPos(Bitmap bitmap, Ball ball)
         {
@@ -171,23 +176,41 @@ namespace PoolTracker
             {
                 tab = new TableLocator(originalImage);
                 showImageCalibrateFound(tab.getTableImage(originalImage));
-                startBallCalibration();
+                //startBallCalibration();
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SaveSettings_Click(object sender, EventArgs e)
         {
-            Config.save(tab);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            tab.isTableOccluded(tab.getTableImage(originalImage), 0.99);
-        }
+             Config.save(tab);
+             Config.save(BallColor.Cue, calibration.ballBgr[BallColor.Cue]);
+             Config.save(BallColor.Black, calibration.ballBgr[BallColor.Black]);
+             Config.save(BallColor.Red, calibration.ballBgr[BallColor.Red]);
+             Config.save(BallColor.Orange, calibration.ballBgr[BallColor.Orange]);
+             Config.save(BallColor.Brown, calibration.ballBgr[BallColor.Brown]);
+             Config.save(BallColor.Yellow, calibration.ballBgr[BallColor.Yellow]);
+             Config.save(BallColor.Green, calibration.ballBgr[BallColor.Green]);
+             Config.save(BallColor.Blue, calibration.ballBgr[BallColor.Blue]);
+             Config.save(BallColor.Purple, calibration.ballBgr[BallColor.Purple]);
+       }
 
         private void tabPage3_Enter(object sender, EventArgs e)
         {
-            startBallCalibration();   
+           // startBallCalibration();   
+        }
+
+        private void loadBallCalibration()
+        {
+            calibration.ballBgr[BallColor.Cue] = Config.load(BallColor.Cue);
+            calibration.ballBgr[BallColor.Black] = Config.load(BallColor.Black);
+            calibration.ballBgr[BallColor.Red] = Config.load(BallColor.Red);
+            calibration.ballBgr[BallColor.Orange] = Config.load(BallColor.Orange);
+            calibration.ballBgr[BallColor.Brown] = Config.load(BallColor.Brown);
+            calibration.ballBgr[BallColor.Yellow] = Config.load(BallColor.Yellow);
+            calibration.ballBgr[BallColor.Green] = Config.load(BallColor.Green);
+            calibration.ballBgr[BallColor.Blue] = Config.load(BallColor.Blue);
+            calibration.ballBgr[BallColor.Purple] = Config.load(BallColor.Purple);
+
         }
 
         void startBallCalibration()
@@ -223,6 +246,11 @@ namespace PoolTracker
                 imageBoxBallPreview.Image = ball.Copy(Ball.getMask());
             }
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            startBallCalibration();
         }
     }
 }

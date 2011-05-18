@@ -51,7 +51,7 @@ namespace PoolTrackerLibrary
                 configXml.Load(filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
 
-                for(int i=0; i < nodelist.Count; i++) 
+                for (int i = 0; i < nodelist[0].ChildNodes.Count; i++) 
                 {
                     if(nodelist[0].ChildNodes[i].Name==ballname.ToString()) 
                     {
@@ -86,7 +86,7 @@ namespace PoolTrackerLibrary
             if (File.Exists(filename))
             {
                 configXml.Load(filename);
-                XmlNodeList nodelist = configXml.GetElementsByTagName("Config");
+                XmlNodeList nodelist = configXml.GetElementsByTagName("Table");
 
                 tab.angle = Convert.ToDouble(nodelist[0].ChildNodes[0].InnerText);
                 tab.maskarea = Convert.ToDouble(nodelist[0].ChildNodes[1].InnerText);
@@ -111,13 +111,13 @@ namespace PoolTrackerLibrary
                 configXml.Load(filename);
                 XmlNodeList nodelist = configXml.GetElementsByTagName("Ball");
 
-                for(int i=0; i < nodelist.Count; i++) 
+                for(int i=0; i < nodelist[0].ChildNodes.Count; i++) 
                 {
-                    if(nodelist[0].ChildNodes[i].ToString()==ballname.ToString()) 
+                    if(nodelist[0].ChildNodes[i].Name==ballname.ToString()) 
                     {
-                        returncolor.Blue = Convert.ToDouble(nodelist[1].ChildNodes[i].ChildNodes[0].InnerText);
-                        returncolor.Green = Convert.ToDouble(nodelist[1].ChildNodes[i].ChildNodes[1].InnerText);
-                        returncolor.Red = Convert.ToDouble(nodelist[1].ChildNodes[i].ChildNodes[2].InnerText);
+                        returncolor.Blue = Convert.ToDouble(nodelist[0].ChildNodes[i].ChildNodes[0].InnerText);
+                        returncolor.Green = Convert.ToDouble(nodelist[0].ChildNodes[i].ChildNodes[1].InnerText);
+                        returncolor.Red = Convert.ToDouble(nodelist[0].ChildNodes[i].ChildNodes[2].InnerText);
                     }
                 }
 
