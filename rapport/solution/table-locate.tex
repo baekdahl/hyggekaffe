@@ -13,7 +13,7 @@
 This method would not require any image processing, but would require the user to set the ROI. This solution could be used if the chosen solution does not return a ROI due to difficult illumination or errors.
 
 \textbf{Search for the table as the biggest contour:}\\
-The method was tried and gave mixed results. It was possible to segment the table using adaptive threshold and thereafter process it with OpenCV \cite{opencv} contour finding algorithm. This would find the outside of the table, but sometimes also the floor or anything underlying the table that was a bigger rectangle.\\
+The method was tried and gave mixed results. It was possible to segment the table using adaptive threshold and thereafter process it with OpenCV \cite{opencv} contour finding algorithm. This would find the outside of the table, but sometimes also the floor or anything underlying the table that was a bigger rectangle. \\
 
 \textbf{Searching for the pockets on the pool table:}\\
 This proved to be easy to do by using the value part of the image in HSV colour space. Since the pockets are less illuminated than the rest of the table this should have a very low value. An example of this can be seen in\ref{fig:value_thres}. 
@@ -68,7 +68,7 @@ This fact will be used as part of the solution for this problem. As shown on his
 
 \subsubsection{The solution in details:}
 \textbf{1) Convert the input image to HSV and make a new image for the hue:}\\
-This is done using the build in functions of OpenCV\cite{opencv}.\\
+This is done using the build in functions of OpenCV\cite{opencv}\fxnote{Necessary to cite them every time?}.\\
 
 \textbf{2) Making the histogram:}\\
 Using the class DenseHistogram in OpenCV\cite{opencv} the histogram is computed from the hue image. A range of 0-255 is chosen together with 255 bins.\\

@@ -1,10 +1,17 @@
-To be able to identify the balls, the location of each ball is needed. By knowing where the balls are placed, features from each ball can be extracted and compared for identification.
+The detection method can be divided into the following three steps:
+\begin{enumerate}
+  \item Preliminary segmentation
+  \item Ball probability estimation
+  \item Best candidates selection
+\end{enumerate}
 
-The location of a ball is defined by the position of the bounding circle of the ball. The radius of a ball is equal  and known for all balls, and the balls can then be represented by the center point alone.
+Preliminary segmentation is performed to decrease the ROI from the entire table area to areas that contains balls.
 
-The located positions must be precise to gain the optimal working conditions for the identifier. A ball location that is slightly shifted will result in a ball region that contains pixels which does not come from the ball. This will make it harder for the identifier to identify the ball, and it will become even harder if the region intersects another ball because the region will then become a mix of two different balls. This can cause that the two balls are classified as the other and thereby 2 identification errors.
+In step 2 the ROI is traversed, and a ball probability is computed at each possible ball location. 
 
-\subsubsection{Preliminary segmentation}
+To establish which of the positions inside the ROI are actual ball positions, the balls are selected from the list of probabilities starting with the most probable position.
+
+\paragraph{Preliminary segmentation}
 To decrease the ROI from the cloth area down to areas of the table that contains balls, a preliminary segmentation is performed. A color threshold removes all pixels that belong to the background leaving behind a mask that represents the balls.
 \begin{figure}[H]
   \centering
@@ -16,10 +23,10 @@ To decrease the ROI from the cloth area down to areas of the table that contains
 \end{figure}
 Figure \ref{fig:thres1} shows the result of the color threshold. In a situation like this where the balls are laying close to each other, the preliminary segmentation is not enough to successfully separate the balls. Balls in close proximity results in connected BLOBs after the threshold. These BLOBs could be separated using morphology operations but most of the information would be lost, causing the locations to lack precision. Instead of using the BLOBS directly, they are used as search regions for the balls.
 
-\subsubsection{Ball features}
-To be able to detect balls in the image, we need to know the features that characterizes a ball. The following description can be formulated:
+\paragraph{Ball probability estimation}
+To be able to estimate the ball probability, we need to know the features that characterizes a ball. The following description can be formulated:
 \begin{itemize}
-\item The shape of the ball is always a circle of fixed size
+\item The shape of the ball, in the image, is always a circle of fixed size
 \item The color distribution consists of at least two of three parts:
 	\begin{itemize}
 		\item White
@@ -27,13 +34,13 @@ To be able to detect balls in the image, we need to know the features that chara
 		\item Primary ball color
 	\end{itemize}
 \end{itemize}
-The black and cue balls has black and white, respectively, as their primary color, making them consist of only two distributions, whereas all other balls consists all three. This ball description allows us to formulate a way of measuring the probability of that a given position in the image corresponds to the center of a ball.
+The black and cue balls has black and white, respectively, as their primary color, making them consist of only two distributions, whereas all other balls consists all three. This ball description allows us to formulate a measure for the probability that a given position in the image corresponds to the center of a ball.
 
 If we ignore the black pixels for all balls except for the black(8), the balls only contains 1 primary color and white. The probability of a position containing a ball can then be formulated as
 \begin{equation}
 P(ball) = \frac{primary + white}{total}
 \end{equation}
-\subsubsection{Detection method}
+It is seen that the a region having only one color besides white maximizes the probability.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=\textwidth]{images/ballflowchart.pdf}
@@ -41,6 +48,7 @@ P(ball) = \frac{primary + white}{total}
 \label{fig:ballflowchart}
 \end{center}
 \end{figure}
+\fxnote{Explain flowchart so that it is understandable.}
 By finding the non-overlapping positions in the image that maximizes this ratio the balls can be found. Balls are detected at the highest scoring position that does not already contain a ball. The system continues to detect balls until 16 balls are found or the score goes below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
 
 \begin{figure}[H]
@@ -65,7 +73,7 @@ As mentioned before, the ball score is computed as the sum of the primary and wh
 \end{center}
 \end{figure}
 
-\subsubsection{Detection results}
+\paragraph{Detection results}
 Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
 
 \begin{figure}[H]
