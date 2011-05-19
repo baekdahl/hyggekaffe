@@ -5,3 +5,6 @@
 /*.log
 /main.pdf
 /*.pdfsync
+/tmp/
+/*.project
+/*.lox
