@@ -66,7 +66,7 @@ namespace PoolTrackerLibrary
             return returnImage;
         }
 
-        public bool isTableOccluded(Image<Bgr, Byte> input_image, double area_threshold=0.98, double perimeter_threshold=1.08, int resizefactor=1)
+        public bool isTableOccluded(Image<Bgr, Byte> input_image, double area_threshold=0.98, double perimeter_threshold=1.05, int resizefactor=4)
         {
             bool occluded = false;
             Image<Bgr, Byte> resizedimg = input_image.Clone().Resize((1 / (double)resizefactor), INTER.CV_INTER_AREA);
