@@ -3,7 +3,7 @@ To find the table and balls it is important to understand how the table and ball
 \subsubsection{The table}
 As written in the rules\ref{sec:rules} the table cloth colour has to be yellow-green, blue-green or electric blue. The cloth color should be constant, but dependent on the lightning the variance of the cloth on the input image could be significant.
 
-The table which has been used for measuring is a pool table with blue-green cloth which is located in Aalborg University's lab in room A6-314!
+The table which has been used for measuring is a pool table with blue-green cloth which is located in Aalborg University's lab at Niels Jernes Vej in room A6-314.
 
 Three different images of the pool table and one image with the cloth cut out are analysed first in HSV color space and then i RGB space. These analysis will be used in the solution chapter.
 
@@ -12,7 +12,7 @@ Three different images of the pool table and one image with the cloth cut out ar
 \leavevmode
 \includegraphics[width=1\textwidth]{images/hsv_hist_table}
 \end{center}
-\caption{HSV: Image 1,2 and 3 are mixed lightning where 4 is the cutout of the cloth from image 1. All axis are aligned.}
+\caption{HSV Images 1, 2 and 3 are mixed lightning where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablehsv}
 \end{figure}
 
@@ -21,9 +21,13 @@ Three different images of the pool table and one image with the cloth cut out ar
 \leavevmode
 \includegraphics[width=1\textwidth]{images/rgb_hist_table}
 \end{center}
-\caption{RGB: Image 1,2 and 3 are mixed lightning where 4 is the cutout of the cloth from image 1. All axis are aligned.}
+\caption{RGB Images 1, 2 and 3 are mixed lightning where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablergb}
 \end{figure}
+
+From the HSV color space figure \ref{fig:tablehsv} it is clear that the cloth should be somewhat easily found using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.\\
+
+When looking at the RGB color space figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSV color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.\\
 
 \subsubsection{The balls}
 The success of the system depends on the identifier to be able to separate the pool balls from each other. To analyze the separability, histograms of all the different solid colored balls has been computed. This has been done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
