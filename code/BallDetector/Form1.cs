@@ -107,7 +107,7 @@ namespace PoolTracker
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            //startCapture();
+            //startCapture(); 
             //startCapture("../../video/betterSat/Video 3.wmv");
             startCapture("../../video/Video 7.wmv");
         }
