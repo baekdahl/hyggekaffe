@@ -79,7 +79,7 @@ namespace PoolTracker
 
                     if (!tab.isTableOccluded(originalImage))//==occluded)
                     {
-                        //occluded = !occluded;
+                       // occluded = !occluded;
                         locateBalls();
                     }
                     
