@@ -65,8 +65,8 @@ namespace PoolTracker
             tab = new TableLocator();
             loadBallCalibration();
 
-            Ball.ballDia = (int)(26 * 1);
-            BallLocator.ballDia = (int)(26 * 1);
+            Ball.ballDia = (int)(26 * 0.95);
+            BallLocator.ballDia = (int)(26 * 0.95);
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
@@ -81,37 +81,38 @@ namespace PoolTracker
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = tableImage.CopyBlank();
 
-                    //if (!tab.isTableOccluded(originalImage))//==occluded)
-                    //{
+                    if (!tab.isTableOccluded(originalImage))//==occluded)
+                    {
                        // occluded = !occluded;
                         locateBalls();
-                    //}
+                    }
                     
-                    //else
-                    //{
-                        //Debug.Write("Table is occluded\n");
-                    //}
+                    else
+                    {
+                        Debug.Write("Table is occluded\n");
+                    }
                 }
 
                 if (tabControl1.SelectedIndex == 2)
                 {
-                    Thread.Sleep(25);
+                    Thread.Sleep(100);
                     showImageCalibrateInput(originalImage);
                 }
 
             });
         }
-
+        /*
         public bool stillBalls(int distance_threshold = 13, int frames = 3)
         {
             if (ballsarray.Count < frames) { return true; }
 
+            foreach (Dictionary<BallColor, Ball> currentFrameBalls in ballsarray)
+            {
 
+                double x_distance = ballsarray[balls.count];
+                double y_distance = Math.Abs(ballsarray[ballsarray.Count-1][i].position.X - ballsarray[ballsarray.Count-n][i].position.X);
 
-                    double x_distance = ballsarray[i][
-                    double y_distance = Math.Abs(ballsarray[ballsarray.Count-1][i].position.X - ballsarray[ballsarray.Count-n][i].position.X);
-
-                    if (x_distance > distance_threshold) 
+                   /if (x_distance > distance_threshold) 
                     { 
                         return false; 
                     }
@@ -123,6 +124,7 @@ namespace PoolTracker
             }
             return true;
         }
+        */
 
         public void locateBalls()
         {
@@ -130,16 +132,16 @@ namespace PoolTracker
             Ball.calibration = calibration; //HACK!
 
             List<Ball> balls = locator.idBalls();
-
-            Dictionary<BallColor,Ball> addToArray = new Dictionary<BallColor,Ball>();
+            Dictionary<BallColor, Ball> addToArray = new Dictionary<BallColor, Ball>();
 
             foreach (Ball ball in balls)
             {
                 drawBallPos(imageBox1.Image.Bitmap, ball);
                 drawBallCopy(imageBox6.Image.Bitmap, ball);
+                //addToArray.Add(ball.color, ball);
             }
-            ballsarray.Add(addToArray);
-            Debug.Write(balls[0].position+"\n");
+            
+            //ballsarray.Add(addToArray);
         }
 
         public void drawBallPos(Bitmap bitmap, Ball ball)
