@@ -1,62 +1,62 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Config>
   <Table>
-    <tableAngle>8,1859280705377</tableAngle>
-    <tableMaskArea>92633</tableMaskArea>
-    <tablehistMaxValue>93</tablehistMaxValue>
-    <tableMaskPerimeter>1573,57776832581</tableMaskPerimeter>
+    <tableAngle>7,70989167695451</tableAngle>
+    <tableMaskArea>377157,5</tableMaskArea>
+    <tablehistMaxValue>92</tablehistMaxValue>
+    <tableMaskPerimeter>3937,35358428955</tableMaskPerimeter>
     <tableROI>
-      <X>21</X>
-      <Y>52</Y>
-      <Width>440</Width>
-      <Height>230</Height>
+      <X>66</X>
+      <Y>63</Y>
+      <Width>890</Width>
+      <Height>466</Height>
     </tableROI>
   </Table>
   <Ball>
     <Cue>
-      <B>172</B>
-      <G>208</G>
-      <R>202</R>
+      <B>174</B>
+      <G>223</G>
+      <R>216</R>
     </Cue>
     <Yellow>
-      <B>15</B>
-      <G>159</G>
+      <B>38</B>
+      <G>165</G>
       <R>221</R>
     </Yellow>
     <Blue>
-      <B>104</B>
-      <G>28</G>
-      <R>7</R>
+      <B>107</B>
+      <G>66</G>
+      <R>31</R>
     </Blue>
     <Red>
-      <B>44</B>
-      <G>33</G>
-      <R>195</R>
+      <B>62</B>
+      <G>46</G>
+      <R>182</R>
     </Red>
     <Purple>
-      <B>67</B>
-      <G>39</G>
-      <R>35</R>
+      <B>78</B>
+      <G>53</G>
+      <R>40</R>
     </Purple>
     <Orange>
-      <B>77</B>
-      <G>83</G>
-      <R>227</R>
+      <B>93</B>
+      <G>100</G>
+      <R>229</R>
     </Orange>
     <Green>
-      <B>45</B>
-      <G>91</G>
-      <R>7</R>
+      <B>69</B>
+      <G>100</G>
+      <R>27</R>
     </Green>
     <Brown>
-      <B>33</B>
-      <G>31</G>
-      <R>121</R>
+      <B>51</B>
+      <G>46</G>
+      <R>116</R>
     </Brown>
     <Black>
-      <B>33</B>
-      <G>43</G>
-      <R>32</R>
+      <B>52</B>
+      <G>60</G>
+      <R>39</R>
     </Black>
     <YellowWhite>
       <B>

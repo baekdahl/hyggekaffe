@@ -55,8 +55,11 @@
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.imageBox4 = new Emgu.CV.UI.ImageBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.imageBoxBallPreview = new Emgu.CV.UI.ImageBox();
             this.calibrateLabel = new System.Windows.Forms.Label();
+            this.imageBoxCalib = new PoolTrackerLibrary.PictureBoxExtended();
             this.SaveSettings = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -70,9 +73,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.imageBoxCalib = new PoolTrackerLibrary.PictureBoxExtended();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.imageBox5 = new Emgu.CV.UI.ImageBox();
+            this.imageBox6 = new Emgu.CV.UI.ImageBox();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -84,12 +88,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxBallPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -108,20 +119,20 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.openToolStripMenuItem.Text = "Load";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -130,6 +141,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -349,6 +361,26 @@
             this.tabPage3.UseVisualStyleBackColor = true;
             this.tabPage3.Enter += new System.EventHandler(this.tabPage3_Enter);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label3.Location = new System.Drawing.Point(3, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Calibrate Balls";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(116, 295);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(200, 33);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Calibrate";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // imageBoxBallPreview
             // 
             this.imageBoxBallPreview.Location = new System.Drawing.Point(383, 36);
@@ -366,6 +398,18 @@
             this.calibrateLabel.Size = new System.Drawing.Size(0, 13);
             this.calibrateLabel.TabIndex = 14;
             this.calibrateLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // imageBoxCalib
+            // 
+            this.imageBoxCalib.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBoxCalib.CircleCursor = 0;
+            this.imageBoxCalib.Location = new System.Drawing.Point(3, 36);
+            this.imageBoxCalib.Name = "imageBoxCalib";
+            this.imageBoxCalib.Size = new System.Drawing.Size(433, 253);
+            this.imageBoxCalib.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBoxCalib.TabIndex = 13;
+            this.imageBoxCalib.TabStop = false;
+            this.imageBoxCalib.MouseMoveOverImage += new PoolTrackerLibrary.PictureBoxExtended.MouseMoveOverImageHandler(this.imageBoxCalib_MouseMoveOverImage);
             // 
             // SaveSettings
             // 
@@ -491,37 +535,55 @@
             this.notifyIcon1.Text = "PoolTracker";
             this.notifyIcon1.Visible = true;
             // 
-            // button1
+            // tabPage4
             // 
-            this.button1.Location = new System.Drawing.Point(116, 295);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 33);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Calibrate";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.tabPage4.Controls.Add(this.splitContainer1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(813, 463);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "tabPage4";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // imageBoxCalib
+            // splitContainer1
             // 
-            this.imageBoxCalib.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageBoxCalib.CircleCursor = 0;
-            this.imageBoxCalib.Location = new System.Drawing.Point(3, 36);
-            this.imageBoxCalib.Name = "imageBoxCalib";
-            this.imageBoxCalib.Size = new System.Drawing.Size(433, 253);
-            this.imageBoxCalib.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imageBoxCalib.TabIndex = 13;
-            this.imageBoxCalib.TabStop = false;
-            this.imageBoxCalib.MouseMoveOverImage += new PoolTrackerLibrary.PictureBoxExtended.MouseMoveOverImageHandler(this.imageBoxCalib_MouseMoveOverImage);
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
             // 
-            // label3
+            // splitContainer1.Panel1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.label3.Location = new System.Drawing.Point(3, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Calibrate Balls";
+            this.splitContainer1.Panel1.Controls.Add(this.imageBox5);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.imageBox6);
+            this.splitContainer1.Size = new System.Drawing.Size(807, 457);
+            this.splitContainer1.SplitterDistance = 359;
+            this.splitContainer1.TabIndex = 4;
+            // 
+            // imageBox5
+            // 
+            this.imageBox5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox5.Location = new System.Drawing.Point(0, 0);
+            this.imageBox5.Name = "imageBox5";
+            this.imageBox5.Size = new System.Drawing.Size(359, 457);
+            this.imageBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBox5.TabIndex = 4;
+            this.imageBox5.TabStop = false;
+            // 
+            // imageBox6
+            // 
+            this.imageBox6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox6.Location = new System.Drawing.Point(0, 0);
+            this.imageBox6.Name = "imageBox6";
+            this.imageBox6.Size = new System.Drawing.Size(444, 457);
+            this.imageBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imageBox6.TabIndex = 4;
+            this.imageBox6.TabStop = false;
             // 
             // Form2
             // 
@@ -553,6 +615,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxBallPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -561,7 +624,13 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxCalib)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -612,6 +681,10 @@
         private Emgu.CV.UI.ImageBox imageBoxBallPreview;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private Emgu.CV.UI.ImageBox imageBox5;
+        private Emgu.CV.UI.ImageBox imageBox6;
 
 
 

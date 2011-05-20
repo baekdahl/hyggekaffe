@@ -32,7 +32,7 @@ namespace PoolTrackerLibrary
 
         public static void save(TableLocator tab)
         {
-            tab.mask.Save("mask.png");
+            tab.mask.Save(configFilePath() + "mask.png");
 
             if (File.Exists(Filename))
             {

@@ -50,7 +50,10 @@ namespace PoolTrackerLibrary
             imageClothID = imageClothID.Rotate(angle, new Gray(255));                       //Rotate image with cloth identified.
             MCvBox2D clothBox2 = findClothBox(imageClothID);                                //Find rotated box
             ROI = clothBoxToROI(clothBox2);                                                 //Convert box to rectangle ROI
-            mask.ROI = ROI;                                                                 //Set ROI for mask
+            if(ROI.Height > 0)  {
+                mask.ROI = ROI;
+            }
+            //Set ROI for mask
         }
 
         public Image<Bgr, Byte> getTableImage(Image<Bgr, Byte> input_image)
