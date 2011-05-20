@@ -33,6 +33,7 @@ namespace PoolTracker
         TableLocator tab;
         string stream;
         bool game8ball;
+        List<Dictionary<BallColor, Ball>> ballsarray = new List<Dictionary<BallColor, Ball>>();
         BallCalibration calibration = new BallCalibration();
 
         private static int lastTick;
@@ -101,6 +102,28 @@ namespace PoolTracker
             });
         }
 
+        public bool stillBalls(int distance_threshold = 13, int frames = 3)
+        {
+            if (ballsarray.Count < frames) { return true; }
+
+
+
+                    double x_distance = ballsarray[i][
+                    double y_distance = Math.Abs(ballsarray[ballsarray.Count-1][i].position.X - ballsarray[ballsarray.Count-n][i].position.X);
+
+                    if (x_distance > distance_threshold) 
+                    { 
+                        return false; 
+                    }
+                    if (y_distance > distance_threshold) 
+                    { 
+                        return false; 
+                    }
+
+            }
+            return true;
+        }
+
         public void locateBalls()
         {
             BallLocator locator = new BallLocator(tableImage, calibration, tab.mask);
@@ -108,11 +131,15 @@ namespace PoolTracker
 
             List<Ball> balls = locator.idBalls();
 
+            Dictionary<BallColor,Ball> addToArray = new Dictionary<BallColor,Ball>();
+
             foreach (Ball ball in balls)
             {
                 drawBallPos(imageBox1.Image.Bitmap, ball);
                 drawBallCopy(imageBox6.Image.Bitmap, ball);
             }
+            ballsarray.Add(addToArray);
+            Debug.Write(balls[0].position+"\n");
         }
 
         public void drawBallPos(Bitmap bitmap, Ball ball)
