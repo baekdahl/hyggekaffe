@@ -64,8 +64,8 @@ namespace PoolTracker
             tab = new TableLocator();
             loadBallCalibration();
 
-            Ball.ballDia = (int)(26 * 0.5);
-            BallLocator.ballDia = (int)(26 * 0.5);
+            Ball.ballDia = (int)(26 * 1);
+            BallLocator.ballDia = (int)(26 * 1);
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
@@ -75,22 +75,26 @@ namespace PoolTracker
                 if (originalImage != null && tab != null && tabControl1.SelectedIndex == 0)
                 {
                     tableImage = tab.getTableImage(originalImage);
+                    
                     showImage1(tableImage);
+                    imageBox5.Image = tableImage.Copy();
+                    imageBox6.Image = tableImage.CopyBlank();
 
-                    if (!tab.isTableOccluded(originalImage))//==occluded)
-                    {
+                    //if (!tab.isTableOccluded(originalImage))//==occluded)
+                    //{
                        // occluded = !occluded;
                         locateBalls();
-                    }
+                    //}
                     
-                    else
-                    {
+                    //else
+                    //{
                         //Debug.Write("Table is occluded\n");
-                    }
+                    //}
                 }
 
                 if (tabControl1.SelectedIndex == 2)
                 {
+                    Thread.Sleep(25);
                     showImageCalibrateInput(originalImage);
                 }
 
@@ -107,6 +111,7 @@ namespace PoolTracker
             foreach (Ball ball in balls)
             {
                 drawBallPos(imageBox1.Image.Bitmap, ball);
+                drawBallCopy(imageBox6.Image.Bitmap, ball);
             }
         }
 
@@ -120,6 +125,21 @@ namespace PoolTracker
             //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
             Pen myPen = new Pen(Color.White, 3);
             graphics.DrawEllipse(myPen, boundingRect);
+            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
+            //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
+        }
+
+        public void drawBallCopy(Bitmap bitmap, Ball ball)
+        {
+            Point center = ball.position;
+
+            int radius = BallLocator.ballDia / 2;
+            Rectangle boundingRect = new Rectangle(center.X - radius, center.Y - radius, BallLocator.ballDia, BallLocator.ballDia);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
+            Pen myPen = new Pen(Color.White, 3);
+            graphics.FillEllipse(Brushes.White, boundingRect);
+            ball.position.Offset(-Ball.Radius, -Ball.Radius);
             graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
             //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
