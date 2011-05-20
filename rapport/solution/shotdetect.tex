@@ -209,9 +209,9 @@ N = FPS * seconds
 The number of seconds which the ball should be laying still is chosen to be 0.5 s.
 
 \subsubsection{Movement from last saved state.}
-To detect if there has been movement of the balls from the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not influence the position.
+To detect if there has been movement of the balls from the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not indicate a new position.\\
 
-\fixme{find på et threshold}
+The threshold will be set as the radius of a ball, in pixels. If a ball has moved more than this from the last saved state it will be a new state.
 
 \subsubsection{Change in number of balls}
 If the number of found balls is different from the number of found balls in the last saved state.
