@@ -46,7 +46,10 @@ The uniform color of the table cloth can be utilized to apply a threshold to the
 As will be mentioned later in this section, the idea of using this kind of segmentation to reduce the ROI is not a bad idea, but using the pixels in a BLOB can cause problems if all ball pixels are not included, or pixels that does not belong to the BLOB are included as seen in figure \ref{fig:blobAnal}. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
 
 \subsection{Chosen Solution: Ball probability estimation}
+\fxnote{Position is a better word than location. Global search/replace}
 The solution used in this project uses the two-step process by first detecting ball positions and thereafter identifying the detected balls.
+
+The detected positions must be precise to gain the optimal working conditions for the identifier. A ball position that is slightly shifted will result in a ball region that contains pixels that does not belong to the ball. This will make it harder for the identifier to identify the ball, and it will become even harder if the region intersects other balls, because the region will then become a mix of two different balls. 
 
 The detection is performed by estimating the probability that a ball is present at every position inside a ROI on the table. The positions in the image having the highest probabilities are considered ball locations and can be passed on to the identifier.
 

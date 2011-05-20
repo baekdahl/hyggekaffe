@@ -30,6 +30,7 @@ From the HSV color space figure in \ref{fig:tablehsv} it is clear that the cloth
 When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSV color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.\\
 
 \subsubsection{The balls}
+\label{sec:analballs}
 The success of the system depends on the identifier to be able to separate the pool balls from each other. To analyze the separability, histograms of all the different solid colored balls has been computed. This has been done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
 
 \input{analysis/ballhists}
