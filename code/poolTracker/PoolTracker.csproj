@@ -134,6 +134,25 @@
       <Name>PoolTrackerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="balls\14.png" />
+    <None Include="balls\13.png" />
+    <None Include="balls\12.png" />
+    <None Include="balls\11.png" />
+    <None Include="balls\10.png" />
+    <None Include="balls\9.png" />
+    <None Include="balls\8.png" />
+    <None Include="balls\7.png" />
+    <None Include="balls\6.png" />
+    <None Include="balls\5.png" />
+    <None Include="balls\4.png" />
+    <None Include="balls\3.png" />
+    <None Include="balls\1.png" />
+    <None Include="balls\15.png" />
+    <None Include="balls\2.png" />
+    <Content Include="Properties\2.png" />
+    <None Include="Resources\cue.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -18,6 +18,7 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.VideoSurveillance;
 
 using PoolTrackerLibrary;
+using poolTracker.Properties;
 
 namespace PoolTracker
 {
@@ -165,12 +166,15 @@ namespace PoolTracker
             int radius = BallLocator.ballDia / 2;
             Rectangle boundingRect = new Rectangle(center.X - radius, center.Y - radius, BallLocator.ballDia, BallLocator.ballDia);
             Graphics graphics = Graphics.FromImage(bitmap);
-            //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
+
             Pen myPen = new Pen(Color.White, 3);
             graphics.FillEllipse(Brushes.White, boundingRect);
-            ball.position.Offset(-Ball.Radius, -Ball.Radius);
-            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
-            //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
+
+            Bitmap ballImage = (Bitmap)Resources.ResourceManager.GetObject("_" + ((int)ball.color).ToString());
+            if (ballImage != null)
+            {
+                graphics.DrawImage(ballImage, Ball.roiFromCenter(ball.position));
+            }
         }
 
         public void showBalls()

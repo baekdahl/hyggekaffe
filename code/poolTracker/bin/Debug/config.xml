@@ -15,48 +15,48 @@
   <Ball>
     <Cue>
       <B>172</B>
-      <G>227</G>
-      <R>223</R>
+      <G>230</G>
+      <R>228</R>
     </Cue>
     <Yellow>
-      <B>30</B>
-      <G>172</G>
-      <R>232</R>
+      <B>33</B>
+      <G>174</G>
+      <R>235</R>
     </Yellow>
     <Blue>
       <B>99</B>
       <G>62</G>
-      <R>37</R>
+      <R>38</R>
     </Blue>
     <Red>
       <B>60</B>
-      <G>42</G>
-      <R>194</R>
+      <G>41</G>
+      <R>193</R>
     </Red>
     <Purple>
-      <B>77</B>
+      <B>78</B>
       <G>54</G>
       <R>52</R>
     </Purple>
     <Orange>
       <B>97</B>
-      <G>104</G>
-      <R>225</R>
+      <G>101</G>
+      <R>237</R>
     </Orange>
     <Green>
-      <B>67</B>
+      <B>66</B>
       <G>103</G>
-      <R>32</R>
+      <R>30</R>
     </Green>
     <Brown>
-      <B>50</B>
-      <G>48</G>
-      <R>122</R>
+      <B>49</B>
+      <G>46</G>
+      <R>127</R>
     </Brown>
     <Black>
-      <B>54</B>
+      <B>49</B>
       <G>62</G>
-      <R>44</R>
+      <R>47</R>
     </Black>
     <YellowWhite>
       <B>
