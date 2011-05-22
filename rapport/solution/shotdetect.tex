@@ -1,7 +1,9 @@
-For detecting if a new state has occurred a method for detecting this has to be developed. The method will consist of two steps:
+For detecting if a new state has occurred a method for detecting this has to be developed. The method will consist of three steps:
 
 \begin{enumerate}
+\setlength{\itemsep}{0mm}
 	\item Detect if human interaction has occurred.
+	\item Wait until balls are laying still.
 	\item If human interaction occured, then detect if ball position or number of ball changed.
 \end{enumerate}
 
@@ -175,12 +177,10 @@ Instead of a decision tree, a linear discriminant function could have been made.
 
 \subsection{Ball movement detection}
 After an human interaction it is required to detect if movement of the balls or change in number of ball is present. If this is the case the 
-positions of the balls are saved as a new state. If it is not the case the system will wait for the next human interaction. To detect if movement or number has changed the current number of balls and their positions will be compared to the last state.
-
-\fixme{will it?} 
+positions of the balls are saved as a new state. If it is not the case the system will wait for the next human interaction. To detect if movement or number has changed the current number of balls and their positions will be compared to the last state. However first it is important to know if the balls are laying still.
 
 \subsubsection{Distance measure}
-This  will be done using the manhatten distance measure which is defined in equation \ref{eq:manhatten}. The manhatten distance measure has lower complexity than other distances measures which could also have been used and is therefore chosen. 
+The distances will be calculated using the manhatten distance measure which is defined in equation \ref{eq:manhatten}. The manhatten distance measure has lower complexity than other distances measures which could also have been used and is therefore chosen. 
 
 \begin{equation}
 L_{1} = \parallel x_{1}-x_{2}\parallel + \parallel y_{1}-y_{2}\parallel.
@@ -206,7 +206,7 @@ N = FPS * seconds
 \label{eq:dynamiceq}
 \end{equation}
 
-The number of seconds which the ball should be laying still is chosen to be 0.5 s.
+If the position of the balls is the same in N frames the balls are laying still. The number of seconds is chosen to be 0.5 s. 
 
 \subsubsection{Movement from last saved state.}
 To detect if there has been movement of the balls from the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not indicate a new position.\\
@@ -214,8 +214,4 @@ To detect if there has been movement of the balls from the last saved state, the
 The threshold will be set as the radius of a ball, in pixels. If a ball has moved more than this from the last saved state it will be a new state.
 
 \subsubsection{Change in number of balls}
-If the number of found balls is different from the number of found balls in the last saved state.
-
-
-
-
+If the number of found balls is different from the number of found balls in the last saved state a new state will be saved.

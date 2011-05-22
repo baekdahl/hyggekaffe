@@ -1,6 +1,7 @@
 To understand if the solution works it will be subjected to a test with origin in the requirement specification \ref{sec:reqspec}. The requirements, which will be tested, are listed here:
 
 \begin{enumerate}
+\setlength{\itemsep}{0mm}
 	\item Detect position of table.
 	\item Detect position of balls.
 	\item Identify balls with high accuracy.
@@ -12,22 +13,125 @@ The tests for the first four requirements will be done individually with the dif
 
 \subsection{Test setup}
 \label{sec:testsetup}
-The test will be done in two different locations with different pool tables. First in the pool lab located in room A6-314 on Niels Jernes Vej 12 in Aalborg where image and video material for the solution to this project were made. The second location is the DE-Klub which is a student bar located in A4-101 at Frederik Bajers Vej 7 in Aalborg. The pool tables can be seen in figure \ref{fig:diffpool}.\\
+The test are conducted in the multimedia lab located in room A6-314 on Niels Jernes Vej 12 in Aalborg where image and video material for the solution to this project were made. 
+
+A second smaller test, to illustrate that the solution will work for different pool tables, is conducted in the DE-Klub which is a student bar located in A4-101 at Frederik Bajers Vej 7 in Aalborg. The pool tables can be seen in figure \ref{fig:diffpool}.\\
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Pool table in multimedia lab.]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/test/light/input}}
+  \quad           
+%  \subfloat[Pool table in DE-Klub.]{\label{fig:tiger}\includegraphics[width=0.48\textwidth]{images/test/}}
+   \caption{The two different pool tables used for testing.}
+  \label{fig:diffpool}
+\end{figure}
+
+\fixme{Indsæt billeder}
 
 The tests will be made in two light conditions: normal and mixed. These conditions can be seen in figure \ref{fig:difflightcon}. The reason for not doing it in dark conditions were because of the used webcams inability to regulate the exposure correctly.\\
 
-\fixme{Indsæt billeder.}
+\begin{figure}[H]
+  \centering
+  \subfloat[Normal illumination]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/test/light/detectedtable}}
+  \quad           
+%  \subfloat[Mixed illumination]{\label{fig:tiger}\includegraphics[width=0.48\textwidth]{images/test/mixed/detectedtable}}
+   \caption{Table cloth in the two different light conditions.}
+  \label{fig:difflightcon}
+\end{figure}
+
+\fixme{Indsæt billeder}
 
 \subsection{1) Detect position of table}
 
-This was tested several times and if the position of the table is within the view of the camera the table will be found.\\
+This was tested numerous times and if the position of the table is within the view of the camera the table will be found in both light conditions.\\
 
 \subsection{2) Detect position of balls}
 
+The position of the balls is an important part of the project since the identification rests of being able to receive the correct information. Several different test have been concluded which is based on different positions and proximity of the balls.
 
+\begin{enumerate}
+\setlength{\itemsep}{0mm}
+	\item Balls laying in start position as described in section \ref{sec:rules}.\\
+	\item Balls laying apart.\\
+	\item Balls laying in clusters where balls with similar colors are placed together.\\
+	\item Balls laying against the nose of the cushion.\\
+\end{enumerate}
+
+\subsubsection{ 1) Balls laying in start position}
+The balls are placed in the start position with all balls except the cue ball clustered. This is the most difficult condition to test positions of the pool balls.
+
+The test was done while the balls were laying still and the result for the test with normal light can be seen in figure \ref{fig:poolposstart} and for the mixed light in figure \ref{fig:poolposstart2}.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/light/start_positions_input}}
+\quad
+   \subfloat[All balls detected  (68\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/light/start_positions_output}}
+\quad
+   \subfloat[One ball not detected  (32\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/light/start_positions_output2}}
+   \caption{Pool balls in start position with normal light}
+  \label{fig:poolposstart}
+\end{figure}
+
+The video used for testing the position in normal light consists of 95 frames, where in 65 frames the positions were correctly detected and in 30 frames where one ball was missing.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed/start_positions_input}}
+\quad
+   \subfloat[One ball not detected (92\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/mixed/start_positions_output}}
+\quad
+   \caption{Pool balls in start position with mixed light}
+  \label{fig:poolposstart2}
+\end{figure}
+
+The video used for testing the position in mixed light consists of 121 frames, where in 9 frames the positions were correctly detected and in 111 frames where one ball was missing and one frame where two balls are missing.
+
+\subsubsection{ 2) Balls laying apart}
+The least difficult test for the position of the balls is where the balls are laying apart. The result for the test with normal light can be seen in figure \ref{fig:apartnormal} and for the mixed light in figure \ref{fig:apartmixed}.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/light/balls_apart_input}}
+\quad
+   \subfloat[All balls detected (100\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/light/balls_apart_output}}
+\quad
+   \caption{Pool balls laying apart with normal light}
+  \label{fig:apartnormal}
+\end{figure}
+
+The video used for testing the position in normal light consists of 168 frames where the position is correctly detected for all frames.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_apart_input}}
+\quad
+   \subfloat[All balls detected (100\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_apart_output}}
+\quad
+   \caption{Pool balls laying apart with mixed light}
+  \label{fig:apartmixed}
+\end{figure}
+
+The video used for testing the position in normal light consists of 35 frames where the position is correctly detected for all frames.
+
+\subsubsection{ 3) Balls laying in clusters where balls with similar colors are placed together}
+
+\fixme{lav og indsæt resultater}
+
+\subsubsection{ 4) Balls laying against the nose of the cushion}
+
+\fixme{lav og indsæt resultater}
 
 \subsection{3) Identify balls with high accuracy}
 
+The identification of the balls is done by first calibrating the colors and then running the different test scenarios which are as listed here:
+
+\begin{itemize}
+\setlength{\itemsep}{0mm}
+	\item Solid balls laying with number on the side and striped balls with minimum white.\\
+	\item Solid balls laying with number up and striped balls with minimum white facing up.\\
+	\item Striped balls laying with maximum white facing up.\\	
+\end{itemize}
 
 
 \subsection{4) Identification and position of balls should be obtained within 1 second}
