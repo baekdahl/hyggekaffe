@@ -59,7 +59,7 @@ The position of the balls is an important part of the project since the identifi
 \end{enumerate}
 
 \subsubsection{ 1) Balls laying in start position}
-The balls are placed in the start position with all balls except the cue ball clustered. This is the most difficult condition to test positions of the pool balls. The test was done while the balls were laying still and the result for the test with normal light can be seen in figure \ref{fig:poolposstart} and for the mixed light in figure \ref{fig:poolposstart2}.
+The balls are placed in the start position with all balls except the cue ball clustered. This is the most difficult condition to test positions of the pool balls. The test was done while the balls were laying still and the result of the test with normal light can be seen in figure \ref{fig:poolposstart} and for the mixed light in figure \ref{fig:poolposstart2}.
 
 \begin{figure}[H]
   \centering
@@ -87,7 +87,7 @@ The video used for testing the position in normal light consists of 95 frames, w
 The video used for testing the position in mixed light consists of 121 frames, where in 9 frames the positions were correctly detected and in 111 frames where one ball was missing and one frame where two balls are missing.
 
 \subsubsection{ 2) Balls laying apart}
-The least difficult test for the position of the balls is where the balls are laying apart. The result for the test with normal light can be seen in figure \ref{fig:apartnormal} and for the mixed light in figure \ref{fig:apartmixed}.
+The least difficult test for the position of the balls is where the balls are laying apart. The result of the test with normal light can be seen in figure \ref{fig:apartnormal} and for the mixed light in figure \ref{fig:apartmixed}.
 
 \begin{figure}[H]
   \centering
@@ -123,14 +123,46 @@ The video used for testing the position in normal light consists of 35 frames wh
 
 \subsection{3) Identify balls with high accuracy}
 
-The identification of the balls is done by first calibrating the colors and then running the different test scenarios which are as listed here:
+The identification of the balls is done by first calibrating the system and then running the different test scenarios which are as listed here:
 
-\begin{itemize}
+\begin{enumerate}
 \setlength{\itemsep}{0mm}
 	\item Solid balls laying with number on the side and striped balls with minimum white.\\
-	\item Solid balls laying with number up and striped balls with minimum white facing up.\\
 	\item Striped balls laying with maximum white facing up.\\	
-\end{itemize}
+\end{enumerate}
+
+\subsection{1) Solid balls laying with number on the side and striped balls with minimum white}
+This test will show how well the system detects the correct colors and also identifies if it is a solid or striped ball. The results of the test with normal light can be seen in figure \ref{fig:numuplight} and for mixed light in figure \ref{fig:numupmixed}.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image.]{\includegraphics[width=0.3\textwidth]{images/test/light/balls_id_apart_input}}
+\quad
+   \subfloat[All balls identified correctly.]{\includegraphics[width=0.3\textwidth]{images/test/light/balls_id_apart_output}}
+\quad
+   \caption{Solid balls laying with number on the side and striped balls with minimum white, in normal light.}
+  \label{fig:numuplight}
+\end{figure}
+
+The balls in the frame is laying from number one in the top left corner to number 15 and the cue ball in the lower right corner.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image.]{\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_id_apart_input}}
+\quad
+   \subfloat[All balls identified correctly.]{\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_id_apart_output}}
+\quad
+   \caption{Solid balls laying with number on the side and striped balls with minimum white, in mixed light.}
+  \label{fig:numupmixed}
+\end{figure}
+
+
+\subsubsection{2) Striped balls laying with maximum white facing up.}
+When the striped balls are placed with the maximum white facing up, the color information to identify them on is very sparse.
+
+
+
+
 
 
 \subsection{4) Identification and position of balls should be obtained within 1 second}
