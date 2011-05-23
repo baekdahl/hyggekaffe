@@ -185,6 +185,8 @@ namespace PoolTrackerLibrary
 
         public int[] countVotesForBalls(Image<Bgr, byte> image)
         {
+            Image<Gray, Byte> mask = Ball.getMask();
+
             if (ballBgr.Count == 0)
             {
                 return null;
@@ -196,8 +198,11 @@ namespace PoolTrackerLibrary
             {
                 for (int y = 0; y < image.Height; y++)
                 {
-                    BallColor nearest = nearestBallColor(image[y, x], false);
-                    votes[(int)nearest]++;
+                    if (mask.Data[y, x, 0] == 1)
+                    {
+                        BallColor nearest = nearestBallColor(image[y, x], false);
+                        votes[(int)nearest]++;
+                    }
                 }
             }
 

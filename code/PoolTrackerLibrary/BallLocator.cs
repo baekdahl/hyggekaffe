@@ -208,7 +208,7 @@ namespace PoolTrackerLibrary
                     {
                         break;
                     }
-                    _tableMatchMask.Draw(new CircleF(pos, ballDiaResized), new Gray(0), -1);
+                    _tableMatchMask.Draw(new CircleF(pos, (int)(ballDiaResized * 0.95)), new Gray(0), -1);
                 }
             }
 
