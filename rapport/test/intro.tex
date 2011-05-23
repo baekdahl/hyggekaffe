@@ -29,7 +29,7 @@ A second smaller test, to illustrate that the solution will work for different p
 
 \fixme{Indsæt billeder}
 
-The tests will be made in two light conditions: normal and mixed. These conditions can be seen in figure \ref{fig:difflightcon}. The reason for not doing it in dark conditions were because of the used webcams inability to regulate the exposure correctly.\\
+The tests will be made in two light conditions: normal and mixed. These conditions can be seen in figure \ref{fig:difflightcon}.
 
 \begin{figure}[H]
   \centering
@@ -47,98 +47,113 @@ The tests will be made in two light conditions: normal and mixed. These conditio
 This was tested numerous times and if the position of the table is within the view of the camera the table will be found in both light conditions.\\
 
 \subsection{2) Detect position of balls}
-
-The position of the balls is an important part of the project since the identification rests of being able to receive the correct information. Several different test have been concluded which is based on different positions and proximity of the balls.
-
+The precision of the ball positions is important, since the identification rests on having the correct positions. To test the detection, the balls have been positioned in different scenarios to test for different kinds of weaknesses in the detector. The following scenarios has been tested:
 \begin{enumerate}
 \setlength{\itemsep}{0mm}
-	\item Balls laying in start position as described in section \ref{sec:rules}.\\
-	\item Balls laying apart.\\
-	\item Balls laying in clusters where balls with similar colors are placed together.\\
+	\item Balls laying apart.
+	\item Balls clustered by color
+	\item Balls laying in start position as described in section \ref{sec:rules}.
 \end{enumerate}
+In some of the tests, two results have been recorded. One representing the best case and one representing the worst case. This is done to illustrate the differences observed during the test.
 
-\subsubsection{ 1) Balls laying in start position}
+\subsubsection{Balls laying apart}
+The least difficult test for the detection of balls is where the balls are laying apart. The result of the test with normal light can be seen in figure \ref{fig:apartnormal} and for the mixed light in figure \ref{fig:apartmixed}.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/light1/laying-apart}}
+   \caption{Balls laying apart - normal light.}
+  \label{fig:apartnormal}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \subfloat[]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/laying-apart}}
+   \caption{Balls laying apart - mixed light.}
+  \label{fig:apartmixed}
+\end{figure}
+There is no significant change in the behavior of the system between the mixed, and the normal lighting. The balls are detected correctly in both the left and the right side of the table. This shows that the detection is adaptive towards change in lighting across the table in an uncluttered ball arrangement.
+
+\subsubsection{Balls clustered by color}
+As mentioned in section \ref{sec:balls-locate}, the ball detection works by finding areas that minimizes the color variance. To test for weaknesses in this method, the scenario seen in figures \ref{fig:clustersnormal} and \ref{fig:clustersmixed} is tested.
+\begin{figure}[H]
+  \centering
+  \subfloat[Black ball low precision]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/test/light1/clusters-1}}
+  \quad
+   \subfloat[Two balls detected wrong]{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/test/light1/clusters-2}}
+	\quad
+   \caption{Balls in clusters - normal light.}
+  \label{fig:clustersnormal}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \subfloat[]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/clusters-2}}
+   \caption{Balls in clusters - mixed light. Several detection problems.}
+  \label{fig:clustersmixed}
+\end{figure}
+The balls are not correctly detected in this scenario. The problem is most significant in the left cluster that consists of the dark colored balls: purple, blue and black. The problem worsens when the image is darker in figure \ref{fig:clustersmixed}. The detection of the red colored balls does however not result in any errors or positional problems. 
+
+
+\subsubsection{Balls laying in start position}
 The balls are placed in the start position with all balls except the cue ball clustered. This is the most difficult condition to test positions of the pool balls. The test was done while the balls were laying still and the result of the test with normal light can be seen in figure \ref{fig:poolposstart} and for the mixed light in figure \ref{fig:poolposstart2}.
 
 \begin{figure}[H]
   \centering
-   \subfloat[Correct detection]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/light1/start-normal-1}}
+   \subfloat[Correct detection]{\label{fig:poolposstart-good}\includegraphics[width=0.3\textwidth]{images/test/light1/start-normal-1}}
 \quad
-   \subfloat[Incorrect detection]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/light1/start-normal-2}}
-   \caption{Pool balls in start position with normal light. The video used for testing is: start-normal.wmv}
+   \subfloat[Incorrect detection]{\label{fig:poolposstart-bad}\includegraphics[width=0.3\textwidth]{images/test/light1/start-normal-2}}
+   \caption{Balls in start position - normal light.}
   \label{fig:poolposstart}
 \end{figure}
 
-%Write conclusion
-
 \begin{figure}[H]
   \centering
-  \subfloat[Detection with incorrect position]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed1/start-mixed-1}}
+  \subfloat[Correct detection]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed1/start-mixed-1}}
 \quad
-   \subfloat[One ball not detected]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/mixed1/start-mixed-2}}
+   \subfloat[Incorrect detection]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/mixed1/start-mixed-2}}
 \quad
-   \caption{Pool balls in start position with mixed light. The video used for testing is: start-mixed.wmv}
+   \caption{Balls in start position - mixed light.}
   \label{fig:poolposstart2}
 \end{figure}
+The system performs almost equally in the light environment seen in figure \ref{fig:poolposstart} as in mixed lighting in figure \ref{fig:poolposstart2}. For the system to find all positions in this situation, it is important that the positions of the first detected balls are correct, because their positions will affect the rest of the detection as mentioned in section \ref{sec:balls-locate}. Problems arise in a situation like the one seen in figure \ref{fig:poolposstart-good}. The black and orange balls have been inaccurately detected, and the consequence is that there is insufficient room to detect the striped purple 14.
 
-%Write conclusion
 
-\subsubsection{ 2) Balls laying apart}
-The least difficult test for the position of the balls is where the balls are laying apart. The result of the test with normal light can be seen in figure \ref{fig:apartnormal} and for the mixed light in figure \ref{fig:apartmixed}.
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Correct detection]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/light1/laying-apart}}
-   \caption{Pool balls laying apart with normal light. The video used for testing is: balls-apart-normal.wmv}
-  \label{fig:apartnormal}
-\end{figure}
-
-%Write conclusion
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Correct detection]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/laying-apart}}
-   \caption{Pool balls laying apart with mixed light.  The video used for testing is: balls-apart-mixed.wmv}
-  \label{fig:apartmixed}
-\end{figure}
-
-%Write conclusion
-
-\subsubsection{ 3) Balls laying in clusters where balls with similar colors are placed together}
-Since the position method relies on bla bla  \fixme{noget om position og lidt varians}. The result of the test with normal light can be seen in figure \ref{fig:clustersnormal} and for the mixed light in figure \ref{fig:clustersmixed}.
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Mask for 8-ball laying placed wrong]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/test/light1/clusters-1}}
-  \quad
-   \subfloat[Two masks placed wrong]{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/test/light1/clusters-2}}
-	\quad
-   \caption{Pool balls laying in clusters with normal light. The video used for testing is: clusters-normal.wmv}
-  \label{fig:clustersnormal}
-\end{figure}
-
-%Write conclusion
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Wrong detection]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/clusters-2}}
-   \caption{Pool balls laying in clusters with mixed light.  The video used for testing is: clusters-mixed.wmv}
-  \label{fig:clustersmixed}
-\end{figure}
-
-%Write conclusion
-
-\subsection{3) Identify balls with high accuracy}
-
-The identification of the balls is done by first calibrating the system and then running the different test scenarios which are as listed here:
+\subsection{Identify balls with high accuracy}
+The identification of the balls is done by first calibrating the system and then testing the identification with the balls facing in two different scenarios:
 
 \begin{enumerate}
 \setlength{\itemsep}{0mm}
-	\item Pool balls laying with maximum white facing up\\
-	\item Pool balls laying with minimum white facing up\\
+	\item \textbf{Minimum} white area visible
+	\item \textbf{Maximum} white area visible
 \end{enumerate}
+This is done to test the borderline cases for when a ball is considered solid, striped or white.
 
-\subsubsection{1) Pool balls laying with maximum white facing up}
+\subsubsection{Pool balls laying with minimum white facing up}
+This scenario will test if the identifier has problems that causes striped balls to be identified as solid balls.
+The result of the test with normal light can be seen in figure \ref{fig:minnormal} and for the mixed light in figure \ref{fig:minmixed}.
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/light1/min-white-input}}
+  \quad
+   \subfloat[Found balls]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{images/test/light1/min-white-output}}
+	\quad
+   \caption{Balls having minimum white area visible - normal light.}
+  \label{fig:minnormal}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/min-white-input}}
+  \quad
+  \subfloat[Found balls]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{images/test/mixed1/min-white-output}}
+  \quad
+   \caption{Balls having minimum white area visible - mixed light.}
+  \label{fig:minmixed}
+\end{figure}
+All balls on both mixed and normal lighting are correctly identified. None of the striped balls are misclassified as solids, independent of lighting conditions.
+
+\subsubsection{Pool balls laying with maximum white facing up}
 This test will illustrate if the ratio of white pixels is defined well enough to identify if the ball is solid or striped. Also the detection of correct colors will be tested. The result of the test with normal light can be seen in figure \ref{fig:maxnormal} and for the mixed light in figure \ref{fig:maxmixed}.
 
 \begin{figure}[H]
@@ -147,11 +162,9 @@ This test will illustrate if the ratio of white pixels is defined well enough to
   \quad
    \subfloat[Found balls]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{images/test/light1/max-white-output}}
 	\quad
-   \caption{Pool balls laying with maximum white facing up and normal light. The video used for testing is: max-white-normal.wmv}
+   \caption{Balls having maximum white area visible - normal light.}
   \label{fig:maxnormal}
 \end{figure}
-
-%Write conclusion
 
 \begin{figure}[H]
   \centering
@@ -159,39 +172,11 @@ This test will illustrate if the ratio of white pixels is defined well enough to
   \quad
   \subfloat[Found balls]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{images/test/mixed1/max-white-output}}
   \quad
-   \caption{Pool balls laying with maximum white facing up and mixed light. The video used for testing is: max-white-mixed.wmv}
+   \caption{Balls having maximum white area visible - mixed light.}
   \label{fig:maxmixed}
 \end{figure}
+The identification fails in both normal and mixed light. Identification of the striped balls in this scenario is problematic due to the small amount of color available. Most of the striped balls are however, identified as being striped in spite of the small amount of color. In the mixed light environment, several of the balls are identified as being the black 8-ball which is caused by the identifier being sensitive to the change in lighting.
 
-%Write conclusion
-
-\subsubsection{2) Pool balls laying with minimum white facing up}
-%Write intro??
-The result of the test with normal light can be seen in figure \ref{fig:minnormal} and for the mixed light in figure \ref{fig:minmixed}.
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/light1/min-white-input}}
-  \quad
-   \subfloat[Found balls]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{images/test/light1/min-white-output}}
-	\quad
-   \caption{Pool balls laying with minimum white facing up and normal light. The video used for testing is: min-white-normal.wmv}
-  \label{fig:minnormal}
-\end{figure}
-
-%Write conclusion
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/min-white-input}}
-  \quad
-  \subfloat[Found balls]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{images/test/mixed1/min-white-output}}
-  \quad
-   \caption{Pool balls laying with minimum white facing up and mixed light. The video used for testing is: min-white-mixed.wmv}
-  \label{fig:minmixed}
-\end{figure}
-
-
-\subsection{4) Identification and position of balls should be obtained within 1 second}
+\subsection{Identification and position of balls should be obtained within 1 second}
 
 Profile daz shit!
