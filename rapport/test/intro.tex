@@ -76,9 +76,9 @@ The video used for testing the position in normal light consists of 95 frames, w
 
 \begin{figure}[H]
   \centering
-  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed/start_positions_input}}
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/test/mixed/start_positions_input}}
 \quad
-   \subfloat[One ball not detected (92\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/mixed/start_positions_output}}
+   \subfloat[One ball not detected (92\%).]{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/test/mixed/start_positions_output}}
 \quad
    \caption{Pool balls in start position with mixed light}
   \label{fig:poolposstart2}
@@ -91,9 +91,9 @@ The least difficult test for the position of the balls is where the balls are la
 
 \begin{figure}[H]
   \centering
-  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/light/balls_apart_input}}
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/test/light/balls_apart_input}}
 \quad
-   \subfloat[All balls detected (100\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/light/balls_apart_output}}
+   \subfloat[All balls detected (100\%).]{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/test/light/balls_apart_output}}
 \quad
    \caption{Pool balls laying apart with normal light}
   \label{fig:apartnormal}
@@ -103,9 +103,9 @@ The video used for testing the position in normal light consists of 168 frames w
 
 \begin{figure}[H]
   \centering
-  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_apart_input}}
+  \subfloat[Input image.]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/test/mixed/balls_apart_input}}
 \quad
-   \subfloat[All balls detected (100\%).]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_apart_output}}
+   \subfloat[All balls detected (100\%).]{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/test/mixed/balls_apart_output}}
 \quad
    \caption{Pool balls laying apart with mixed light}
   \label{fig:apartmixed}
@@ -127,35 +127,13 @@ The identification of the balls is done by first calibrating the system and then
 
 \begin{enumerate}
 \setlength{\itemsep}{0mm}
-	\item Solid balls laying with number on the side and striped balls with minimum white.\\
+	\item Solid balls laying with maximum white facing up.\\
+	\item Solid balls laying with minimum white facing up.\\
 	\item Striped balls laying with maximum white facing up.\\	
+	\item Striped balls laying with minimum white facing up.\\	
 \end{enumerate}
 
 \subsubsection{1) Solid balls laying with number on the side and striped balls with minimum white}
-This test will show how well the system detects the correct colors and also identifies if it is a solid or striped ball. The results of the test with normal light can be seen in figure \ref{fig:numuplight} and for mixed light in figure \ref{fig:numupmixed}.
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Input image.]{\includegraphics[width=0.3\textwidth]{images/test/light/balls_id_apart_input}}
-\quad
-   \subfloat[All balls identified correctly.]{\includegraphics[width=0.3\textwidth]{images/test/light/balls_id_apart_output}}
-\quad
-   \caption{Solid balls laying with number on the side and striped balls with minimum white, in normal light.}
-  \label{fig:numuplight}
-\end{figure}
-
-The balls in the frame is laying from number one in the top left corner to number 15 and the cue ball in the lower right corner.
-
-\begin{figure}[H]
-  \centering
-  \subfloat[Input image.]{\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_id_apart_input}}
-\quad
-   \subfloat[All balls identified correctly.]{\includegraphics[width=0.3\textwidth]{images/test/mixed/balls_id_apart_output}}
-\quad
-   \caption{Solid balls laying with number on the side and striped balls with minimum white, in mixed light.}
-  \label{fig:numupmixed}
-\end{figure}
-
 
 \subsubsection{2) Striped balls laying with maximum white facing up.}
 When the striped balls are placed with the maximum white facing up, the color information to identify them on is very sparse.

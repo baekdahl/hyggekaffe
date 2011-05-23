@@ -68,8 +68,8 @@ namespace PoolTracker
             tab = new TableLocator();
             loadBallCalibration();
 
-            Ball.ballDia = (int)(26 * 0.95);
-            BallLocator.ballDia = (int)(26 * 0.95);
+            Ball.ballDia = (int)(26 *1);
+            BallLocator.ballDia = (int)(26 * 1);
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
@@ -84,10 +84,10 @@ namespace PoolTracker
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
 
-                    if (!tab.isTableOccluded(originalImage))//==occluded)
+                    if (!tab.isTableOccluded(originalImage))
                     {
                        // occluded = !occluded;
-                        locateBalls();
+                       locateBalls();
                     }
                     
                     else
@@ -98,37 +98,11 @@ namespace PoolTracker
 
                 if (tabControl1.SelectedIndex == 2)
                 {
-                    Thread.Sleep(100);
                     showImageCalibrateInput(originalImage);
                 }
 
             });
         }
-        /*
-        public bool stillBalls(int distance_threshold = 13, int frames = 3)
-        {
-            if (ballsarray.Count < frames) { return true; }
-
-            foreach (Dictionary<BallColor, Ball> currentFrameBalls in ballsarray)
-            {
-
-                double x_distance = ballsarray[balls.count];
-                double y_distance = Math.Abs(ballsarray[ballsarray.Count-1][i].position.X - ballsarray[ballsarray.Count-n][i].position.X);
-
-                   /if (x_distance > distance_threshold) 
-                    { 
-                        return false; 
-                    }
-                    if (y_distance > distance_threshold) 
-                    { 
-                        return false; 
-                    }
-
-            }
-            return true;
-        }
-        */
-
         public void locateBalls()
         {
             BallLocator locator = new BallLocator(tableImage, calibration, tab.mask);
@@ -139,11 +113,12 @@ namespace PoolTracker
 
             foreach (Ball ball in balls)
             {
+                Debug.Write(ball.position.X + ", " + ball.position.Y + ", " + (int)ball.color+"\n");
                 drawBallPos(imageBox1.Image.Bitmap, ball);
                 drawBallCopy(imageBox6.Image.Bitmap, ball);
                 //addToArray.Add(ball.color, ball);
             }
-            
+            Debug.Write("\n");
             //ballsarray.Add(addToArray);
         }
 
@@ -157,7 +132,7 @@ namespace PoolTracker
             //Pen myPen = new Pen(ball.isStriped() ? System.Drawing.Color.White : Color.Red, 3);
             Pen myPen = new Pen(Color.White, 3);
             graphics.DrawEllipse(myPen, boundingRect);
-            graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
+            //graphics.DrawString(((int)ball.color).ToString(), new Font("Tahoma", 20), ball.getBrush(), ball.position);
             //graphics.DrawEllipse(myPen, new Rectangle(center.X, center.Y, 2, 2));
         }
 
@@ -170,7 +145,7 @@ namespace PoolTracker
             Graphics graphics = Graphics.FromImage(bitmap);
 
             Pen myPen = new Pen(Color.White, 3);
-            //graphics.FillEllipse(Brushes.White, boundingRect);
+            graphics.FillEllipse(Brushes.White, boundingRect);
 
             Bitmap ballImage = (Bitmap)Resources.ResourceManager.GetObject("_" + ((int)ball.color).ToString());
             Rectangle rect = Ball.roiFromCenter(ball.position);
