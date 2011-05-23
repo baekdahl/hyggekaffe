@@ -71,7 +71,7 @@ This is done using the build in functions of OpenCV.\\
 \textbf{2) Making The Histogram:}\\
 Using the class DenseHistogram in OpenCV the histogram is computed from the hue image. A range of 0-255 is chosen together with 255 bins.\\
 
-\textbf{3) Identify The pixels close To The Maximum Value Of The Hue Histogram.}\\
+\textbf{3) Identify The Pixels Close To The Maximum Value Of The Hue Histogram.}\\
 After finding the bin with the maximum value an iteration of the whole image is done to identify pixels close to the maximum value. The pixels that lie close are set to 255 (white) and the others are set as 0 (black). A threshold of $\pm$ 20 is set based on different tries. Since the illumination of the cloth is not exactly the same this value have to be higher than first expected.\\
 
 The image after the cloth identification can be seen in figure \ref{fig:aftercloth}.
