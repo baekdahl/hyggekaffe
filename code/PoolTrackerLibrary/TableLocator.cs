@@ -99,7 +99,7 @@ namespace PoolTrackerLibrary
         {
             MCvBox2D clothBox = new MCvBox2D();
 
-            for (Contour<Point> contour = image.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)  //Iterate through contours
+            for (Contour<Point> contour = image.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
             {
                 Contour<Point> currentContour = contour.ApproxPoly(contour.Perimeter * 0.001);                                           //Approximate a polygon with certain precision.
 

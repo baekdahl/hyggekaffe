@@ -1,6 +1,6 @@
 To find the table and balls it is important to understand how the table and balls appear in different color spaces. In this section the colors of the table and the pool balls will be measured for further analysis.\\
 
-\subsubsection{The table}
+\subsubsection{The Table}
 As written in the rules\ref{sec:rules} the table cloth colour has to be yellow-green, blue-green or electric blue. The cloth color should be constant, but dependent on the lightning the variance of the cloth on the input image could be significant.
 
 The table which has been used for measuring is a pool table with blue-green cloth which is located in Aalborg University's lab at Niels Jernes Vej 12 in room A6-314.
@@ -29,13 +29,13 @@ From the HSV color space figure in \ref{fig:tablehsv} it is clear that the cloth
 
 When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSV color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.\\
 
-\subsubsection{The balls}
+\subsubsection{The Balls}
 \label{sec:analballs}
 The success of the system depends on the identifier to be able to separate the pool balls from each other. To analyze the separability, histograms of all the different solid colored balls has been computed. This has been done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
 
 \input{analysis/ballhists}
-
-\textbf{Ball color composition}\\
+\\
+\textbf{Ball Color Composition}\\
 To be able to detect whether or not a ball is solid or striped it is important to know how much white is in a ball. The images used can be seen in figure \ref{fig:ballscompo} which is based on the balls used in this project.
 
 \begin{figure}[H]

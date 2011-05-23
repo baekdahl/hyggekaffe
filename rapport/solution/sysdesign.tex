@@ -8,7 +8,7 @@ For normal use the system will have the options of recording pool games and view
 	\item When the number of balls have changed.
 \end{itemize}
 
-\subsection{Program flow}
+\subsection{Program Flow}
 The goal is to record the positions of the balls between every change in the game and save this as a state. To do this automatically, the program will have to know when the state has changed and when the game is finished. A state change will only occur when players interact with the table, i.e. they either strike a ball using a cue or move balls manually. Because of this, checking for state changes only has to be done when human interaction has been detected. We define human interaction as the following event:
 \begin{itemize}
 	\item  A foreign object (que, hand etc.) has been introduced onto the cloth of the pool table and afterwards removed.
@@ -36,7 +36,7 @@ The program flowchart can be seen in \ref{fig:program_flowchart}.\\
 
 The game will start when the user decides to do so. The detection of human interaction will be explained in section \ref{sec:shotdetection}. The movement of balls will be explained in section in\ref{sec:shotdetection} based on the balls positions which will be found in section \ref{sec:balls-locate}.
 
-\subsection{Calibration flow}
+\subsection{Calibration Flow}
 The calibration have to be done every time the camera changes position or when the system is installed for the first time. The calibration is done to locate table and to train the system with the colors of the balls. The calibration flowchart can be seen in \ref{fig:calib_flowchart}.\\
 
 \begin{figure}[H]

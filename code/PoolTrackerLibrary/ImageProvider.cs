@@ -43,7 +43,14 @@ namespace PoolTrackerLibrary
 
         public void captureFrame()
         {
+            Rectangle crop = new Rectangle(98, 0, 1168, 670);
             image = cap.QueryFrame(); //.Resize(0.5, INTER.CV_INTER_LINEAR);  //Resize to half - saves tons of computationtime.
+            if (image != null)
+            {
+                image.ROI = crop;
+                //image = image.Resize(0.5, INTER.CV_INTER_CUBIC);
+            }
+            
         }
 
         public ImageProvider(int device = 0)

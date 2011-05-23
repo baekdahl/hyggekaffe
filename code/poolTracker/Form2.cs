@@ -68,8 +68,8 @@ namespace PoolTracker
             tab = new TableLocator();
             loadBallCalibration();
 
-            Ball.ballDia = (int)(26 *1);
-            BallLocator.ballDia = (int)(26 * 1);
+            Ball.ballDia = (int)(30);
+            BallLocator.ballDia = (int)(30);
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
@@ -84,7 +84,7 @@ namespace PoolTracker
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
 
-                    if (!tab.isTableOccluded(originalImage))
+                    if (!tab.isTableOccluded(originalImage,0.95,1.05))
                     {
                        // occluded = !occluded;
                        locateBalls();
