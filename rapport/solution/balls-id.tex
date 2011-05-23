@@ -22,8 +22,31 @@ In RGB space the euclidean distance is more sensitive to differences in intensit
 \begin{equation}
 cos \theta = \frac{v_{1}^ Tv_{2}}{||v_{1}|| ||v_{2}||}
 \end{equation}
-The vector angle between two colors having the same chromaticity but different intensity will be the same. \fxnote{as seen in figure} The vector angle in RGB is equivalent to using the hue distance in HSB\fxnote{I think it is}. Using the vector angle instead of converting the entire image to HSB can save computation time.\cite{angleVsEuclidean}
-
+The vector angle between two colors having the same chromaticity but different intensity will be the same, as seen in figure \ref{fig:angleVersusEuclidean}. The vector angle in RGB is equivalent to using the hue distance in HSB\fxnote{I think it is}. Using the vector angle instead of converting the entire image to HSB can save computation time.\cite{angleVsEuclidean}
+\begin{figure}[H]
+  \centering
+  \subfloat[Visual representation of color distance]{\label{fig:angleVersusEuclideanDrawing}\includegraphics[width=0.48\textwidth]{images/angleVersusEuclidean}}
+  \quad           
+  \subfloat[Euclidean distances]{
+  	\label{tab:angleVersusEuclidean}
+	\begin{center}
+	\begin{tabular}[b]{|c|c|c|c|c|}
+		\hline
+		- & A 		& B 	& C 	& D		\\
+		\hline
+		A & 0		& 59.7 	& 88.6 	& 71.4	\\
+		\hline
+		B & 59.7	& 0 	& 60.3 	& 88.9	\\
+		\hline
+		C & 88.6 	& 60.3 	& 0 	& 59.7	\\
+		\hline
+		D & 71.4 	& 88.9 	& 59.7 	& 0		\\
+		\hline
+	\end{tabular}
+	\end{center}
+}
+\label{fig:angleVersusEuclidean}
+\end{figure}
 As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the euclidean distance was used in the final implementation.
 
 \paragraph{Color Comparison Strategy}\fxnote{Better name for paragraph?}
