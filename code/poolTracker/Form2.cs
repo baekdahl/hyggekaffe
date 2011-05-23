@@ -98,6 +98,7 @@ namespace PoolTracker
 
                 if (tabControl1.SelectedIndex == 2)
                 {
+                    Thread.Sleep(100);
                     showImageCalibrateInput(originalImage);
                 }
 
