@@ -11,7 +11,8 @@ By constructing templates that represents the different ways a ball can be turne
 
 Using this method requires that a sufficient number of templates are created to cover the possible ways that a ball is turned. Templates are created by either sampling balls in many different positions, or generating them using the knowledge of color and looks of a ball. Problems arise when similar colored balls are in close proximity, as this will create matches in positions between the balls.
 
-The template punishes colors inside the ball that are not in the same position as they are in the template, e.g. the number and the stripe in striped balls. 
+The template punishes textural differences between the template and the area being matched. This means that for a template to give a good match, the ball has to face the same way in the template as in the matching area.
+balls. 
 
 The method also has high complexity for the reason that each template has to be matched against the entire table.
 
@@ -29,7 +30,7 @@ This process is similar to the template matching described above, but instead of
    \caption{Results of the backprojection method. Labeled white circles indicate identified balls.}
   \label{fig:backprojectResults}
 \end{figure}
-Backprojection has difficulties in dealing with the different ways a ball can face. Depending on the way the ball is facing, the distribution is going to change based on color differences in the surface and the amount of number area and stripe that is visible. This results in large differences between the measured and the model distribution, when they are compared in strict sense, i.e. bin by bin. \fxnote*{Include this example?}{If e.g. the two histograms are equal, but one is shifted, the output will be that they are different.} A less strict comparison where, e.g. only the mean is used to measure similarity is preferred.
+Backprojection has difficulties in dealing with the different ways a ball can face. Depending on the way the ball is facing, the distribution is going to change based on color differences in the surface and the amount of white area that is visible. This results in large differences between the measured and the model distribution, when they are compared in strict sense, i.e. bin by bin. If e.g. the two histograms are equal, but one is shifted, the output will be that they are different. A less strict comparison where, e.g. only the mean is used to measure similarity is preferred.
 
 Figure \ref{fig:backprojectResults} shows results of experiments of backprojection methods. The model histograms that results in a good match against \ref{fig:backProjectGood}, has problems in \ref{fig:backProjectBad} where the balls are facing differently.
 
@@ -43,7 +44,7 @@ The uniform color of the table cloth can be utilized to apply a threshold to the
    \caption{Example of problems with using BLOB analysis.}
   \label{fig:blobAnal}
 \end{figure}
-As will be mentioned later in this section, the idea of using this kind of segmentation to reduce the ROI is not a bad idea, but using the pixels in a BLOB can cause problems if all ball pixels are not included, or pixels that does not belong to the BLOB are included as seen in figure \ref{fig:blobAnal}. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
+As will be mentioned later in this section, this kind of segmentation is useful for reducing the ROI, but using the pixels in a BLOB can cause problems if all ball pixels are not included, or pixels that does not belong to the BLOB are included as seen in figure \ref{fig:blobAnal}. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
 
 \subsection{Chosen Solution: Ball Probability Estimation}
 \fxnote{Position is a better word than location. Global search/replace}
@@ -53,4 +54,4 @@ The detected positions must be precise to gain the optimal working conditions fo
 
 The detection is performed by estimating the probability that a ball is present at every position inside a ROI on the table. The positions in the image having the highest probabilities are considered ball locations and can be passed on to the identifier.
 
-The identification process can be separated into two steps: determining if the ball is striped and determining the color of the ball. The ball is considered striped if the ratio between white and colored pixels are above a certain level. The color is determined by comparing the distribution of the color in the detected position with known training data.
+The identification process can be separated into two steps: determining if the ball is striped and determining the color of the ball. The ball is considered striped if the ratio between white and colored pixels are above a certain level (see section \ref{sec:analballs}). The color is determined by comparing the distribution of the color in the detected position with known training data.
