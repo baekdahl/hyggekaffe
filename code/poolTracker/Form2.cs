@@ -68,8 +68,8 @@ namespace PoolTracker
             tab = new TableLocator();
             loadBallCalibration();
 
-            Ball.ballDia = (int)(30);
-            BallLocator.ballDia = (int)(30);
+            Ball.ballDia = (int)(26);
+            BallLocator.ballDia = (int)(26);
 
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {

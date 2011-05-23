@@ -11,7 +11,7 @@ In step 2 the ROI is traversed, and a ball probability is computed at each possi
 
 To establish which of the positions inside the ROI are actual ball positions, the balls are selected from the list of probabilities starting with the most probable position.
 
-\paragraph{Preliminary segmentation}
+\paragraph{Preliminary Segmentation}
 To decrease the ROI from the cloth area down to areas of the table that contains balls, a preliminary segmentation is performed. A color threshold removes all pixels that belong to the background leaving behind a mask that represents the balls.
 \begin{figure}[H]
   \centering
@@ -23,7 +23,7 @@ To decrease the ROI from the cloth area down to areas of the table that contains
 \end{figure}
 Figure \ref{fig:thres1} shows the result of the color threshold. In a situation like this where the balls are laying close to each other, the preliminary segmentation is not enough to successfully separate the balls. Balls in close proximity results in connected BLOBs after the threshold. These BLOBs could be separated using morphology operations but most of the information would be lost, causing the locations to lack precision. Instead of using the BLOBS directly, they are used as search regions for the balls.
 
-\paragraph{Ball probability estimation}
+\paragraph{Ball Probability Estimation}
 To be able to estimate the ball probability, we need to know the features that characterizes a ball. The following description can be formulated:
 \begin{itemize}
 \item The shape of the ball, in the image, is always a circle of fixed size
@@ -89,8 +89,8 @@ A problem arises if a wrong match is found, which intersects candidates that hav
 \end{figure}
 Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match prevents several balls from being matched, and other balls from matching precisely.
 
-\paragraph{Detection results}
-Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered as well as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
+\paragraph{Detection Results}
+Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
 
 \begin{figure}[H]
   \centering
