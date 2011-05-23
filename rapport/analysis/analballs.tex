@@ -5,15 +5,15 @@ As written in the rules \ref{sec:rules} the table cloth colour has to be yellow-
 
 The table which has been used for measuring is a pool table with blue-green cloth which is located in Aalborg University's lab at Niels Jernes Vej 12 in room A6-314.
 
-Three different images of the pool table and one image with the cloth cut out are analysed first in HSV color space and then i RGB space. These analysis will be used in the solution chapter.
+Three different images of the pool table and one image with the cloth cut out are analysed first in HSB color space and then i RGB space. These analysis will be used in the solution chapter.
 
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=1\textwidth]{images/hsv_hist_table}
 \end{center}
-\caption{HSV Images 1, 2 and 3 are mixed lightning where 4 is the cutout of the cloth from image 1. All axis are aligned.}
-\label{fig:tablehsv}
+\caption{HSB Images 1, 2 and 3 are mixed lightning where 4 is the cutout of the cloth from image 1. All axis are aligned.}
+\label{fig:tableHSB}
 \end{figure}
 
 \begin{figure}[H]
@@ -25,9 +25,9 @@ Three different images of the pool table and one image with the cloth cut out ar
 \label{fig:tablergb}
 \end{figure}
 
-From the HSV color space figure \ref{fig:tablehsv} it is clear that the cloth should be somewhat easily found using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.\\
+From the HSB color space figure \ref{fig:tableHSB} it is clear that the cloth should be somewhat easily found using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.\\
 
-When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSV color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.\\
+When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSB color space \ref{fig:tableHSB}. This is because of the hue ability to be, in theory, illumination invariant.\\
 
 \subsubsection{The Balls}
 \label{sec:analballs}

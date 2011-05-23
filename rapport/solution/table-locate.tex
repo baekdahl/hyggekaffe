@@ -16,14 +16,14 @@ This method would not require any image processing, but would require the user t
 The method was tried and gave mixed results. It was possible to segment the table using adaptive threshold and thereafter process it with OpenCV \cite{opencv} contour finding algorithm. This would find the outside of the table, but sometimes also the floor or anything underlying the table that was a bigger rectangle. \\
 
 \textbf{Searching For The Pockets On The Pool Table:}\\
-This proved to be easy to do by using the value part of the image in HSV colour space. Since the pockets are less illuminated than the rest of the table this should have a very low value. An example of this can be seen in\ref{fig:value_thres}. 
+This proved to be easy to do by using the value part of the image in HSB colour space. Since the pockets are less illuminated than the rest of the table this should have a very low value. An example of this can be seen in\ref{fig:value_thres}. 
 
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/value_thres}
 \end{center}
-\caption{Value part of HSV image thresholded.}
+\caption{Value part of HSB image thresholded.}
 \label{fig:value_thres}
 \end{figure}
 
@@ -41,14 +41,14 @@ This solution showed to be the most robust since the cloth will take up at least
 
 As written in the pool table regulations \ref{sec:rules} the table has to be one of three colours: yellow-green, blue-green or electric blue. Different from the last method this seems to be the case for every pool table. That they have a solid colour which stands out.\\
 
-This fact will be used as part of the solution for this problem. As shown on histograms in \ref{sec:analysisballstable} the hue part of the HSV colour space will to be good for separating the cloth from the rails and surroundings. Hue also has the useful property of, in theory, indifferent to illumination which should make it more robust for this solution. A flowchart of the solution can be seen in \ref{fig:tabledetect_flowchart}
+This fact will be used as part of the solution for this problem. As shown on histograms in \ref{sec:analysisballstable} the hue part of the HSB colour space will to be good for separating the cloth from the rails and surroundings. Hue also has the useful property of, in theory, indifferent to illumination which should make it more robust for this solution. A flowchart of the solution can be seen in \ref{fig:tabledetect_flowchart}
 
 %INDSÆT HISTOGRAM m. HUE over de fire forskellige billeder.
 
 %The solution consists of the following steps:
 %\begin{enumerate}
 %\setlength{\itemsep}{0mm}
-%	\item Convert the input image to HSV and make a new image for the hue.
+%	\item Convert the input image to HSB and make a new image for the hue.
 %	\item Make a histogram of the value in the hue image.
 %	\item Identify the pixels close to the maximum value of the hue histogram.
 %	\item Remove noise by using a median filter.

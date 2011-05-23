@@ -34,23 +34,14 @@ To be able to estimate the ball probability, we need to know the features that c
 		\item Primary ball color
 	\end{itemize}
 \end{itemize}
-The black and cue balls has black and white, respectively, as their primary color, making them consist of only two distributions, whereas all other balls consists all three. This ball description allows us to formulate a measure for the probability that a given position in the image corresponds to the center of a ball.
+The black and cue balls has black and white, respectively, as their primary color, making them consist of only two distributions, whereas all other balls consists of three. This ball description allows us to formulate a measure for the probability that a given position in the image corresponds to the center of a ball.
 
-If we ignore the black pixels for all balls except for the black(8), the balls only contains 1 primary color and white. The probability of a position containing a ball can then be formulated as
+If we ignore the black pixels from the ball number, the balls does only contain one primary color and white. A candidate ball position is defined as a circular ROI in the image having position the the center of the ROI circle.
+The probability of a candidate position containing a ball can then be formulated as the ratio between the number of pixels in the ROI following this rule and the total pixels:
 \begin{equation}
-P(ball) = \frac{primary + white}{total}
+P_{ball}(x,y) = \frac{pixels_{primary} + pixels_{white}}{pixels_{total}}
 \end{equation}
 It is seen that the a region having only one color besides white maximizes the probability.
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=\textwidth]{images/ballflowchart.pdf}
-\caption{Flowchart of the ball detection process.}
-\label{fig:ballflowchart}
-\end{center}
-\end{figure}
-\fxnote{Explain flowchart so that it is understandable.}
-By finding the non-overlapping positions in the image that maximizes this ratio the balls can be found. Balls are detected at the highest scoring position that does not already contain a ball. The system continues to detect balls until 16 balls are found or the score goes below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
-
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/ballfind.pdf}
@@ -58,13 +49,37 @@ By finding the non-overlapping positions in the image that maximizes this ratio 
 \label{fig:ballfind}
 \end{center}
 \end{figure}
-Figure \ref{fig:ballfind} shows the used evaluation method. A circular mask is placed in every position found by the preliminary segmentation. By using a circular patch, the system is able to get a better match against the circular ball regions. Inside the mask an HSV color histogram is computed. All pixels that have a hue value close to the background hue are ignored. The rest of the pixels are sorted into three categories: white pixels, black pixels and primary color. Pixels that have a saturation below a certain value are considered to be white\fixme{Explain?}. Pixels with a value below a threshold are considered to be black. To make the system as color independent as possible, value is only used to identify black pixels. This is necessary because the black color is undefined in hue-saturation space.\\
+Figure \ref{fig:ballfind} shows the process of computing the ball probability. The probability is computed in every possible ball position.
+A circular mask is placed in every position found by the preliminary segmentation. By using a circular mask, the system is able to get a better match against the circular ball regions. Inside the mask an HSB color histogram is computed. All pixels that have a hue value close to the background hue are ignored. The rest of the pixels are sorted into three categories: 
+\begin{enumerate}
+  \item White pixels
+  \item Black pixels
+  \item Colored pixels
+\end{enumerate}
+Pixels that have a saturation below a certain value are considered to be white. Pixels with brightness below a threshold are considered to be black. To make the system as color independent as possible, brightness is only used to identify black pixels. This is necessary because the black color is undefined in hue-saturation space. For further information see section \ref{sec:analballs} concerning analysis of ball color.
 
-If the evaluated position contains a ball, the color distribution in the non-black-or-white pixels is expected to be narrowly distributed around the mean of the ball color. If the position is between two or more balls the distribution will be multimodal and the variance higher. The pixels that are within a certain deviation of the mean hue and saturation are counted, resulting in a count of the number of primary colored pixels in the ball. A ball position will have a high number of pixels that are close to the mean, resulting in a high primary color count. If the number of black pixels are higher than the primary color count, the primary color is set to black.\\
-\fixme{Figure showing different distributions and their resulting ball probability}
+To determine the number of primary colored pixels, the variance of the colored pixels is analyzed. If the candidate position contains a ball, the distribution of the colored pixels is expected to be narrowly distributed around the mean of the ball color. If the position is between two or more balls the distribution will be multimodal and the variance higher.
 
-As mentioned before, the ball score is computed as the sum of the primary and white pixels. If the score is above the threshold, the ball is saved in a list. When all the positions in the image has been searched, the system iterates through the list to get the final ball positions. The position and the area around  a ball within one ball radius is marked as matched. The next ball can then not be found any closer than one radius from the previous matches. A problem arises if a wrong match is found which intersects a not matched ball. It will then be impossible to find a new match in the region of the earlier wrong match. Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match prevents several balls from being matched, and other balls from matching precisely.\\
+The pixels that are within a certain deviation of the mean hue and saturation are counted, resulting in a count of the number of primary colored pixels in the ball.
 
+If the number of black pixels is greater than the number of primary colored pixels, the number of black pixels is used as the number of primary pixels.
+\paragraph{Best Candidates Selection}
+The result of the probability estimation is a sorted list of candidate positions, having the most probable position at the top of the list. The probability has been computed in every image position, which results in many overlapping positions. 
+
+The final ball positions are found by traversing the list from the top and thus selecting the most probable positions first. A candidate will only be selected if there is not already a detected ball one radius of the candidate position.  
+
+The system continues to detect balls until 16 balls are found or the score is below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
+
+\fxnote{Figure showing different distributions and their resulting ball probability}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{images/ballflowchart.pdf}
+\caption{Flowchart of the ball detection process.}
+\label{fig:ballflowchart}
+\end{center}
+\end{figure}
+
+A problem arises if a wrong match is found, which intersects candidates that have not yet been matched. The position of the intersected candidates will then be invalidated, because they are within the radius of a detected ball. It will then be impossible to find a new match in the region of the earlier wrong match. 
 \begin{figure}[H]
 \begin{center}
 \includegraphics{images/wronglocate.jpg}
@@ -72,16 +87,17 @@ As mentioned before, the ball score is computed as the sum of the primary and wh
 \label{fig:wronglocate}
 \end{center}
 \end{figure}
+Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match prevents several balls from being matched, and other balls from matching precisely.
 
 \paragraph{Detection results}
-Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
+Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered as well as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
 
 \begin{figure}[H]
   \centering
   \subfloat[No clutter]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/detect1.jpg}}
   \quad           
   \subfloat[Clutter]{\label{fig:tiger}\includegraphics[width=0.48\textwidth]{images/detect2.jpg}}
-   \caption{Results of ball detection. Red circles indicate detected ball positions.}
+   \caption{Results of ball detection. White circles indicate detected ball positions.}
   \label{fig:detect}
 \end{figure}
 
