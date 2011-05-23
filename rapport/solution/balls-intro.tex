@@ -4,9 +4,9 @@ The advantage of the former is that the computation can be done in one pass. Fea
 
 The advantage of the latter is that the identification algorithm only has to be applied to the detected areas and thereby the computational complexity is reduced.\fxnote{Don't know if there are any other advantages}
 
-\subsection{Solution ideas}
+\subsection{Solution Ideas}
 
-\subsubsection{Template matching}
+\subsubsection{Template Matching}
 By constructing templates that represents the different ways a ball can be turned, e.g. with the number facing up, the stripe turned different ways, template matching can be applied to identify balls on the table. This method will do detection and matching at the same time and thereby utilize the information contained in the template, concerning color and shape, to both find an accurate matching position and at the same time identify the ball which will be equal to the equivalent template.
 
 Using this method requires that a sufficient number of templates are created to cover the possible ways that a ball is turned. Templates are created by either sampling balls in many different positions, or generating them using the knowledge of color and looks of a ball. Problems arise when similar colored balls are in close proximity, as this will create matches in positions between the balls.
@@ -17,7 +17,7 @@ The method also has high complexity for the reason that each template has to be 
 
 Experiments with matching a simple one-colored template against the balls proved inaccurate. The color distribution in a ball is not narrow enough to provide a good match against a single colored template. The number area and pixels with high intensity caused by reflections causes the template to match in positions away from the ball center.
 
-\subsubsection{Histogram backprojection}
+\subsubsection{Histogram Backprojection}
 Histograms extracted from training data are backprojected against the entire image of the pool table. This is done by computing the histogram inside a mask in every image position, and then assigning a score to the position by measuring the difference between the sampled and model training histogram.
 
 This process is similar to the template matching described above, but instead of taking structure of the image into account the, i.e. where the different colors are located inside the circular mask, this method evaluates the distribution of the colors regardless of structure.
@@ -33,7 +33,7 @@ Backprojection has difficulties in dealing with the different ways a ball can fa
 
 Figure \ref{fig:backprojectResults} shows results of experiments of backprojection methods. The model histograms that results in a good match against \ref{fig:backProjectGood}, has problems in \ref{fig:backProjectBad} where the balls are facing differently.
 
-\subsubsection{BLOB analysis}
+\subsubsection{BLOB Analysis}
 The uniform color of the table cloth can be utilized to apply a threshold to the image resulting in BLOBs representing ball locations. The BLOBs can be separated using morphology operations to separate balls in close proximity. The center position of BLOBs or a feature like the bounding circle, can be used to mark the center point of a ball. Pixels that are inside a BLOB is extracted for further processing to identify the ball.
 \begin{figure}[H]
   \centering
@@ -45,7 +45,7 @@ The uniform color of the table cloth can be utilized to apply a threshold to the
 \end{figure}
 As will be mentioned later in this section, the idea of using this kind of segmentation to reduce the ROI is not a bad idea, but using the pixels in a BLOB can cause problems if all ball pixels are not included, or pixels that does not belong to the BLOB are included as seen in figure \ref{fig:blobAnal}. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
 
-\subsection{Chosen Solution: Ball probability estimation}
+\subsection{Chosen Solution: Ball Probability Estimation}
 \fxnote{Position is a better word than location. Global search/replace}
 The solution used in this project uses the two-step process by first detecting ball positions and thereafter identifying the detected balls.
 
