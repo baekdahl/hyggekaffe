@@ -41,6 +41,8 @@ namespace PoolTracker
         private static int lastFrameRate;
         private static int frameRate;
 
+        private float drawFactor = 3;
+
         public static int CalculateFrameRate()
         {
             if (System.Environment.TickCount - lastTick >= 1000)
@@ -80,7 +82,7 @@ namespace PoolTracker
                     
                     showImage1(tableImage);
                     imageBox5.Image = tableImage.Copy();
-                    imageBox6.Image = tableImage.CopyBlank();
+                    imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
 
                     if (!tab.isTableOccluded(originalImage))//==occluded)
                     {
@@ -168,12 +170,18 @@ namespace PoolTracker
             Graphics graphics = Graphics.FromImage(bitmap);
 
             Pen myPen = new Pen(Color.White, 3);
-            graphics.FillEllipse(Brushes.White, boundingRect);
+            //graphics.FillEllipse(Brushes.White, boundingRect);
 
             Bitmap ballImage = (Bitmap)Resources.ResourceManager.GetObject("_" + ((int)ball.color).ToString());
+            Rectangle rect = Ball.roiFromCenter(ball.position);
+            rect.X = (int)(rect.X * drawFactor);
+            rect.Y = (int)(rect.Y * drawFactor);
+            rect.Width = (int)(rect.Width * drawFactor);
+            rect.Height = (int)(rect.Height * drawFactor);
+
             if (ballImage != null)
             {
-                graphics.DrawImage(ballImage, Ball.roiFromCenter(ball.position));
+                graphics.DrawImage(ballImage, rect);
             }
         }
 
