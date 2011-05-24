@@ -74,7 +74,7 @@ After finding the bin with the maximum value an iteration of the whole image is 
 
 The image after the cloth identification can be seen in figure \ref{fig:aftercloth}.
 
-\begin{figure}[htpb]
+\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/aftercloth}
@@ -86,10 +86,10 @@ The image after the cloth identification can be seen in figure \ref{fig:afterclo
 \subsubsection{4) Remove Noise by Using a Median Filter}
 To remove noise from the image a median filter will be used. This allows the contour identifier in OpenCV to work optimal. If the median filter was not used potential contours could be much bigger than the cloth since one-pixel edges could connect across the rails from the cloth to floor. The outcome of the median filter can be seen in figure \ref{fig:afterclothmedian}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=0.5\textwidth]{images/afterclothmedian}
+\includegraphics[width=0.4\textwidth]{images/afterclothmedian}
 \end{center}
 \caption{Image after median filter, kernelsize = 3.}
 \label{fig:afterclothmedian}
@@ -104,19 +104,19 @@ The cloth now appears as the biggest BLOB in the image. To find the bounding box
 \end{itemize}
 
 All the found contours can be seen in figure \ref{fig:allcontours} and the contour found after using the conditions can be seen in figure \ref{fig:clothcontour}.
-\begin{figure}[htpb]
+\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=0.5\textwidth]{images/allcontours}
+\includegraphics[width=0.4\textwidth]{images/allcontours}
 \end{center}
 \caption{All the contours found by FindContours after cloth identification and median filter.}
 \label{fig:allcontours}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=0.5\textwidth]{images/clothcontour}
+\includegraphics[width=0.4\textwidth]{images/clothcontour}
 \end{center}
 \caption{Cloth contour found by FindContours after cloth identificationa, median filter and conditions.}
 \label{fig:clothcontour}
@@ -124,17 +124,17 @@ All the found contours can be seen in figure \ref{fig:allcontours} and the conto
 
 A mask of the found contours is made. The mask will be used when having to find the position of the balls. Without the mask balls could be found on the rails and pockets in the ROI. With the mask they cannot since these places will not be searched in.
 
-\begin{figure}[htpb]
-\centering
-\subfloat[Mask of cloth and other contours.]
-{
-	\includegraphics[width=0.3\textwidth]{images/mask_1}
-}
-\subfloat[Found contour of cloth.]
-{
-	\includegraphics[width=0.3\textwidth]{images/mask_2}
-}
-\end{figure}
+%\begin{figure}[htpb]
+%\centering
+%\subfloat[Mask of cloth and other contours.]
+%{
+%	\includegraphics[width=0.3\textwidth]{images/mask_1}
+%}
+%\subfloat[Found contour of cloth.]
+%{
+%	\includegraphics[width=0.3\textwidth]{images/mask_2}
+%}
+%\end{figure}
 
 \subsubsection{6) Find The Angle Of The Cloth (And Thereby Table)}
 To find the angle of the table the bounding rectangle of the contour of the cloth is divided into lines. A sort of the length is made and the longest line is selected. This line will always be the longest side of the table, the side that should be rotated to 0\degree.
