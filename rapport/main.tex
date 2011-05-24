@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{subfig}
-\usepackage{longtable}
+
 \lstdefinelanguage{CSharp}
 {
  morecomment = [l]{//}, 
@@ -49,93 +49,79 @@
 \chapter{Introduction}
 	\input{introduction}
 
-\chapter{Analysis}
+\part{Analysis}
 	\input{analysis/intro}
 	\label{sec:analysis}
 	
-	\section{About Pool}
-
-		\subsection{Pool Table Specifications and Rules}
+	\chapter{Pool Game Specifications and Rules}
 			\label{sec:rules}
-			\input{analysis/pooltable}
+			\input{analysis/pooltable}		
 	
-		\subsection{Color Analysis of Table and Balls}
-			\label{sec:analysisballstable}
-			\input{analysis/analballs}
-
-%		\subsection{Pool terminology}
-%			\label{sec:terminology}
-%			\input{analysis/terminology}
+	\chapter{Color Analysis of Table and Balls}
+		\label{sec:analysisballstable}
+		\input{analysis/analballs}
 	
-		\subsection{Camera Output and Settings}
-			\label{sec:camera}
-			\input{analysis/camera}
-	
-%		\subsection{Pool situations}
-%			\label{sec:situations}
-%			\input{analysis/situations}
-	
+	\chapter{Camera Output and Settings}
+		\label{sec:camera}
+		\input{analysis/camera}
 					
-	\section{Requirements Specification}
+	\chapter{Requirements Specification}
 		\label{sec:reqspec}
 		\input{analysis/reqspec}
 
-\chapter{Design and Implementation}
+\part{Design and Implementation}
 	\label{solution}
 	\input{solution/intro}
 	
-	\section{System Overview}
+	\chapter{System Overview}
 		\label{sec:sysdesign}
 		\input{solution/sysdesign}
 
-	\section{System Setup}
-		\label{sec:setup}
-		\input{solution/setup}
+		\section{System Setup}
+			\label{sec:setup}
+			\input{solution/setup}
+			
+			\subsection{System Implementation}
+				\label{sec:implementation}
+				\input{solution/implementation}
 		
-	%\section{System Implementation}
-	%	\label{sec:implementation}
-	%	\input{solution/implementation}
-	
-	\section{System Implementation}
-		\label{sec:implementation}
-		\input{solution/implementation}
-		
-	\section{Detect Table}
+	\chapter{Table Detection}
 		\label{sec:table-locate}
 		\input{solution/table-intro}	
 		\input{solution/table-locate}
+		
+	\chapter{Human Interaction Detection}
+		\label{sec:shotdetection}
+		\input{solution/shotdetect}
 
-	\section{Ball Detection and Identification}
+	\chapter{Ball Detection and Identification}
 		\label{sec:balls-intro}	
 		\input{solution/balls-intro}	
 		
-			\subsubsection{Ball Detection}
+			\section{Ball Detection}
 				\label{sec:balls-locate}
 				\input{solution/balls-locate}
 		
-			\subsubsection{Ball Identification}
+			\section{Ball Identification}
 				\label{sec:balls-id}
 				\input{solution/balls-id}
 				
-	\section{Human Interaction Detection}
-		\label{sec:shotdetection}
-		\input{solution/shotdetect}
-				
-	\section{Prototype}
+	\chapter{Prototype}
 		\input{solution/prototype-intro}
 		
-		\subsection{Loading and Saving Config.}
+		\section{Loading and Saving Config.}
 			\label{sec:loadsaveconfig}
 			\input{solution/loadsaveconfig}		
 		
-		\subsection{Graphical User Interface}
+		\section{Graphical User Interface}
 			\label{sec:gui}	
 			\input{solution/gui}
 			
-		\subsection{Using The Prototype}
+		\section{Using The Prototype}
 			\label{sec:using prototype}
 			\input{solution/usingproto}
-		
+
+\part{Test and Conclusion}		
 \chapter{System Test}
 	\label{sec:system-test}
 	\input{test/intro}

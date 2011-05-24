@@ -1,14 +1,11 @@
 For understanding when a new state has occurred a method for detecting this has to be developed. The method will consist of three steps:
-
 \begin{enumerate}
-\setlength{\itemsep}{0mm}
 	\item Detect if human interaction has occurred.
 	\item Wait until balls are laying still.
 	\item If human interaction occured, then detect if ball position or number of ball changed.
 \end{enumerate}
 
-
-\subsection{Human interaction detection}
+\subsection{Human interaction detection}\fxnote{Should not be name the same as chap-title?}
 The first step is to detect weather or not the cloth is occluded. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the cloth is detected to be occluded then there will be no detection of balls before the table is no longer interacted with. This will bring down faulty detections caused by cue or foreign objects.\\
 
 When the table is detected in calibration, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.\\
@@ -27,7 +24,8 @@ Occlusion perimeter factor:
 \label{eq:perimeter}
 \end{equation}
 
-\textbf{Test Image With Values and Factors:}\\
+\subsubsection{Test Image With Values and Factors}
+\fxnote{Put tabular in table env. and give it caption - make it pretty, hopefully not wider than textwidth}
 \begin{tabular}{|l|c|c|l|l|c|}
 \hline - & Image & Mask & A \& $\lambda$ & P \& $\kappa$ & Occlusion \\ 
 \hline
@@ -145,7 +143,7 @@ Occlusion perimeter factor:
 \textbf{Plot Of Factors:}\\
 The plot can be seen in \ref{fig:occlusion_plot}. It does not contain "Lighting I" factors since the perimeter is very high compared to the normal. This is due to the light being altered too much which is not allowed as written in the requirement specification in section \ref{sec:reqspec}.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.7\textwidth]{images/occlusion_plot}
@@ -180,17 +178,17 @@ After an human interaction it is required to detect if movement of the balls or 
 positions of the balls are saved as a new state. If it is not the case the system will wait for the next human interaction. To detect if movement or number has changed the current number of balls and their positions will be compared to the last saved state. However first it is important to detect if the balls are laying still.
 
 \subsubsection{Distance Measure}
-The distances will be calculated using the manhatten distance measure which is defined in equation \ref{eq:manhatten}. The manhatten distance measure has lower complexity than other distances measures which could also have been used and is therefore chosen. 
+The distances will be calculated using the manhatten distance measure which is defined in equation \ref{eq:manhatten}. The Manhattan distance measure has lower complexity than other distances measures which could also have been used and is therefore chosen. 
 
 \begin{equation}
 L_{1} = \parallel x_{1}-x_{2}\parallel + \parallel y_{1}-y_{2}\parallel.
 \label{eq:manhatten}
 \end{equation}
 
-\subsubsection{Detect If Balls Are Laying Still}
+\subsubsection{Detect if Balls are Laying Still}
 Before comparing the positions and number of balls it is important that the balls are laying still, since the focus of the project is based on non-moving ball and a moving balls could give wrong identification due to motion blur, interlacing and so on. This will be done by finding the position of the balls in the current frame and then comparing it to a number of past frames as illustrated in figure \ref{fig:manyframes}.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_numbers}
@@ -208,10 +206,10 @@ N = FPS * seconds
 
 If the position of the balls is the same in N frames the balls are laying still. The number of seconds is chosen to be 0.5 s. 
 
-\subsubsection{Movement From Last Saved State.}
-To detect if there has been movement of the balls from the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not indicate a new position.\\
+\subsubsection{Movement from Last Saved State}
+To detect if there has been movement of the balls from the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not indicate a new position.
 
 The threshold will be set as the radius of a ball, in pixels. If a ball has moved more than this from the last saved state it will be a new state.
 
 \subsubsection{Change In Number Of Balls}
-If the number of found balls is different from the number of found balls in the last saved state a new state will be saved with the found positions and colors.\\
+If the number of found balls is different from the number of found balls in the last saved state a new state will be saved with the found positions and colors.

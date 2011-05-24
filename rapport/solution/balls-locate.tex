@@ -11,9 +11,9 @@ In step 2 the ROI is traversed, and a ball probability is computed at each possi
 
 To establish which of the positions inside the ROI are actual ball positions, the balls are selected from the list of probabilities starting with the most probable position.
 
-\paragraph{Preliminary Segmentation}
+\subsection{Preliminary Segmentation}
 To decrease the ROI from the cloth area down to areas of the table that contains balls, a preliminary segmentation is performed. A color threshold removes all pixels that belong to the background leaving behind a mask that represents the balls.
-\begin{figure}[H]
+\begin{figure}[htb]
   \centering
   \subfloat[Original]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/thres1before.jpg}}
   \quad           
@@ -23,7 +23,7 @@ To decrease the ROI from the cloth area down to areas of the table that contains
 \end{figure}
 Figure \ref{fig:thres1} shows the result of the color threshold. In a situation like this where the balls are laying close to each other, the preliminary segmentation is not enough to successfully separate the balls. Balls in close proximity results in connected BLOBs after the threshold. These BLOBs could be separated using morphology operations but most of the information would be lost, causing the locations to lack precision. Instead of using the BLOBS directly, they are used as search regions for the balls.
 
-\paragraph{Ball Probability Estimation}
+\subsection{Ball Probability Estimation}
 To be able to estimate the ball probability, we need to know the features that characterizes a ball. The following description can be formulated:
 \begin{itemize}
 \item The shape of the ball, in the image, is always a circle of fixed size
@@ -42,7 +42,7 @@ The probability of a candidate position containing a ball can then be formulated
 P_{ball}(x,y) = \frac{pixels_{primary} + pixels_{white}}{pixels_{total}}
 \end{equation}
 It is seen that the a region having only one color besides white maximizes the probability.
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/ballfind.pdf}
 \caption{The probability of a ball is evaluated in the image.}
@@ -60,10 +60,10 @@ Pixels that have a saturation below a certain value are considered to be white. 
 
 To determine the number of primary colored pixels, the variance of the colored pixels is analyzed. If the candidate position contains a ball, the distribution of the colored pixels is expected to be narrowly distributed around the mean of the ball color. If the position is between two or more balls the distribution will be multimodal and the variance higher.
 
-The pixels that are within a certain deviation of the mean hue and saturation are counted, resulting in a count of the number of primary colored pixels in the ball.
+The pixels that are within a certain deviation of the mean hue are counted, resulting in a count of the number of primary colored pixels in the ball.
 
 If the number of black pixels is greater than the number of primary colored pixels, the number of black pixels is used as the number of primary pixels.
-\paragraph{Best Candidates Selection}
+\subsection{Best Candidates Selection}
 The result of the probability estimation is a sorted list of candidate positions, having the most probable position at the top of the list. The probability has been computed in every image position, which results in many overlapping positions. 
 
 The final ball positions are found by traversing the list from the top and thus selecting the most probable positions first. A candidate will only be selected if there is not already a detected ball one radius of the candidate position.  
@@ -71,7 +71,7 @@ The final ball positions are found by traversing the list from the top and thus 
 The system continues to detect balls until 16 balls are found or the score is below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
 
 \fxnote{Figure showing different distributions and their resulting ball probability}
-\begin{figure}[h]
+\begin{figure}[htb]
 \begin{center}
 \includegraphics[width=\textwidth]{images/ballflowchart.pdf}
 \caption{Flowchart of the ball detection process.}
@@ -80,7 +80,7 @@ The system continues to detect balls until 16 balls are found or the score is be
 \end{figure}
 
 A problem arises if a wrong match is found, which intersects candidates that have not yet been matched. The position of the intersected candidates will then be invalidated, because they are within the radius of a detected ball. It will then be impossible to find a new match in the region of the earlier wrong match. 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \includegraphics{images/wronglocate.jpg}
 \caption{Consequence of wrong location detection. Red circles are ball detected balls}
@@ -89,10 +89,10 @@ A problem arises if a wrong match is found, which intersects candidates that hav
 \end{figure}
 Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match prevents several balls from being matched, and other balls from matching precisely.
 
-\paragraph{Detection Results}
+\subsection{Detection Results}
 Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
 
-\begin{figure}[H]
+\begin{figure}[htb]
   \centering
   \subfloat[No clutter]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/detect1.jpg}}
   \quad           

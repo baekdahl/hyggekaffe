@@ -30,6 +30,18 @@ draft,
 final
 ]{showkeys}
 
+\usepackage{packages/tweaklist}
+\renewcommand{\enumhook}{
+	\setlength{\topsep}{.5ex}
+  	\setlength{\itemsep}{.3ex}
+ 	\setlength{\parsep}{.3ex}
+}
+\renewcommand{\itemhook}{
+	\setlength{\topsep}{.5ex}
+	\setlength{\itemsep}{.3ex}
+	\setlength{\parsep}{.3ex}
+}
+
 
 %
 % Settings for varioref and showkeys
@@ -334,10 +346,7 @@ computer vision.
 \usepackage{subfig}
 
 \setlength{\parindent}{0pt}
-
-\setlength{\itemsep}{1pt}
-
-\setlength{\parskip}{.5ex}
+\setlength{\parskip}{1ex}
 
 % Making it possible to use colors and defining some new colors
 \usepackage{color, colortbl}

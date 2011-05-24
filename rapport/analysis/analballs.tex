@@ -1,13 +1,13 @@
-To find the table and balls it is important to understand how the table and balls appear in different color spaces. In this section the colors of the table and the pool balls will be measured for further analysis.\\
+To find the table and balls it is important to understand how the table and balls appear in different color spaces. In this section the colors of the table and the pool balls will be measured for further analysis.
 
-\subsubsection{The Table}
+\section{The Table}
 As written in the rules in section \ref{sec:rules} the table cloth color has to be yellow-green, blue-green or electric blue. The cloth color should be constant, but dependent on the lighting the cloth color could appear to have a high variance.
 
 The table used for measuring is a pool table with blue-green cloth located in Aalborg University's lab at Niels Jernes Vej 12 in room A6-314.
 
 Three different images of the pool table and one image with the cloth cut out are analysed first in HSB color space and then i RGB space. These analysis will be used in the solution chapter.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=1\textwidth]{images/hsv_hist_table}
@@ -15,8 +15,8 @@ Three different images of the pool table and one image with the cloth cut out ar
 \caption{HSB Images 1, 2 and 3 are the table in different light where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablehsv}
 \end{figure}
-
-\begin{figure}[H]
+From the HSB color space figure \ref{fig:tablehsv} it is clear that the cloth should be somewhat easily found using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=1\textwidth]{images/rgb_hist_table}
@@ -24,21 +24,18 @@ Three different images of the pool table and one image with the cloth cut out ar
 \caption{RGB Images 1, 2 and 3 are the table in different light where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablergb}
 \end{figure}
+When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSB color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.
 
-From the HSB color space figure \ref{fig:tablehsv} it is clear that the cloth should be somewhat easily found using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.\\
-
-When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSB color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.\\
-
-\subsubsection{The Balls}
+\section{The Balls}
 \label{sec:analballs}
 The success of the system depends on the identifiers ability to separate the pool balls from each other. To analyse the separability, histograms of all the different solid colored balls has been computed. This was done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
 
 \input{analysis/ballhists}
 
-\textbf{Ball Color Composition}\\
+\subsection{Ball Color Composition}
 To be able to detect whether or not a ball is solid or striped it is important to know how big a portion of a ball is white. The images used can be seen in figure \ref{fig:ballscompo} which is based on the balls used in this project.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \centering
 \subfloat[Solid ball with number turned up.]
 {
@@ -59,10 +56,9 @@ To be able to detect whether or not a ball is solid or striped it is important t
 \label{fig:ballscompo}
 \end{figure}
 
-In table \ref{fig:ballscompotable} the percentage of white pixels can be seen.\\
+In table \ref{fig:ballscompotable} the percentage of white pixels can be seen.
 
-
-\begin{table}[H]
+\begin{table}[htb]
 \centering
 \begin{tabular}{|c|c|c|c|}
 	\hline Figure & a) & b) & c) \\ 
@@ -74,4 +70,3 @@ In table \ref{fig:ballscompotable} the percentage of white pixels can be seen.\\
 \caption{Table with ball color composition.}
 \label{fig:ballscompotable}
 \end{table}
-

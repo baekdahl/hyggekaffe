@@ -15,7 +15,7 @@ The diamonds have several properties that will be used when locating them. As wr
 	\item They stand out from their surroundings.
 \end{itemize}
 
-The table are be found in the previous section\ref{sec:table-locate} and thereby making the search-region for the diamonds smaller. Also, within the table there are very few contours that could appear to be a diamonds, where as outside the table the environment is completely different from place to place.\\
+The table are be found in the previous section\ref{sec:table-locate} and thereby making the search-region for the diamonds smaller. Also, within the table there are very few contours that could appear to be a diamonds, where as outside the table the environment is completely different from place to place.
 
 For robustly locating the diamonds the following approach has been used:
 \begin{enumerate}
@@ -28,17 +28,17 @@ For robustly locating the diamonds the following approach has been used:
 
 %MAKE FLOWCHART.
 
-\textbf{Convert to grayscale and use adaptive threshold:}\\
-The captured image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adaptive threshold in section \ref{sec:table-locate}.\\
+\textbf{Convert to grayscale and use adaptive threshold:}
+The captured image will be converted into grayscale for further process where it is made binary with adaptive threshold. This will provide much more invariance to light in the different regions of the table. More can be read about adaptive threshold in section \ref{sec:table-locate}.
 
 %Insert Image
 
-\textbf{Find contours:}\\
+\textbf{Find contours:}
 The next step is to find the contours in the binary image and sort them by size. The contours are found by using OpenCV build in contour detection algorithm \cite{contour}.
 
 This will return a list of contours in the image\ref{fig:allcontours}.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/allcontours.png}
@@ -56,17 +56,17 @@ Many different contours are found as seen and therefore it is necessary to sort 
 
 The area size used as reference is the median area of the list of contours. This should be approximately the area of a diamond. If the mean was used instead of the median a much larger value would be the reference, because of very big contours being found (in OpenCV implementation the image in itself is a contour).
 
-The outcome is a list of possible diamonds.\\\\
+The outcome is a list of possible diamonds.
 
-\textbf{Find contours for a sequence of images:}\\
+\textbf{Find contours for a sequence of images:}
 While testing, one of the major problems with finding the diamonds positions, was the noise introduced by various parameters (camera, lightning etc). The actual positions of the diamonds was found in every frame, but a lot of noise made found positions of diamonds elsewhere in the images. 
 The noise changed from frame to frame.
 
 Therefore, by using a sequence of images (video) and compare the positions found it is possible to eliminate the noise and only find the position of the diamonds.
 
-Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.\\
+Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_numbers.pdf}
@@ -75,10 +75,10 @@ Each time an image is processed the contours are saved in a list. When the decid
 \label{fig:seq_img}
 \end{figure}
 
-\textbf{Find the contours that remain at same position throughout the sequence:}\\
+\textbf{Find the contours that remain at same position throughout the sequence:}
 A arbitrary point in the first frame is chosen. In all other frames the same position is searched for a contour. If this contour exists in every frame it is saved as a diamond. If it does not exist in every image it is not saved.
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_pool.pdf}

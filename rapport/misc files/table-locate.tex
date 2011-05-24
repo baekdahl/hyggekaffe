@@ -9,7 +9,7 @@ The method of searching for the table as a big rectangle is chosen. 					%EXPLAI
 
 The method used is explained by this flowchart\ref{fig:detecttable_flowchart}:
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/tabledetect_flowchart.pdf}
@@ -33,20 +33,20 @@ The following steps will be done:
 \item As set in the requirements specification\ref{sec:reqspec} the table has to take up at least 75\% of the image. Therefore the limit for the size of the table after image processing is set to 50\%. If the contour found is not at least this percentage, then the ROI is returned as not found. Otherwise the ROI will be returned.
 \end{enumerate}
 
-\textbf{Adaptive threshold:}\\
+\textbf{Adaptive threshold:}
 In the requirements specification\ref{sec:reqspec} it is set that the system should work in mixed light conditions. Therefore it is crucial to have methods that work based on their surroundings. This is where adaptive threshold is a very good and simple tool.
 
 Where normal threshold uses only one value for an entire image, adaptive threshold allows for the threshold value to change according to the surroundings. This is very good for operations that take place in scenes with different light and thereby it is more robust.
 
-Normal thresholding is a very simple operation.\\
+Normal thresholding is a very simple operation.
 
 \begin{center}
 	if $P(x,y) > threshold$ then $P(x,y) = 1$
 
-	else $P(x,y) = 0$\\
+	else $P(x,y) = 0$
 \end{center}
 
-Using adaptive threshold it becomes slightly more complicated. The threshold is now no longer static, but dynamic and depends on the surrounding pixels in a blocksize $b$. The blocksize $b$ is a value that determine how big a portion of the surroundings the threshold will be calculated from.\\
+Using adaptive threshold it becomes slightly more complicated. The threshold is now no longer static, but dynamic and depends on the surrounding pixels in a blocksize $b$. The blocksize $b$ is a value that determine how big a portion of the surroundings the threshold will be calculated from.
 
 \begin{center}
 	$threshold = \sum_{k=x-b}^{x+b} \sum_{j=y-b}^{y+b} P(x,y)$
@@ -60,7 +60,7 @@ Furthermore it is possible to select if the mean should be a equally weighted me
 
 An example of using adaptive threshold can be seen here and it is easy to see the big advantage of adaptive threshold\ref{fig:adaptivethreshold}. 
 
-\begin{figure}[H]
+\begin{figure}[htb]
 \begin{center}
 \leavevmode
 \includegraphics[width=1\textwidth]{images/adaptive_threshold.JPG}

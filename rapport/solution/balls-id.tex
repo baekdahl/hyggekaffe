@@ -5,7 +5,7 @@ Identification of the ball consists of two steps:
 \end{enumerate}
 Both steps involves measuring the color distribution of the detected ball. The primary color in the distribution represents the color of the ball, while the amount of white in the distribution determines if the ball is striped.
 
-\paragraph{Vector Angle Versus Euclidean Distance}
+\subsection{Vector Angle Versus Euclidean Distance}
 The color of a ball has to be classified to one of the eight different ball colors. This is achieved by calculating distances between the detected ball and model colors obtained from ball calibration. The detected ball is then classified as the model that has the shortest distance.
 
 There are different ways of measuring difference between colors, and each of these measurements has their own advantages. In this section two methods for measuring color difference are compared to find the one most suitable for ball classification.
@@ -23,7 +23,7 @@ In RGB space the euclidean distance is more sensitive to differences in intensit
 cos \theta = \frac{v_{1}^ Tv_{2}}{||v_{1}|| ||v_{2}||}
 \end{equation}
 The vector angle between two colors having the same chromaticity but different intensity will be the same, as seen in figure \ref{fig:angleVersusEuclidean}. The vector angle in RGB is equivalent to using the hue distance in HSB\fxnote{I think it is}. Using the vector angle instead of converting the entire image to HSB can save computation time.\cite{angleVsEuclidean}
-\begin{figure}[H]
+\begin{figure}[htb]
   \centering
   \subfloat[Visual representation of color distance]{\label{fig:angleVersusEuclideanDrawing}\includegraphics[width=0.48\textwidth]{images/angleVersusEuclidean}}
   \quad           
@@ -47,7 +47,7 @@ The vector angle between two colors having the same chromaticity but different i
 \end{figure}
 As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the euclidean distance was used in the final implementation.
 
-\paragraph{Color Comparison Strategy}
+\subsection{Color Comparison Strategy}
 
 The ball color can be measured in two different ways: 
 \begin{enumerate}
@@ -59,11 +59,11 @@ The difference between the distribution of the detected ball and the model distr
 
 Another way of looking at a ball is pixel by pixel. Each pixel is classified by itself, and the ball class is selected by taking the class where most of the ball pixels belong to. This is the approach used in this project. The thought behind this approach is that it will perform better against outliers and the varying number of colored pixels that is the nature of the pool balls. 
 
-\paragraph{Implementation}
+\subsection{Implementation}
 The classifier is trained by supervised training where the user selects the location for each of the solid colored balls. The mean RGB value is then extracted from each of the ball areas and this will serve as a model for color comparison. \fxnote{Figure showing sampling of color means from image during calibration}
 The euclidean distance between al each pixel and the models are calculated to determine the ball that the pixel is most likely to represent.
 
-\begin{table}[H]
+\begin{table}[htb]
 \begin{center}
 	\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
 		\hline
