@@ -1,0 +1,28 @@
+\textbf{Hypothesis}
+How can we, with a standard inexpensive webcam, correctly detect a pool table and identify pool balls in mixed lighting?\\
+
+%Intro
+We have tried to develop a system that would fulfil the hypothesis. Unfortunately some of the key elements of the system does not work as stated in the requirement specification. This is partly due to the input data from the webcam, but also because of the solutions made.
+
+%Method for detecting states
+We have developed a method that will identify different states of the pool game. This has been done by using the logic of the game and the human interaction that is necessary to go from one state to another. This saves both computation time and wrong classifications of balls. The interaction detection did not work for small interactions, such as a que placed on the outskirts of the cloth, but for normal interactions it worked fine.
+
+%Detecing table
+The detection of table works as it should if the requirement for this is satisfied. Several methods was researched, but eventually the method of identifying the table based on the cloth color was used due to the tables examined not having the correct measurements and sizes. This also led to the size of a ball having to be found by another method.
+
+%Finding position of balls
+The positions of balls were found with high accuracy when the balls were laying apart. For balls in clusters, and especially if the clusters contained the same type of colors, the position will sometimes be detected incorrectly. This is due to both the webcam not being able to output with well separated colors and the balls not being allowed to overlap each other in the method developed. The method did however 
+\fixme{.. bla bla .. vi kan godt i clusters imodsætning til andre...}
+
+%Identifying balls
+
+%How can it be better
+
+%Webcam trouble with no autosettings.
+The webcam was not able to output images or videos with well separated colors. Often the orange, red and brown as well as the purple, blue and black had distributions that laid very close to each other. This proved to be difficult since the classifier has to have 
+\fixme{skal være noget at skeldne imellem for classifieren}
+
+%GUI
+A GUI was developed for the system and several aspects of this was examined to make the program be as easy to use as possible. It consists of begin able to calibrate and save settings, watching live input and identification. Although the GUI could be improved it is very good for illustrating the proof-of-concept.
+
+%All in all - summop!
