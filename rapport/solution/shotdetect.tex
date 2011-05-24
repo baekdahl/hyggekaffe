@@ -143,7 +143,7 @@ Occlusion perimeter factor:
 \textbf{Plot Of Factors:}\\
 The plot can be seen in \ref{fig:occlusion_plot}. It does not contain "Lighting I" factors since the perimeter is very high compared to the normal. This is due to the light being altered too much which is not allowed as written in the requirement specification in section \ref{sec:reqspec}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.7\textwidth]{images/occlusion_plot}
@@ -188,7 +188,7 @@ L_{1} = \parallel x_{1}-x_{2}\parallel + \parallel y_{1}-y_{2}\parallel.
 \subsubsection{Detect if Balls are Laying Still}
 Before comparing the positions and number of balls it is important that the balls are laying still, since the focus of the project is based on non-moving ball and a moving balls could give wrong identification due to motion blur, interlacing and so on. This will be done by finding the position of the balls in the current frame and then comparing it to a number of past frames as illustrated in figure \ref{fig:manyframes}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_numbers}

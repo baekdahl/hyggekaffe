@@ -18,7 +18,7 @@ The test were conducted in the multimedia lab located in room A6-314 on Niels Je
 %A second smaller test, to illustrate that the solution will work for different pool tables, is conducted in the DE-Klub which is a student bar located in A4-101 at Frederik Bajers Vej 7 in Aalborg. 
 The pool table can be seen in figure \ref{fig:pooltableimg}. The videos used for the test can be found on the CD-Rom enclosed with this report.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/test/light/input}
@@ -29,7 +29,7 @@ The pool table can be seen in figure \ref{fig:pooltableimg}. The videos used for
 
 The tests were made in two light conditions: normal and mixed. These conditions can be seen in figure \ref{fig:difflightcon}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Normal illumination]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/test/light/detectedtable}}
   \quad           
@@ -55,14 +55,14 @@ In some of the tests, two results have been recorded. One representing the best 
 \subsection{Balls laying apart}
 The least difficult test for the detection of balls is where the balls are laying apart. The result of the test with normal light can be seen in figure \ref{fig:apartnormal} and for the mixed light in figure \ref{fig:apartmixed}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
 \includegraphics[width=0.5\textwidth]{images/test/light1/laying-apart}
    \caption{Balls laying apart - normal light.}
   \label{fig:apartnormal}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
 \includegraphics[width=0.5\textwidth]{images/test/mixed1/laying-apart}
    \caption{Balls laying apart - mixed light.}
@@ -73,7 +73,7 @@ There is no significant change in the behavior of the system between the mixed, 
 
 \subsection{Balls clustered by color}
 As mentioned in section \ref{sec:balls-locate}, the ball detection works by finding areas that minimizes the color variance. To test for weaknesses in this method, the scenario seen in figures \ref{fig:clustersnormal} and \ref{fig:clustersmixed} is tested.
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Black ball low precision]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/test/light1/clusters-1}}
   \quad
@@ -83,7 +83,7 @@ As mentioned in section \ref{sec:balls-locate}, the ball detection works by find
   \label{fig:clustersnormal}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
 \includegraphics[width=0.5\textwidth]{images/test/mixed1/clusters-2}
    \caption{Balls in clusters - mixed light. Several detection problems.}
@@ -95,7 +95,7 @@ The balls are not correctly detected in this scenario. The problem is most signi
 \subsection{Balls laying in start position}
 The balls are placed in the start position with all balls except the cue ball clustered. This is the most difficult condition to test positions of the pool balls. The test was done while the balls were laying still and the result of the test with normal light can be seen in figure \ref{fig:poolposstart} and for the mixed light in figure \ref{fig:poolposstart2}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
    \subfloat[Correct detection]{\label{fig:poolposstart-good}\includegraphics[width=0.3\textwidth]{images/test/light1/start-normal-1}}
 \quad
@@ -104,7 +104,7 @@ The balls are placed in the start position with all balls except the cue ball cl
   \label{fig:poolposstart}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Correct detection]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{images/test/mixed1/start-mixed-1}}
 \quad
@@ -130,7 +130,7 @@ This is done to test the borderline cases for when a ball is considered solid, s
 \subsection{Pool balls laying with minimum white facing up}
 This scenario will test if the identifier has problems that causes striped balls to be identified as solid balls.
 The result of the test with normal light can be seen in figure \ref{fig:minnormal} and for the mixed light in figure \ref{fig:minmixed}.
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/light1/min-white-input}}
   \quad
@@ -140,7 +140,7 @@ The result of the test with normal light can be seen in figure \ref{fig:minnorma
   \label{fig:minnormal}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/min-white-input}}
   \quad
@@ -154,7 +154,7 @@ All balls on both mixed and normal lighting are correctly identified, except for
 \subsection{Pool balls laying with maximum white facing up}
 This test will illustrate if the ratio of white pixels is defined well enough to identify if the ball is solid or striped. Also the detection of correct colors will be tested. The result of the test with normal light can be seen in figure \ref{fig:maxnormal} and for the mixed light in figure \ref{fig:maxmixed}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/light1/max-white-input}}
   \quad
@@ -164,7 +164,7 @@ This test will illustrate if the ratio of white pixels is defined well enough to
   \label{fig:maxnormal}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Input image]{\label{fig:gull}\includegraphics[width=0.5\textwidth]{images/test/mixed1/max-white-input}}
   \quad

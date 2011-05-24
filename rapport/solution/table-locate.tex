@@ -18,7 +18,7 @@ The method was tried and gave mixed results. It was possible to segment the tabl
 \paragraph{Searching For The Pockets On The Pool Table}
 This proved to be easy to do by using the brightness part of the image in HSB colour space. Since the pockets are less illuminated than the rest of the table this should have a very low brightness. An example of this can be seen in figure \ref{fig:value_thres}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/value_thres}
@@ -53,7 +53,7 @@ As written in the pool table regulations in section \ref{sec:rules} the table ha
 %	\item Output the ROI, angle and mask.
 %\end{enumerate}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.8\textwidth]{images/tabledetect_flowchart}
@@ -74,7 +74,7 @@ After finding the bin with the maximum value an iteration of the whole image is 
 
 The image after the cloth identification can be seen in figure \ref{fig:aftercloth}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/aftercloth}
@@ -86,7 +86,7 @@ The image after the cloth identification can be seen in figure \ref{fig:afterclo
 \subsubsection{4) Remove Noise by Using a Median Filter}
 To remove noise from the image a median filter will be used. This allows the contour identifier in OpenCV to work optimal. If the median filter was not used potential contours could be much bigger than the cloth since one-pixel edges could connect across the rails from the cloth to floor. The outcome of the median filter can be seen in figure \ref{fig:afterclothmedian}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/afterclothmedian}
@@ -104,7 +104,7 @@ The cloth now appears as the biggest BLOB in the image. To find the bounding box
 \end{itemize}
 
 All the found contours can be seen in figure \ref{fig:allcontours} and the contour found after using the conditions can be seen in figure \ref{fig:clothcontour}.
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/allcontours}
@@ -113,7 +113,7 @@ All the found contours can be seen in figure \ref{fig:allcontours} and the conto
 \label{fig:allcontours}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/clothcontour}
@@ -124,7 +124,7 @@ All the found contours can be seen in figure \ref{fig:allcontours} and the conto
 
 A mask of the found contours is made. The mask will be used when having to find the position of the balls. Without the mask balls could be found on the rails and pockets in the ROI. With the mask they cannot since these places will not be searched in.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \centering
 \subfloat[Mask of cloth and other contours.]
 {
@@ -141,7 +141,7 @@ To find the angle of the table the bounding rectangle of the contour of the clot
 
 The angle between the line and a horizontal line is calculated using the GetExteriorAngleDegree function in OpenCV. The angle found led to understand that there is a slight problem with the output as shown in \ref{fig:table_angle}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/table_angle}
@@ -157,7 +157,7 @@ The angle and the box for the non-rotated image has been calculated. Since the c
 
 The output can be seen in figure \ref{fig:tablelocateoutput}, with the original image, secondly the found ROI, thirdly the mask of the cloth and finally the output image.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \centering
 \subfloat[Input image.]
 {

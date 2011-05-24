@@ -38,7 +38,7 @@ The next step is to find the contours in the binary image and sort them by size.
 
 This will return a list of contours in the image\ref{fig:allcontours}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/allcontours.png}
@@ -66,7 +66,7 @@ Therefore, by using a sequence of images (video) and compare the positions found
 
 Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_numbers.pdf}
@@ -78,7 +78,7 @@ Each time an image is processed the contours are saved in a list. When the decid
 \textbf{Find the contours that remain at same position throughout the sequence:}
 A arbitrary point in the first frame is chosen. In all other frames the same position is searched for a contour. If this contour exists in every frame it is saved as a diamond. If it does not exist in every image it is not saved.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_pool.pdf}
