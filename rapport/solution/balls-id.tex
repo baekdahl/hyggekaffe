@@ -23,7 +23,7 @@ In RGB space the euclidean distance is more sensitive to differences in intensit
 cos \theta = \frac{v_{1}^ Tv_{2}}{||v_{1}|| ||v_{2}||}
 \end{equation}
 The vector angle between two colors having the same chromaticity but different intensity will be the same, as seen in figure \ref{fig:angleVersusEuclidean}. The vector angle in RGB is equivalent to using the hue distance in HSB\fxnote{I think it is}. Using the vector angle instead of converting the entire image to HSB can save computation time.\cite{angleVsEuclidean}
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Visual representation of color distance]{\label{fig:angleVersusEuclideanDrawing}\includegraphics[width=0.48\textwidth]{images/angleVersusEuclidean}}
   \quad           
@@ -63,7 +63,7 @@ Another way of looking at a ball is pixel by pixel. Each pixel is classified by 
 The classifier is trained by supervised training where the user selects the location for each of the solid colored balls. The mean RGB value is then extracted from each of the ball areas and this will serve as a model for color comparison. \fxnote{Figure showing sampling of color means from image during calibration}
 The euclidean distance between al each pixel and the models are calculated to determine the ball that the pixel is most likely to represent.
 
-\begin{table}[htb]
+\begin{table}[htpb]
 \begin{center}
 	\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
 		\hline

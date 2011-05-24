@@ -24,9 +24,8 @@ Occlusion perimeter factor:
 \label{eq:perimeter}
 \end{equation}
 
-Test were done to measure these factors and can be seen in figure \ref{fig:occtab1} and \ref{fig:occtab2}.
-
-\begin{table}
+\subsubsection{Test Image With Values and Factors}
+\fxnote{Put tabular in table env. and give it caption - make it pretty, hopefully not wider than textwidth}
 \begin{tabular}{|l|c|c|l|l|c|}
 
 \hline - & Image & Mask & A \& $\lambda$ & P \& $\kappa$ & Occluded \\ 
@@ -196,7 +195,7 @@ L_{1} = \parallel x_{1}-x_{2}\parallel + \parallel y_{1}-y_{2}\parallel.
 \subsubsection{Detect if Balls are Laying Still}
 Before comparing the positions and number of balls it is important that the balls are laying still, since the focus of the project is based on non-moving ball and a moving balls could give wrong identification due to motion blur, interlacing and so on. This will be done by finding the position of the balls in the current frame and then comparing it to a number of past frames as illustrated in figure \ref{fig:manyframes}.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_numbers}

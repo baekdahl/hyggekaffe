@@ -7,7 +7,7 @@ The table used for measuring is a pool table with blue-green cloth located in Aa
 
 Three different images of the pool table and one image with the cloth cut out are analysed first in HSB color space and then i RGB space. These analysis will be used in the solution chapter.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=1\textwidth]{images/hsv_hist_table}
@@ -16,7 +16,7 @@ Three different images of the pool table and one image with the cloth cut out ar
 \label{fig:tablehsv}
 \end{figure}
 From the HSB color space figure \ref{fig:tablehsv} it is clear that the cloth should be somewhat easily found using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \leavevmode
 \includegraphics[width=1\textwidth]{images/rgb_hist_table}
@@ -35,7 +35,7 @@ The success of the system depends on the identifiers ability to separate the poo
 \subsection{Ball Color Composition}
 To be able to detect whether or not a ball is solid or striped it is important to know how big a portion of a ball is white. The images used can be seen in figure \ref{fig:ballscompo} which is based on the balls used in this project.
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \centering
 \subfloat[Solid ball with number turned up.]
 {
@@ -58,7 +58,7 @@ To be able to detect whether or not a ball is solid or striped it is important t
 
 In table \ref{fig:ballscompotable} the percentage of white pixels can be seen.
 
-\begin{table}[htb]
+\begin{table}[htpb]
 \centering
 \begin{tabular}{|c|c|c|c|}
 	\hline Figure & a) & b) & c) \\ 

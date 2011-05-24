@@ -22,7 +22,7 @@ Experiments with matching a simple one-colored template against the balls proved
 Histograms extracted from training data are backprojected against the entire image of the pool table. This is done by computing the histogram inside a mask in every image position, and then assigning a score to the position by measuring the difference between the sampled and model training histogram.
 
 This process is similar to the template matching described above, but instead of taking structure of the image into account the, i.e. where the different colors are located inside the circular mask, this method evaluates the distribution of the colors regardless of structure.
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Good match]{\label{fig:backProjectGood}\includegraphics[width=0.48\textwidth]{images/backprojectGood.png}}
   \quad           
@@ -36,7 +36,7 @@ Figure \ref{fig:backprojectResults} shows results of experiments of backprojecti
 
 \subsection{BLOB Analysis}
 The uniform color of the table cloth can be utilized to apply a threshold to the image resulting in BLOBs representing ball locations. The BLOBs can be separated using morphology operations to separate balls in close proximity. The center position of BLOBs or a feature like the bounding circle, can be used to mark the center point of a ball. Pixels that are inside a BLOB is extracted for further processing to identify the ball.
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Original]{\label{fig:blobAnalBefore}\includegraphics[width=0.48\textwidth]{images/blobAnalBefore}}
   \quad           

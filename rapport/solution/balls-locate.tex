@@ -13,7 +13,7 @@ To establish which of the positions inside the ROI are actual ball positions, th
 
 \subsection{Preliminary Segmentation}
 To decrease the ROI from the cloth area down to areas of the table that contains balls, a preliminary segmentation is performed. A color threshold removes all pixels that belong to the background leaving behind a mask that represents the balls.
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[Original]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/thres1before.jpg}}
   \quad           
@@ -42,7 +42,7 @@ The probability of a candidate position containing a ball can then be formulated
 P_{ball}(x,y) = \frac{pixels_{primary} + pixels_{white}}{pixels_{total}}
 \end{equation}
 It is seen that the a region having only one color besides white maximizes the probability.
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/ballfind.pdf}
 \caption{The probability of a ball is evaluated in the image.}
@@ -71,7 +71,7 @@ The final ball positions are found by traversing the list from the top and thus 
 The system continues to detect balls until 16 balls are found or the score is below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
 
 \fxnote{Figure showing different distributions and their resulting ball probability}
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \includegraphics[width=\textwidth]{images/ballflowchart.pdf}
 \caption{Flowchart of the ball detection process.}
@@ -80,7 +80,7 @@ The system continues to detect balls until 16 balls are found or the score is be
 \end{figure}
 
 A problem arises if a wrong match is found, which intersects candidates that have not yet been matched. The position of the intersected candidates will then be invalidated, because they are within the radius of a detected ball. It will then be impossible to find a new match in the region of the earlier wrong match. 
-\begin{figure}[htb]
+\begin{figure}[htpb]
 \begin{center}
 \includegraphics{images/wronglocate.jpg}
 \caption{Consequence of wrong location detection. Red circles are ball detected balls}
@@ -92,7 +92,7 @@ Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match
 \subsection{Detection Results}
 Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
 
-\begin{figure}[htb]
+\begin{figure}[htpb]
   \centering
   \subfloat[No clutter]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/detect1.jpg}}
   \quad           
