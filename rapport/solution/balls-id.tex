@@ -22,10 +22,10 @@ In RGB space the euclidean distance is more sensitive to differences in intensit
 \begin{equation}
 cos \theta = \frac{v_{1}^ Tv_{2}}{||v_{1}|| ||v_{2}||}
 \end{equation}
-The vector angle between two colors having the same chromaticity but different intensity will be the same, as seen in figure \ref{fig:angleVersusEuclidean}. The vector angle in RGB is equivalent to using the hue distance in HSB\fxnote{I think it is}. Using the vector angle instead of converting the entire image to HSB can save computation time.\cite{angleVsEuclidean}
-\begin{figure}[htpb]
+The vector angle between two colors having the same chromaticity but different intensity will be the same, as seen in figure \ref{fig:angleVersusEuclideanDrawing}. The vector angle in RGB is equivalent to using the hue distance in HSB. Using the vector angle instead of converting the entire image to HSB can save computation time.\cite{angleVsEuclidean}
+\begin{figure}[H]
   \centering
-  \subfloat[Visual representation of color distance]{\label{fig:angleVersusEuclideanDrawing}\includegraphics[width=0.48\textwidth]{images/angleVersusEuclidean}}
+  \subfloat[Visual representation of color distance]{\label{fig:angleVersusEuclideanDrawing}\includegraphics[width=0.38\textwidth]{images/angleVersusEuclidean}}
   \quad           
   \subfloat[Euclidean distances]{
   	\label{tab:angleVersusEuclidean}
@@ -43,6 +43,7 @@ The vector angle between two colors having the same chromaticity but different i
 		\hline
 	\end{tabular}
 }
+\caption{Example of differences between angular and euclidean distances.}
 \label{fig:angleVersusEuclidean}
 \end{figure}
 As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the euclidean distance was used in the final implementation.
@@ -109,3 +110,4 @@ The euclidean distance between al each pixel and the models are calculated to de
 Table \ref{table:ballvote} shows the votes for the detected balls in a session where all 16 balls were present on the table. Each of the balls are identified by the maximum number of votes for a color, indicated by a gray background for a correct match, and red for incorrect match. Balls having white votes above a certain threshold are classified as striped balls, indicated by a gray background in both their primary color and cue.
 
 In the situation seen in table \ref{table:ballvote} the only error comes from the striped purple 14 being identified as the black. The same problem is spotted in the solid variant: the purple 6, which also has a high number of black votes. The solid balls has more colored pixels to represent the color, making the problem worst among striped balls.
+\fixme{table ref}

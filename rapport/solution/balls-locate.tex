@@ -42,7 +42,7 @@ The probability of a candidate position containing a ball can then be formulated
 P_{ball}(x,y) = \frac{pixels_{primary} + pixels_{white}}{pixels_{total}}
 \end{equation}
 It is seen that the a region having only one color besides white maximizes the probability.
-\begin{figure}[htpb]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.6\textwidth]{images/ballfind.pdf}
 \caption{The probability of a ball is evaluated in the image.}
@@ -57,24 +57,26 @@ A circular mask is placed in every position found by the preliminary segmentatio
   \item Colored pixels
 \end{enumerate}
 Pixels that have a saturation below a certain value are considered to be white. Pixels with brightness below a threshold are considered to be black. To make the system as color independent as possible, brightness is only used to identify black pixels. This is necessary because the black color is undefined in hue-saturation space. For further information see section \ref{sec:analballs} concerning analysis of ball color.
+
+To determine the number of primary colored pixels, the variance of the colored pixels is analyzed. If the candidate position contains a ball, the distribution of the colored pixels is expected to be narrowly distributed around the mean of the ball color, like in figure \ref{fig:unimodal6}. If the position is between two or more balls the distribution will be multimodal and the variance higher like in figure \ref{fig:multimodal56}.The pixels that are within a certain deviation of the mean hue are counted, resulting in a count of the number of primary colored pixels in the ball.
+
 \begin{figure}[htpb]
   \centering
-  \subfloat[Input]{\includegraphics[width=0.2\textwidth]{images/unimodal6-input}}
+  \subfloat[Input]{\includegraphics[width=0.25\textwidth]{images/unimodal6-input}}
   \quad           
   \subfloat[Hue histogram]{\includegraphics[width=0.48\textwidth]{images/unimodal6}}
    \caption{Histogram of a correctly detected ball. Distribution is unimodal.}
   \label{fig:unimodal6}
 \end{figure}
-To determine the number of primary colored pixels, the variance of the colored pixels is analyzed. If the candidate position contains a ball, the distribution of the colored pixels is expected to be narrowly distributed around the mean of the ball color, like in figure \ref{fig:unimodal6}. If the position is between two or more balls the distribution will be multimodal and the variance higher like in figure \ref{fig:multimodal56}.
 \begin{figure}[htpb]
   \centering
-  \subfloat[Input]{\includegraphics[width=0.2\textwidth]{images/multimodal56-input}}
+  \subfloat[Input]{\includegraphics[width=0.25\textwidth]{images/multimodal56-input}}
   \quad           
-  \subfloat[Hue histogram]{\includegraphics[width=0.48\textwidth]{images/multimodal56}}
+  \subfloat[Hue histogram]{\includegraphics[width=0.53\textwidth]{images/multimodal56}}
    \caption{Histogram of a bad detection. Distribution is multimodal.}
   \label{fig:multimodal56}
 \end{figure}
-The pixels that are within a certain deviation of the mean hue are counted, resulting in a count of the number of primary colored pixels in the ball.
+
 
 If the number of black pixels is greater than the number of primary colored pixels, the number of black pixels is used as the number of primary pixels.
 \subsection{Best Candidates Selection}
@@ -96,7 +98,7 @@ The system continues to detect balls until 16 balls are found or the score is be
 A problem arises if a wrong match is found, which intersects candidates that have not yet been matched. The position of the intersected candidates will then be invalidated, because they are within the radius of a detected ball. It will then be impossible to find a new match in the region of the earlier wrong match. 
 \begin{figure}[htpb]
 \begin{center}
-\includegraphics{images/wronglocate.jpg}
+\includegraphics[width=0.3\textwidth]{images/wronglocate.jpg}
 \caption{Consequence of wrong location detection. Red circles are ball detected balls}
 \label{fig:wronglocate}
 \end{center}
@@ -106,11 +108,11 @@ Figure \ref{fig:wronglocate} shows the problem of a wrong match. The wrong match
 \subsection{Detection Results}
 Figure \ref{fig:detect} shows results of ball detection in 2 different situations. The detector shows good performance in uncluttered aswell as cluttered ball arrangements. The cluttered balls does however affect the precision of the detection
 
-\begin{figure}[htpb]
+\begin{figure}[H]
   \centering
-  \subfloat[No clutter]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/detect1.jpg}}
+  \subfloat[No clutter]{\label{fig:gull}\includegraphics[width=0.4\textwidth]{images/detect1.jpg}}
   \quad           
-  \subfloat[Clutter]{\label{fig:tiger}\includegraphics[width=0.48\textwidth]{images/detect2.jpg}}
+  \subfloat[Clutter]{\label{fig:tiger}\includegraphics[width=0.4\textwidth]{images/detect2.jpg}}
    \caption{Results of ball detection. White circles indicate detected ball positions.}
   \label{fig:detect}
 \end{figure}
