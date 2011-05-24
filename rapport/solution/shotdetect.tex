@@ -5,7 +5,7 @@ For understanding when a new state has occurred a method for detecting this has 
 	\item If human interaction occured, then detect if ball position or number of ball changed.
 \end{enumerate}
 
-\subsection{Human interaction detection}\fxnote{Should not be name the same as chap-title?}
+\subsection{Occlusion detection}
 The first step is to detect weather or not the cloth is occluded. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the cloth is detected to be occluded then there will be no detection of balls before the table is no longer interacted with. This will bring down faulty detections caused by cue or foreign objects.\\
 
 When the table is detected in calibration, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.\\
@@ -25,7 +25,7 @@ Occlusion perimeter factor:
 \end{equation}
 
 \subsubsection{Test Image With Values and Factors}
-\fxnote{Put tabular in table env. and give it caption - make it pretty, hopefully not wider than textwidth}
+\begin{table}[H]
 \begin{tabular}{|l|c|c|l|l|c|}
 
 \hline - & Image & Mask & A \& $\lambda$ & P \& $\kappa$ & Occluded \\ 
@@ -97,21 +97,25 @@ Occlusion perimeter factor:
 &&&&&\\
 &&&&&\\
 \hline
-\end{tabular} 
-  \caption{Test images, mask and factors.}
-  \label{fig:occtab1}
-\end{table}
 
-\begin{table}
-\begin{tabular}{|l|c|c|l|l|c|}
-\hline - & Image & Mask & A \& $\lambda$ & P \& $\kappa$ & Occlusion \\ 
-\hline
 
 \multirow{4}{*}{Lighting II.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/8_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/8_mask.png}} & A = 368666 & P = 3339 & \multirow{4}{*}{}\\ 
 & & & $\lambda$ = 0.9968 & $\kappa$ = 1.0589 & \\
 &&&&&\\
 &&&&&\\
 \hline
+
+
+\end{tabular} 
+  \caption{Test images, mask and factors.}
+  \label{fig:occtab1}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|l|c|c|l|l|c|}
+\hline - & Image & Mask & A \& $\lambda$ & P \& $\kappa$ & Occlusion \\ 
+\hline
+
 
 \multirow{4}{*}{Lighting III.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/14_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/14_mask.png}} & A = 368783 & P = 3291 & \multirow{4}{*}{}\\ 
 & & & $\lambda$ = 0.9971 & $\kappa$ = 1.0436 & \\
