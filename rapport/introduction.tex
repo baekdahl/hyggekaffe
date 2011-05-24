@@ -1,15 +1,14 @@
-\subsection{Project Background}
 The inspiration for this project comes from the article "Development of an Automatic Pool Trainer"\cite{larsbopool} by LB Larsen et al which focused on making a pool trainer with only two different balls. The goal in this project is to extend the detection and matching part to be able to identify a complete game of eight-ball pool with all 16 balls.
-\\\\
+
 Detecting and identify balls in pool games could be used for many different purposes. The pool trainer in \cite{larsbopool} could be extended to be able to train in environments that include more than two balls. This would provide for a more realistic training session when you have more than one choice of target. An automatic scoring system could be implemented by keeping track of which balls are still on the table as done in \cite{autoscore}. They have used RFID to track the balls which makes the setup more complex than a vision based solution.
-\\\\
+
 The implementation in this project, is a pool history system, which makes the player able to see how the game has progressed by recording the different states throughout the game. This will make the player able to improve and understand his or hers own strengths and weaknesses.
-\\\\
+
 Previous attempts to track pool balls like \cite{supportBilliard} and \cite{ARPool}, only considered a nine-ball game where balls are separated and not positioned together in clusters. This project aims to detect and separate balls that are positioned in clusters, and to identify up to 16 balls, which is required for saving states for a eight-ball game.
-\\\\
+
 It is the goal of this project to create a usable prototype, which could be installed by an end-user without having knowledge of computer vision. This requires the system to be adaptive towards variables like different lighting and ball colors. The user should be able to, place a camera above the pool table, turn on the system and after a short calibration process, record a pool game. The use of a standard webcam will make the solution inexpensive which is a key point when developing for personal use and entertainment.
-\\\\
+
 The solution will not include live tracking, but only the balls positions between shots. Further development of the solution could include live tracking. As in \cite{larsbopool} the solution could also be expanded to use a projector to show ball positions, help lines for shooting balls in pockets and training environments. 
 
-\subsection{Hypothesis}
+\subsection{Problem Statement}
 How can we, with a standard inexpensive webcam, correctly detect a pool table and identify pool balls in mixed lighting?
