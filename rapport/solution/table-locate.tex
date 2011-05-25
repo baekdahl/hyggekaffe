@@ -30,7 +30,7 @@ This proved to be easy to do by using the brightness part of the image in HSB co
 As seen in figure \ref{fig:value_thres} a leg is also selected as a part of the outcome of the threshold. Several tried showed that the method was not quite robust enough for further use.
 
 \paragraph{Finding The Diamonds and Use These To Determine The ROI}
-Much time was used with this approach. The idea was to find the diamonds and the use these to find the exact ROI. The specifications \ref{sec:rules} of a regulation size pool table states that a diamond has to be 93.5 mm from the nose of the cushion. By finding the length between each diamond, which was also strictly specified, it would be possible to find a pixel-to-meter ration and thereby finding the precise ROI.
+Much time was used with this approach. The idea was to find the diamonds and the use these to find the exact ROI. The specifications \ref{sec:rules} of a regulation size pool table states that a diamond has to be 93.5 mm from the nose of the cushion. By finding the length between each diamond, which was also strictly specified, it would be possible to find a pixel-to-meter ratio and thereby finding the precise ROI.
 
 Some progress was made, but eventually this method was abandoned due to the fact that many of the pool tables, including the one where pictures for this  project was taken, did not follow these regulations. The idea was also to use the distance between diamonds to determine the exact size of a ball. Another approach for this will have to be used.
 
@@ -139,7 +139,7 @@ A mask of the found contours is made. The mask will be used when having to find 
 \subsubsection{6) Find The Angle Of The Cloth (And Thereby Table)}
 To find the angle of the table the bounding rectangle of the contour of the cloth is divided into lines. A sort of the length is made and the longest line is selected. This line will always be the longest side of the table, the side that should be rotated to 0\degree.
 
-The angle between the line and a horizontal line is calculated using the GetExteriorAngleDegree function in OpenCV. The angle found led to understand that there is a slight problem with the output as shown in \ref{fig:table_angle}.
+The angle between the line and a horizontal line is calculated using the GetExteriorAngleDegree function in OpenCV. The angle found led to understand that there are two different angles that could be computed with the function as shown in \ref{fig:table_angle}.
 
 \begin{figure}[htpb]
 \begin{center}
@@ -153,7 +153,7 @@ The angle between the line and a horizontal line is calculated using the GetExte
 Therefore the if the angle is more than 90\degree is it calculated as angle = 180\degree-angle.
 
 \subsubsection{7) Output The ROI, Angle and Mask}
-The angle and the box for the non-rotated image has been calculated. Since the calibration is not a time-critical part of the solution the ROI is found simply by rotating the image and running step 5 again.  This will rotate the image and then search for the ROI of the rotated image. A faster method would be calculating the new position of the ROI based on the rotated angle.
+The angle and the bounding rectangle for the non-rotated image has been calculated. Since the calibration is not a time-critical part of the solution the ROI is found simply by rotating the image and running step 5 again.  This will rotate the image and then search for the ROI of the rotated image. A faster method would be calculating the new position of the ROI based on the rotated angle.
 
 The output can be seen in figure \ref{fig:tablelocateoutput}, with the original image, secondly the found ROI, thirdly the mask of the cloth and finally the output image.
 
@@ -163,7 +163,7 @@ The output can be seen in figure \ref{fig:tablelocateoutput}, with the original 
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_input}
 }
-\subfloat[Cloth ROI.]
+\subfloat[Cloth ROI (black rectangle)]
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_contour}
 }
@@ -176,7 +176,8 @@ The output can be seen in figure \ref{fig:tablelocateoutput}, with the original 
 {
 	\includegraphics[width=0.4\textwidth]{images/montage_output}
 }
+\caption{The input image, the detected ROI, the detected mask and the output image with mask}
 \label{fig:tablelocateoutput}
 \end{figure}
 
-If the box for the non-rotated image is not found, then the angle is also not found. In this case the program will return a failure which indicates that the table is not found.
+If the bounding rectangle for the non-rotated image is not found, then the angle is also not found. In this case the program will return a failure which indicates that the table is not found.
