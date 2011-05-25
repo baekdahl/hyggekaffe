@@ -8,23 +8,21 @@ Three different images of the pool table and one image with the cloth cut out ar
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=0.9\textwidth]{images/hsv_hist_table}
+\includegraphics[width=0.6\textwidth]{images/hsv_hist_table}
 \end{center}
 \caption{HSB Images 1, 2 and 3 are the table in different light where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablehsv}
 \end{figure} 
 
 From the HSB color space figure \ref{fig:tablehsv} it is clear that the cloth should be somewhat easily detected using hue for the fist two images. The separation of rail and cloth is not as significant in the third image. This is because of the different illumination, which is very dark. In section \ref{sec:camera} different camera settings and illuminations are discussed which indicates that the third image is less illuminated than should be for this project.
-
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=0.9\textwidth]{images/rgb_hist_table}
+\includegraphics[width=0.6\textwidth]{images/rgb_hist_table}
 \end{center}
 \caption{RGB Images 1, 2 and 3 are the table in different light where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablergb}
 \end{figure}
-
 When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSB color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.
 
 \section{The Balls}
