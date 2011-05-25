@@ -1,4 +1,4 @@
-For understanding when a new state has occurred a method for detecting this has to be developed. The method will consist of three steps:
+For understanding when a new state has occurred a method for detecting this has to be developed. A new state is, as written in section \ref{sec:sysdesign} when the balls have moved or changed in numbers. The method for detecting this will consist of three steps:
 \begin{enumerate}
 	\item Detect if human interaction has occurred.
 	\item Wait until balls are laying still.
@@ -6,11 +6,11 @@ For understanding when a new state has occurred a method for detecting this has 
 \end{enumerate}
 
 \subsection{Occlusion detection}
-The first step is to detect weather or not the cloth is occluded. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the cloth is detected to be occluded then there will be no detection of balls before the table is no longer interacted with. This will bring down faulty detections caused by cue or foreign objects.\\
+The first step is to detect weather or not the cloth is occluded. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the cloth is detected to be occluded then there will be no detection of balls before the table is no longer interacted with. This will bring down faulty detections caused by cue or foreign objects. When the table is detected in calibration, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.\\
 
-When the table is detected in calibration, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.\\
+For this purpose of this method only objects introduced from the edge and in will be considered as a foreign object. Therefore a que from the edge of the table would be detected, but a ball or foreign object laying on the table will not.\\
 
-For this purpose of this method only foreign object introduced from the edge and in will be considered as a foreign object. Therefore a que from the edge of the table would be detected, but a ball or foreign object laying on the table will not.
+The two following factors will be used for determining an occlusion:\\
 
 Occlusion area factor:
 \begin{equation}
@@ -24,11 +24,13 @@ Occlusion perimeter factor:
 \label{eq:perimeter}
 \end{equation}
 
-\subsubsection{Test Image With Values and Factors}
+To understand when an occlusion is present several different test scenarios have been tested, which can be seen in table \ref{fig:occtab1} and  \ref{fig:occtab2}.
+
+\subsubsection{Test Images With Table Mask, Area, Perimeter and Calculated Factors}
 \begin{table}[H]
 \begin{tabular}{|l|c|c|l|l|c|}
 
-\hline - & Image & Mask & A \& $\lambda$ & P \& $\kappa$ & Occluded \\ 
+\hline - & Table image & Table mask & A \& $\lambda$ & P \& $\kappa$ & Occluded \\ 
 \hline
 
 \multirow{4}{*}{Calibrated.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/calibimg.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/calibmask.png}} & A = 369861 & P = 3153  & \multirow{4}{*}{}\\  
@@ -172,7 +174,7 @@ The following mean-values have been calculated for the non occlusions:\\
 $\mu_{\lambda} = 0.99$\\
 $\mu_{\kappa} = 1.06$\\
 
-The occlusion detection is only done to determine if the balls position should be re-evaluated. Therefore it is not crucial that the detection is 100\% correct. A wrong detection will simply cause a re-evaluation of the balls position which would show no movement. Therefore it is optimal to make a "paranoid" classifier that would be more inclined to assume a occlusion than not.\\
+The occlusion detection is done to determine if the balls position should be re-evaluated and to make sure that the detection of balls is not tried when occlusions are present. The latter could lead to false detections. Therefore it is not crucial that the detection is 100\% correct, but false negatives should not occur. A false positive detection will simply cause a re-evaluation of the balls position which would show no movement, where a false negative could make the ball detection method detect balls where they are not. Therefore it is optimal to make a "paranoid" classifier that would be more inclined to assume a occlusion than not.\\
 
 Since an introduction of a foreign object will always make the contour area smaller and the perimeter bigger the values for a detection will be set to:
 
