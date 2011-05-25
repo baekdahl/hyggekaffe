@@ -1,28 +1,21 @@
-\textbf{Problem Statement}
+\textbf{Problem Statement}\\
 How can we, with a standard inexpensive webcam, correctly detect a pool table and identify pool balls in mixed lighting?
 
 %Intro
 We have tried to develop a system that would fulfil the problem statement. Unfortunately some of the key elements of the system does not work as stated in the requirement specification. This is partly due to the input data from the webcam, but also because of the solutions made.
 
-%Method for detecting states
-We have developed a method that will identify different states of the pool game. This has been done by using the logic of the game and the human interaction that is necessary to go from one state to another. This saves both computation time and wrong classifications of balls. The interaction detection did not work for small interactions, such as a cue stick placed on the edge of the cloth, but for normal interactions it worked fine.
-
 %Detecing table
-The detection of the table works as it should if the requirement for this is satisfied. Several methods were researched, but eventually the method of identifying the table based on the cloth color was used due to the tables examined not having the correct measurements and sizes. This also led to the size of a ball having to be found by another method.
+The detection of the table works according to the requirements specification. The pool table is detected when the table takes up 75\% of the image. The detector has been tested with the table having many different angles compared to the image frame, and the detection provides a cropped rotated image of the table. The detection can also function in some situations where the table is occluded, even though this is not required.
 
-%Finding position of balls
-The positions of balls were found with high accuracy when the balls were laying apart. For balls in clusters, and especially if the clusters contained the same type of colors, the position will sometimes be detected incorrectly. This is due to both the webcam not being able to output with well separated colors and the balls not being allowed to overlap each other in the method developed. The method did however 
-\fixme{.. bla bla .. vi kan godt i clusters imodsætning til andre...}
+%Method for detecting states
+We have developed a method that will identify different states of the pool game. The main part of this is detection of human interaction. The detection of human interaction works satisfying, and successfully prevents the ball detection from detection foreign objects as balls.The interaction detection did not work for small interactions, such as a cue stick placed on the edge of the cloth, but there were no problems for interactions observed during normal gameplay.
+
+%Finding position of balll
+The positions of balls were found with high accuracy when the balls were laying apart. For balls in clusters, and especially if the clusters contained the same type of colors, the position will sometimes be detected incorrectly. This is caused by the inability to separate the different colors contained in the balls. The reason for this could be found in the developed method, which only considers the hue variance when detecting balls. This project does however partially succeed in the detection of balls in clusters, as opposed to other projects like \cite{supportBilliard}.
 
 %Identifying balls
-
-%How can it be better
-
-%Webcam trouble with no autosettings.
-The webcam was not able to output images or videos with well separated colors. Often the orange, red and brown as well as the purple, blue and black had distributions that laid very close to each other. This proved to be difficult since the classifier has to have 
-\fixme{skal være noget at skeldne imellem for classifieren}
-
+The identification of balls works in the optimal environment, i.e. good illumination and balls showing a minimal white area. The color classification is based on the euclidean distance, which makes it dependant on the illumination and thereby unable to work when lighting changes.
+The system has problems classifying the striped balls when they show a minimum of color, and further more some colors are classified as each other. The reason for identification problems could be problems in the developed method, but there were also problems with the color quality from the used webcam. The webcam was not able to output images or videos with well separated colors. Often the orange, red and brown as well as the purple, blue and black had distributions very close to each other.
 %GUI
-A GUI was developed for the system and several aspects of this was examined to make the program be as easy to use as possible. It consists of begin able to calibrate and save settings, watching live input and identification. Although the GUI could be improved it is very good for illustrating the proof-of-concept.
 
-%All in all - summop!
+A working prototype with a GUI was made. Although the GUI could be improved it is very good for illustrating the proof-of-concept.
