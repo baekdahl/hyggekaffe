@@ -2,7 +2,7 @@ The main goal in this project is to detect and identify balls. There are differe
 
 The advantage of the former is that the computation can be done in one pass. Features that are used to identify the balls, can in this way also be used in the detection process. This results in a more robust detection because that a correctly identified ball implies a correct detection.
 
-The advantage of the latter is that the identification algorithm only has to be applied to the detected areas and thereby the computational complexity is reduced.\fxnote{Don't know if there are any other advantages}
+The advantage of the latter is that the identification algorithm only has to be applied to the detected areas and thereby reducing the computational complexity.
 
 \section{Solution Ideas}
 
@@ -44,7 +44,7 @@ The uniform color of the table cloth can be utilized to apply a threshold to the
    \caption{Example of problems with using BLOB analysis.}
   \label{fig:blobAnal}
 \end{figure}
-As will be mentioned later in this section, this kind of segmentation is useful for reducing the ROI, but using the pixels in a BLOB can cause problems if all ball pixels are not included, or pixels that does not belong to the BLOB are included as seen in figure \ref{fig:blobAnal}. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
+As will be mentioned later in this section, this kind of segmentation is useful for reducing the ROI, but using the pixels in a BLOB can cause problems. If the area represented by the BLOB does not include all pixels of a ball or includes pixels from other balls, problems arise in detection and identification. This situation is in figure {\ref:blobAnal}. This happens frequently when balls are laying too close to produce separate BLOBs, but instead ends up as one large BLOB containing pixels from several balls.
 
 \subsection{Chosen Solution: Ball Probability Estimation}
 \fxnote{Position is a better word than location. Global search/replace}

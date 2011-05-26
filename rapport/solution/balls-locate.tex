@@ -12,7 +12,7 @@ In step 2 the ROI is traversed, and a ball probability is computed at each possi
 To establish which of the positions inside the ROI are actual ball positions, the balls are selected from the list of probabilities starting with the most probable position.
 
 \subsection{Preliminary Segmentation}
-To decrease the ROI from the cloth area down to areas of the table that contains balls, a preliminary segmentation is performed. A color threshold removes all pixels that belong to the background leaving behind a mask that represents the balls.
+To decrease the ROI from the cloth area down to areas of the table that contains balls, a preliminary segmentation is performed. A color threshold on the hue image, removes all pixels that belong to the background leaving behind a mask that represents the balls.
 \begin{figure}[htpb]
   \centering
   \subfloat[Original]{\label{fig:gull}\includegraphics[width=0.48\textwidth]{images/thres1before.jpg}}
@@ -58,7 +58,9 @@ A circular mask is placed in every position found by the preliminary segmentatio
 \end{enumerate}
 Pixels that have a saturation below a certain value are considered to be white. Pixels with brightness below a threshold are considered to be black. To make the system as color independent as possible, brightness is only used to identify black pixels. This is necessary because the black color is undefined in hue-saturation space. For further information see section \ref{sec:analballs} concerning analysis of ball color.
 
-To determine the number of primary colored pixels, the variance of the colored pixels is analyzed. If the candidate position contains a ball, the distribution of the colored pixels is expected to be narrowly distributed around the mean of the ball color, like in figure \ref{fig:unimodal6}. If the position is between two or more balls the distribution will be multimodal and the variance higher like in figure \ref{fig:multimodal56}.The pixels that are within a certain deviation of the mean hue are counted, resulting in a count of the number of primary colored pixels in the ball.
+To determine the number of primary colored pixels, the variance of the colored pixels is analyzed. If the candidate position contains a ball, the distribution of the colored pixels is expected to be narrowly distributed around the mean of the ball color, like in figure \ref{fig:unimodal6}. If the position is between two or more balls the distribution will be multimodal and the variance higher like in figure \ref{fig:multimodal56}.
+
+The pixels that are within a certain deviation of the mean hue are counted, resulting in a count of the number of primary colored pixels in the ball.
 
 \begin{figure}[htpb]
   \centering
@@ -82,7 +84,7 @@ If the number of black pixels is greater than the number of primary colored pixe
 \subsection{Best Candidates Selection}
 The result of the probability estimation is a sorted list of candidate positions, having the most probable position at the top of the list. The probability has been computed in every image position, which results in many overlapping positions. 
 
-The final ball positions are found by traversing the list from the top and thus selecting the most probable positions first. A candidate will only be selected if there is not already a detected ball one radius of the candidate position.  
+The final ball positions are found by traversing the list from the top and thus selecting the most probable positions first. A candidate will only be selected if there is not already a detected ball within one radius of the candidate position.  
 
 The system continues to detect balls until 16 balls are found or the score is below a threshold. This threshold is set as a ratio of the total pixels in a ball. The whole process can be seen in figure \ref{fig:ballflowchart}.
 
