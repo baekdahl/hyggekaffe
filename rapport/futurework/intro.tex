@@ -1,14 +1,9 @@
-If a better camera is used, the detection and identification would be improved in a way that would make it possible for the system to track games. The game rules can then be implemented and it will be possible to keep track of scores and game states.
+There are several possibilities for making the system work with greater accuracy. Most importantly with a better camera, the detection and identification would be improved. The game rules can then be implemented and it will be possible to keep track of scores and game states.
 
-Tracking of the cue stick will make it possible to predict where the player is going to place his shot. Combining this with prediction of speed and trajectory, the system could be used for visualising how different ways of shooting will affect the game. Combining this with augmented reality, where guidelines are projected to the table by a projector as in \cite{larsbopool}.
+The camera position could be changed from the current fixed location. This would enable the system to be used from e.g. a handheld device like a smartphone. This would make the system more modern and versatile.
 
-The system could be changed to that the camera is placed at another place than over the table. This would enable the system to be used from e.g. a handheld device like a smartphone. This would make the system much more easy
+The system could also be extended by adding an extra camera. This camera could provide an alternative view of the balls. By positioning the two cameras optimally it could be avoided e.g. identifying a striped ball as the cue, because of the white part facing directly into the camera. Also reflections from a ball into a camera would be easier handled by having two cameras, since one of these probably would not receive the reflection.
 
-%Continuesly 
-In this project, the balls are only detected in individual frames, and no attempts have been made to track them between frames. By utilizing all frames in the video, and developing a method that is able to track the balls when they are in motion, it will be possible to detect events such as which pockets the balls have been shot into.
-%Camera
+Furthermore tracking of the cue stick would also make it possible to predict where the player is going to place his shot. Combining this with prediction of speed and trajectory, the system could be used for visualising how different ways of shooting will affect the game. This could be combined with augmented reality, where guidelines are projected to the table by a projector as in \cite{larsbopool} which currently only works with two balls.
 
-%bla bla
-
-%2 cameras
-The system could be extended by adding an extra camera. This camera could provide an alternative view of a ball in a situation where the first camera does not have a good view. This could fx. be a situation where the reflections cause the color to appear lighter than it is. The data from the two cameras could be used in a kin og consensus system, where the identification could be strengthened when the two cameras find an identification they can agree on.
+For complete tracking the balls could be detected in all frames. By utilizing all frames, and developing a method that is able to track the balls when they are in motion, it will be possible to detect events such as which pockets the balls have been shot into.
