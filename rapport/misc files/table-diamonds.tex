@@ -23,7 +23,7 @@ For robustly locating the diamonds the following approach has been used:
 	\item Make binary with adaptive threshold.
 	\item Find contours and sort them by size
 	\item Do step 1 to 3 for several images.
-	\item Find the contours that remain at same position throughout the sequence.
+	\item Find the contours that remain at same position throughout the secuence.
 \end{enumerate}
 
 %MAKE FLOWCHART.
@@ -58,11 +58,11 @@ The area size used as reference is the median area of the list of contours. This
 
 The outcome is a list of possible diamonds.
 
-\textbf{Find contours for a sequence of images:}
+\textbf{Find contours for a secuence of images:}
 While testing, one of the major problems with finding the diamonds positions, was the noise introduced by various parameters (camera, lightning etc). The actual positions of the diamonds was found in every frame, but a lot of noise made found positions of diamonds elsewhere in the images. 
 The noise changed from frame to frame.
 
-Therefore, by using a sequence of images (video) and compare the positions found it is possible to eliminate the noise and only find the position of the diamonds.
+Therefore, by using a secuence of images (video) and compare the positions found it is possible to eliminate the noise and only find the position of the diamonds.
 
 Each time an image is processed the contours are saved in a list. When the decided number of images has been processed it is simply a process of comparing the lists and find the points that have not moved or at least have not moved very much.
 
@@ -71,11 +71,11 @@ Each time an image is processed the contours are saved in a list. When the decid
 \leavevmode
 \includegraphics[width=0.5\textwidth]{images/image_seq_numbers.pdf}
 \end{center}
-\caption{Sequence of frames. The number of frames can be set as n.}
+\caption{Secuence of frames. The number of frames can be set as n.}
 \label{fig:seq_img}
 \end{figure}
 
-\textbf{Find the contours that remain at same position throughout the sequence:}
+\textbf{Find the contours that remain at same position throughout the secuence:}
 A arbitrary point in the first frame is chosen. In all other frames the same position is searched for a contour. If this contour exists in every frame it is saved as a diamond. If it does not exist in every image it is not saved.
 
 \begin{figure}[htpb]

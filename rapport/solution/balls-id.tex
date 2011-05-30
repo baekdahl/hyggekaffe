@@ -1,11 +1,11 @@
 Identification of a ball consists of two steps:
 \begin{enumerate}
-  \item Identifying the primary color of the ball
-  \item Determining whether the ball is striped
+  \item Identifying the primary color of the ball.
+  \item Determining whether the ball is striped.
 \end{enumerate}
 Both steps involves measuring the color distribution of the detected ball. The primary color in the distribution represents the color of the ball, while the amount of white in the distribution determines if the ball is striped.
 
-\subsection{Vector Angle Versus Euclidean Distance}
+\subsection{Vector Angle versus Euclidean Distance}
 The color of a ball has to be classified to one of the 10 different ball colors. This is achieved by calculating distances between the detected ball and model colors obtained from ball calibration. The detected ball is then classified as the model that has the shortest distance.
 
 There are different ways of measuring difference between colors, and each of these measurements has their own advantages and disadvantages. In this section two methods for measuring color difference are compared to find the one most suitable for ball classification.
@@ -46,14 +46,14 @@ The vector angle between two colors having the same chromaticity but different i
 \caption{Example of differences between angular and Euclidean distances.}
 \label{fig:angleVersusEuclidean}
 \end{figure}
-As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the Euclidean distance was used in the final implementation.
+As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the Euclidean distance in RGB space was used in the final implementation.
 
 \subsection{Color Comparison Strategy}
 
 The ball color can be measured in two different ways: 
 \begin{enumerate}
-  \item Measure the distribution of the detected ball
-  \item Use each pixel in the ball by itself
+  \item Measure the distribution of all pixels in the detected ball.
+  \item Use each pixel in the ball by itself.
 \end{enumerate}
 
 The difference between the distribution of the detected ball and the model distributions can be measured using, e.g. Bhattacharyya or earth mover's distance. In this project, simpler metrics like the mean and the max has been used to compare ball distributions. 

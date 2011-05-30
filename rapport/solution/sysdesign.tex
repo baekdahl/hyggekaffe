@@ -11,7 +11,7 @@ For normal use the system will have the options of recording pool games and view
 \subsection{Program Flow}
 The goal is to record the positions of the balls between every change in the game and save this as a state. To do this automatically, the program will have to know when the state has changed and when the game is finished. A state change will only occur when players interact with the table, i.e. they either strike a ball using a cue or move balls manually. Because of this, checking for state changes only has to be done when human interaction has been detected. We define human interaction as the following event:
 \begin{itemize}
-	\item  A foreign object (que, hand etc.) has been introduced onto the cloth of the pool table and afterwards removed.
+	\item  A foreign object (cue, hand etc.) has been introduced onto the cloth of the pool table and afterwards removed.
 \end{itemize}
 
 An introduction of a foreign object does not necessarily conclude a change in the game state, therefore the newly sampled game state will be compared to the latest saved game state.

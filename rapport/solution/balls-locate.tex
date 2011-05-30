@@ -1,13 +1,13 @@
 The detection method can be divided into the following three steps:
 \begin{enumerate}
-  \item Preliminary segmentation
-  \item Ball probability estimation
-  \item Best candidates selection
+  \item Preliminary segmentation.
+  \item Ball probability estimation.
+  \item Best candidates selection.
 \end{enumerate}
 
 Preliminary segmentation is performed to decrease the ROI from the entire table area to areas that contains balls.
 
-In step 2 the ROI is traversed, and a ball probability is computed at each possible ball location. 
+In step 2, the ball probability is computed at each possible ball location inside the ROI.
 
 To establish which of the positions inside the ROI are actual ball positions, the balls are selected from the list of probabilities starting with the most probable position.
 
@@ -26,15 +26,15 @@ Figure \ref{fig:thres1} shows the result of the color threshold. In a situation 
 \subsection{Ball Probability Estimation}
 To be able to estimate the ball probability, we need to know the features that characterizes a ball. The following description can be formulated:
 \begin{itemize}
-\item The shape of the ball, in the image, is always a circle of fixed size
+\item The shape of the ball, in the image, is always a circle of fixed size.
 \item The color distribution consists of at least two of three parts:
 	\begin{itemize}
-		\item White
-		\item Black (ball number)
-		\item Primary ball color
+		\item White.
+		\item Black (ball number).
+		\item Primary ball color.
 	\end{itemize}
 \end{itemize}
-The black and cue balls has black and white, respectively, as their primary color, making them consist of only two distributions, whereas all other balls consists of three. This ball description allows us to formulate a measure for the probability that a given position in the image corresponds to the center of a ball.
+The black ball and cue ball has black and white, respectively, as their primary color. This means that the white ball consists of only one distribution (white), and the black ball consists of two (black and white), whereas all other balls consists of three (black, white and primary). This ball description allows us to formulate a measure for the probability that a given position in the image corresponds to the center of a ball.
 
 If we ignore the black pixels from the ball number, the balls does only contain one primary color and white. A candidate ball position is defined as a circular ROI in the image having position the the center of the ROI circle.
 The probability of a candidate position containing a ball can then be formulated as the ratio between the number of pixels in the ROI following this rule and the total pixels:
@@ -50,11 +50,11 @@ It is seen that the a region having only one color besides white maximizes the p
 \end{center}
 \end{figure}
 Figure \ref{fig:ballfind} shows the process of computing the ball probability. The probability is computed in every possible ball position.
-A circular mask is placed in every position found by the preliminary segmentation. By using a circular mask, the system is able to get a better match against the circular ball regions. Inside the mask an HSB color histogram is computed. All pixels that have a hue value close to the background hue are ignored. The rest of the pixels are sorted into three categories: 
+A circular mask is placed in every position found by the preliminary segmentation. By using a circular mask, the system is able to get a better match against the circular ball regions. Inside the mask a HSB color histogram is computed. All pixels that have a hue value close to the background hue are ignored. The rest of the pixels are sorted into three categories: 
 \begin{enumerate}
-  \item White pixels
-  \item Black pixels
-  \item Colored pixels
+  \item White pixels.
+  \item Black pixels.
+  \item Colored pixels.
 \end{enumerate}
 Pixels that have a saturation below a certain value are considered to be white. Pixels with brightness below a threshold are considered to be black. To make the system as color independent as possible, brightness is only used to identify black pixels. This is necessary because the black color is undefined in hue-saturation space. For further information see section \ref{sec:analballs} concerning analysis of ball color.
 
@@ -100,7 +100,7 @@ A problem arises if a wrong match is found, which intersects candidates that hav
 \begin{figure}[htpb]
 \begin{center}
 \includegraphics[width=0.3\textwidth]{images/wronglocate.jpg}
-\caption{Consequence of wrong location detection. Red circles are ball detected balls}
+\caption{Consecuence of wrong location detection. Red circles are ball detected balls}
 \label{fig:wronglocate}
 \end{center}
 \end{figure}

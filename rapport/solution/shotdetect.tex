@@ -1,8 +1,8 @@
-For understanding when a new state has occurred a method for detecting this has been developed. A new state is, as written in section \ref{sec:sysdesign} when the balls have moved or the number of balls has changed. The method for detecting this will consist of three steps:
+For understanding when a new state has occurred a method for detecting this has been developed. A new state is, as written in section \ref{sec:sysdesign}, when the balls have moved or the number of balls has changed. The method for detecting this will consist of three steps:
 \begin{enumerate}
 	\item Detect if human interaction has occurred.
 	\item Wait until balls are laying still.
-	\item If human interaction occured, then detect if ball position or number of ball changed.
+	\item Detect if ball position or number of balls changed.
 \end{enumerate}
 
 \subsection{Occlusion detection}
@@ -57,26 +57,26 @@ To understand when an occlusion is present several different scenarios have been
 &&&&&\\
 \hline
 
-\multirow{4}{*}{Que I.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/3_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/3_mask.png}} & A = 364515 & P = 4287 & \multirow{4}{*}{\checkmark}\\  
+\multirow{4}{*}{Cue I.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/3_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/3_mask.png}} & A = 364515 & P = 4287 & \multirow{4}{*}{\checkmark}\\  
 & & & $\lambda$ = 0.9855 & $\kappa$ = 1.3594 & \\
 &&&&&\\
 &&&&&\\
 \hline
 
-\multirow{4}{*}{Que II.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/4_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/4_mask.png}} & A = 368846 & P = 3324 & \multirow{4}{*}{\checkmark}\\  
+\multirow{4}{*}{Cue II.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/4_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/4_mask.png}} & A = 368846 & P = 3324 & \multirow{4}{*}{\checkmark}\\  
 & & & $\lambda$ = 0.9973 & $\kappa$ = 1.0541 & \\
 &&&&&\\
 &&&&&\\
 \hline
 
-\multirow{4}{*}{Que III.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/11_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/11_mask.png}} & A = 368555 & P = 3566 & \multirow{4}{*}{\checkmark}\\ 
+\multirow{4}{*}{Cue III.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/11_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/11_mask.png}} & A = 368555 & P = 3566 & \multirow{4}{*}{\checkmark}\\ 
 & & & $\lambda$ = 0.9965 & $\kappa$ = 1.1307 & \\
 &&&&&\\
 &&&&&\\
 \hline
 
 
-\multirow{4}{*}{Que IV.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/12_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/12_mask.png}} & A = 362749 & P = 4458 & \multirow{4}{*}{\checkmark}\\ 
+\multirow{4}{*}{Cue IV.} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/12_img.png}} & \multirow{4}{*}{\includegraphics[scale=0.08]{../images/1/12_mask.png}} & A = 362749 & P = 4458 & \multirow{4}{*}{\checkmark}\\ 
 & & & $\lambda$ = 0.9808 & $\kappa$ = 1.4138 & \\
 &&&&&\\
 &&&&&\\
@@ -165,7 +165,7 @@ The plot can be seen in figure \ref{fig:occlusion_plot}. It does not contain "Li
 \label{fig:occlusion_plot}
 \end{figure}
 
-The red triangle (occlusion) that lie within the green square (non occlusion) is "Que on table II" which is occlusion by a small part of the que.\\
+The red triangle (occlusion) that lie within the green square (non occlusion) is "Cue on table II" which is occlusion by a small part of the cue.\\
 
 The green square (non occlusion) that lie between two red diamonds (occlusions) is "Shadow" where a shadow is introduced by a person. This was done while also changing the light. The area factor is very close to normal, but the perimeter is not due to significant light changes underneath the left cushion.\\
 
@@ -213,16 +213,16 @@ Before comparing the positions and number of balls it is important that the ball
 The number of frames in which the balls are laying still should be set on the basis of frames pr. second and the minimal speed of a ball. The number of frames will be decided, dynamically, by equation \ref{eq:dynamiceq}.
 
 \begin{equation}
-N = FPS \cdot seconds
+N = FPS \cdot t
 \label{eq:dynamiceq}
 \end{equation}
 
-If the position of the balls is the same in N frames the balls are laying still. The number of seconds is chosen to be 0.5 s. 
+If the position of the balls is the same in N frames the balls are laying still. The time is chosen to be 0.5 s. 
 
-\subsubsection{Movement from Last Saved State}
-To detect if there has been movement of the balls from the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not indicate a new position.
+\subsubsection{Movement since Last Saved State}
+To detect if there has been movement of the balls since the last saved state, the current positions will be compared to the positions of the last saved state. This will be done using the chosen distance measurement and a threshold. The threshold will have to be set to a level where noise and shadows does not indicate a new position.
 
 The threshold will be set as the radius of a ball, in pixels. If a ball has moved more than this from the last saved state it will be a new state.
 
-\subsubsection{Change In Number Of Balls}
+\subsubsection{Change in Number Of Balls}
 If the number of found balls is different from the number of found balls in the last saved state a new state will be saved with the found positions and colors.
