@@ -1,7 +1,7 @@
 To detect the pool table and balls it is important to understand how they appear in different color spaces. In this section the colors of the table and the pool balls are measured for further analysis.
 
 \section{The Table}
-As written in the rules in section \ref{sec:rules}, the table cloth color has to be yellow-green, blue-green or electric blue. The cloth color should be a constant color, but dependent on the lighting the cloth color could have some variance when seen through a camera.
+As written in the rules in section \ref{sec:rules}, the table cloth color has to be yellow-green, blue-green or electric blue. The cloth color is a constant color, but dependent on the lighting, the cloth color could have some variance.
 
 Three different images of the pool table and one image with the cloth cut out are analysed first in HSB color space and then i RGB space. These analysis will be used in the solution chapter.
 
@@ -28,7 +28,7 @@ As presumed, it is easier to identify the cloth in the hue-space in figure \ref{
 
 \section{The Balls}
 \label{sec:analballs}
-The success of the system depends on the identifiers ability to separate the pool balls from each other. To analyze the separability, histograms of all the different solid colored balls has been computed. This is done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
+The success of the system depends on the identifiers ability to separate the pool balls from each other. To analyze the separability, histograms of all the different solid colored balls have been computed. This is done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
 
 \input{analysis/ballhists}
 
