@@ -2,7 +2,7 @@ As mentioned in the requirements specification in section \ref{sec:reqspec}, the
 
 When the system is installed and the program runs for the first time, it will prompt the user to calibrate. The calibration will consist of finding the table and having the user to identify the balls with mouse clicks. This will make the system know the position of the table and the colors of the balls. The calibration will only be done once. When the system is calibrated the program will then in the future load the calibration configurations every time it starts. Re-calibration will have to be done if the camera or table changes position or if the system is repositioned.
 
-For normal use the system will have the options of recording pool games and viewing previously recorded games. The recording will consist of the position of each ball for every change in the game state. A new game state is when one of the following conditions occurs: 
+For normal use the system will have the options of recording pool games and viewing previously recorded games. The recording will consist of the position of each ball for every change in the game state. A new game state is when one of the following conditions occur: 
 \begin{itemize}
 	\item The positions of the balls have changed.
 	\item When the number of balls on the table have changed.
@@ -30,7 +30,7 @@ The program flowchart can be seen in figure \ref{fig:program_flowchart}.
 The game will start when the user decides to do so. The detection of human interaction will be explained in section \ref{sec:shotdetection}. The detection of the balls movement will be explained in section \ref{sec:shotdetection} based on the balls positions which will be found in section \ref{sec:balls-locate}.
 
 \subsection{Calibration Flow}
-The calibration have to be done every time the camera changes position or when the system is installed for the first time. The calibration is done to locate table and to train the system with the colors of the balls. The calibration flowchart can be seen in section \ref{fig:calib_flowchart}.
+The calibration has to be done every time the camera changes position or when the system is installed for the first time. The calibration is done to locate the table and to train the system with the colors of the balls. The calibration flowchart can be seen in section \ref{fig:calib_flowchart}.
 
 \begin{figure}[htpb]
 \begin{center}
