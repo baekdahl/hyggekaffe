@@ -1,4 +1,4 @@
-Identification of the ball consists of two steps:
+Identification of a ball consists of two steps:
 \begin{enumerate}
   \item Identifying the primary color of the ball
   \item Determining whether the ball is striped
@@ -10,15 +10,15 @@ The color of a ball has to be classified to one of the 10 different ball colors.
 
 There are different ways of measuring difference between colors, and each of these measurements has their own advantages and disadvantages. In this section two methods for measuring color difference are compared to find the one most suitable for ball classification.
 
-If we define two color vectors as $v_{1}$ and $v_{2}$, the euclidean distance between them is defined as
+If we define two color vectors as $v_{1}$ and $v_{2}$, the Euclidean distance between them is defined as
 \begin{equation}
-D_{E}(v_{1}, v_{2}) = ||v_{1}, v_{2}||
+D_{E}(v_{1}, v_{2}) = ||v_{1}, v_{2}||_{2}
 \end{equation}
-where $||\bullet||$ is the $L_{2}$ vector norm. For the RGB coordinate system where $v = [r\;g\;b]^{T}$, the distance is calculated as
+where $||\bullet||_{2}$ is the $L_{2}$ vector norm. For the RGB coordinate system where $v = [r\;g\;b]^{T}$, the distance is calculated as
 \begin{equation}
 D_{E}(v_{1}, v_{2}) = \sqrt{(r_{1} - r_{2})^{2} + (g_{1} - g_{2})^{2} + (b_{1} - b_{2})^{2}}
 \end{equation}
-In RGB space the euclidean distance is more sensitive to differences in intensity than differences in color. This can cause problems if a light version of a color should match a darker version. Another measure, that does a better job of quantifying chromaticity difference in RGB space is the vector angle which is calculated as
+In RGB space the Euclidean distance is more sensitive to differences in intensity than differences in color. This can cause problems if a light version of a color should match a darker version. Another measure, that does a better job of quantifying chromaticity difference in RGB space is the vector angle which is calculated as
 \begin{equation}
 cos \theta = \frac{v_{1}^ Tv_{2}}{||v_{1}|| ||v_{2}||}
 \end{equation}
@@ -43,10 +43,10 @@ The vector angle between two colors having the same chromaticity but different i
 		\hline
 	\end{tabular}
 }
-\caption{Example of differences between angular and euclidean distances.}
+\caption{Example of differences between angular and Euclidean distances.}
 \label{fig:angleVersusEuclidean}
 \end{figure}
-As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the euclidean distance was used in the final implementation.
+As written in section \ref{sec:analballs} regarding ball analysis, the balls should be separable in hue-saturation space, and thereby also separable by vector angle comparison. Experiments with both distances did however conclude that the angular distance between balls having similar hue was to short to give a robust classification. The vector angle, was for this reason abandoned, and the Euclidean distance was used in the final implementation.
 
 \subsection{Color Comparison Strategy}
 
@@ -61,49 +61,49 @@ The difference between the distribution of the detected ball and the model distr
 Another way of looking at a ball is pixel by pixel. Each pixel is classified by itself, and the ball class is selected by taking the class where most of the ball pixels belong to. This is the approach used in this project. The thought behind this approach is that it will perform better against outliers and the varying number of colored pixels that is the nature of the pool balls. 
 
 \subsection{Implementation}
-The classifier is trained by supervised training where the user selects the location for each of the solid colored balls. The mean RGB value is then extracted from each of the ball areas and this will serve as a model for color comparison. The euclidean distance between al each pixel and the models are calculated to determine the ball that the pixel is most likely to represent.
+The classifier is trained by supervised training where the user selects the location for each of the solid colored balls. The mean RGB value is then extracted from each of the ball areas and this will serve as a model for color comparison. The Euclidean distance between each pixel and the models are calculated to determine the ball that the pixel is most likely to represent.
 
 \begin{table}[htpb]
 \begin{center}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
-		Ball & c & \cellcolor{yellow}1 & \cellcolor{blue}2 & \cellcolor{red}3  & \cellcolor{purple}4 & \cellcolor{orange}5 & \cellcolor{green}6 & \cellcolor{brown}7 & \cellcolor{black}\textcolor{white}{8} \\
+		Ball & Image & Cue & \cellcolor{yellow}1 & \cellcolor{blue}2 & \cellcolor{red}3  & \cellcolor{purple}4 & \cellcolor{orange}5 & \cellcolor{green}6 & \cellcolor{brown}7 & \cellcolor{black}\textcolor{white}{8} \\
 		\hline
-		\includegraphics[]{images/ballsInVotes/0} & \cellcolor{gray}450 & 0 & 2 & 0 & 0 & 8 & 77 & 3 & 36\\
+		Cue &\includegraphics[]{images/ballsInVotes/0} & \cellcolor{gray}450 & 0 & 2 & 0 & 0 & 8 & 77 & 3 & 36\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/1} & 5 & \cellcolor{gray}420 & 1 & 0 & 1 & 15 & 64 & 35 & 35\\
+		1 &\includegraphics[]{images/ballsInVotes/1} & 5 & \cellcolor{gray}420 & 1 & 0 & 1 & 15 & 64 & 35 & 35\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/2} & 15 & 0 & \cellcolor{gray}437 & 0 & 37 & 6 & 32 & 0 & 49\\
+		2 &\includegraphics[]{images/ballsInVotes/2} & 15 & 0 & \cellcolor{gray}437 & 0 & 37 & 6 & 32 & 0 & 49\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/3} & 11 & 0 & 20 & \cellcolor{gray}333 & 34 & 51 & 12 & 113 & 2\\
+		3 &\includegraphics[]{images/ballsInVotes/3} & 11 & 0 & 20 & \cellcolor{gray}333 & 34 & 51 & 12 & 113 & 2\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/4} & 19 & 0 & 87 & 0 & \cellcolor{gray}293 & 8 & 24 & 3 & 142\\
+		4 &\includegraphics[]{images/ballsInVotes/4} & 19 & 0 & 87 & 0 & \cellcolor{gray}293 & 8 & 24 & 3 & 142\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/5} & 2 & 0 & 16 & 27 & 12 & \cellcolor{gray}452 & 23 & 34 & 10\\
+		5 &\includegraphics[]{images/ballsInVotes/5} & 2 & 0 & 16 & 27 & 12 & \cellcolor{gray}452 & 23 & 34 & 10\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/6} & 35 & 0 & 9 & 0 & 0 & 3 & \cellcolor{gray}504 & 1 & 24\\
+		6 &\includegraphics[]{images/ballsInVotes/6} & 35 & 0 & 9 & 0 & 0 & 3 & \cellcolor{gray}504 & 1 & 24\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/7} & 0 & 0 & 18 & 13 & 54 & 18 & 14 & \cellcolor{gray}413 & 46\\
+		7 &\includegraphics[]{images/ballsInVotes/7} & 0 & 0 & 18 & 13 & 54 & 18 & 14 & \cellcolor{gray}413 & 46\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/8} & 21 & 0 & 27 & 0 & 33 & 12 & 74 & 12 & \cellcolor{gray}397\\
+		8 &\includegraphics[]{images/ballsInVotes/8} & 21 & 0 & 27 & 0 & 33 & 12 & 74 & 12 & \cellcolor{gray}397\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/9} & \cellcolor{gray}170 & \cellcolor{gray}291 & 0 & 0 & 0 & 3 & 74 & 18 & 20\\
+		9 &\includegraphics[]{images/ballsInVotes/9} & \cellcolor{gray}170 & \cellcolor{gray}291 & 0 & 0 & 0 & 3 & 74 & 18 & 20\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/10} & \cellcolor{gray}145 & 1 & \cellcolor{gray}232 & 0 & 40 & 16 & 66 & 9 & 67\\
+		10 &\includegraphics[]{images/ballsInVotes/10} & \cellcolor{gray}145 & 1 & \cellcolor{gray}232 & 0 & 40 & 16 & 66 & 9 & 67\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/11} & \cellcolor{gray}94 & 3 & 5 & \cellcolor{gray}229 & 7 & 109 & 30 & 65 & 34\\
+		11 &\includegraphics[]{images/ballsInVotes/11} & \cellcolor{gray}94 & 3 & 5 & \cellcolor{gray}229 & 7 & 109 & 30 & 65 & 34\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/12} & \cellcolor{gray}142 & 0 & 6 & 0 & 106 & 21 & 82 & 25 & \cellcolor{red}194\\
+		12 &\includegraphics[]{images/ballsInVotes/12} & \cellcolor{gray}142 & 0 & 6 & 0 & 106 & 21 & 82 & 25 & \cellcolor{red}194\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/13} & \cellcolor{gray}256 & 2 & 7 & 2 & 23 & \cellcolor{gray}177 & 37 & 54 & 18 \\
+		13 &\includegraphics[]{images/ballsInVotes/13} & \cellcolor{gray}256 & 2 & 7 & 2 & 23 & \cellcolor{gray}177 & 37 & 54 & 18 \\
 		\hline
-		\includegraphics[]{images/ballsInVotes/14} & \cellcolor{gray}253 & 0 & 9 & 0 & 1 & 6 & \cellcolor{gray}202 & 3 & 102\\
+		14 &\includegraphics[]{images/ballsInVotes/14} & \cellcolor{gray}253 & 0 & 9 & 0 & 1 & 6 & \cellcolor{gray}202 & 3 & 102\\
 		\hline
-		\includegraphics[]{images/ballsInVotes/15} & \cellcolor{gray}107 & 0 & 7 & 14 & 19 & 47 & 49 & \cellcolor{gray}311 & 22\\
+		15 &\includegraphics[]{images/ballsInVotes/15} & \cellcolor{gray}107 & 0 & 7 & 14 & 19 & 47 & 49 & \cellcolor{gray}311 & 22\\
 		\hline
 	\end{tabular}
 \end{center}
-	\caption{Detected balls and their votes. Gray shading marks a correct identification.}
+	\caption{Identification of ball color. Each column represents one ball color, and the column: "cue" represents the white color.}
 	\label{table:ballvote}
 \end{table}
 Table \ref{table:ballvote} shows the votes for the detected balls in a session where all 16 balls were present on the table. Each of the balls are identified by the maximum number of votes for a color, indicated by a gray background for a correct match, and red for incorrect match. Balls having white votes above a certain threshold are classified as striped balls, indicated by a gray background in both their primary color and cue.
