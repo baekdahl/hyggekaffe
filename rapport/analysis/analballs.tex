@@ -1,7 +1,7 @@
-To find the table and balls it is important to understand how the table and balls appear in different color spaces. In this section the colors of the table and the pool balls will be measured for further analysis.
+To detect the pool table and balls it is important to understand how they appear in different color spaces. In this section the colors of the table and the pool balls are measured for further analysis.
 
 \section{The Table}
-As written in the rules in section \ref{sec:rules} the table cloth color has to be yellow-green, blue-green or electric blue. The cloth color should be a constant color, but dependent on the lighting the cloth color could have some variance when seen through a camera.
+As written in the rules in section \ref{sec:rules}, the table cloth color has to be yellow-green, blue-green or electric blue. The cloth color should be a constant color, but dependent on the lighting the cloth color could have some variance when seen through a camera.
 
 Three different images of the pool table and one image with the cloth cut out are analysed first in HSB color space and then i RGB space. These analysis will be used in the solution chapter.
 
@@ -23,11 +23,11 @@ From the HSB color space figure \ref{fig:tablehsv} it is clear that the cloth sh
 \caption{RGB Images 1, 2 and 3 are the table in different light where 4 is the cutout of the cloth from image 1. All axis are aligned.}
 \label{fig:tablergb}
 \end{figure}
-When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult. As presumed the change in the RGB color space would be more significant for the cloth (fourth image) than the other images compared to the HSB color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.
+When looking at the RGB color space in figure \ref{fig:tablergb} the identification of the cloth becomes more difficult.\fxfatal*{Forstaar ikke hvad der siges}{ As presumed, the change in the RGB color space is more significant for the cloth (fourth image) than the other images compared to the HSB color space \ref{fig:tablehsv}. This is because of the hue ability to be, in theory, illumination invariant.}
 
 \section{The Balls}
 \label{sec:analballs}
-The success of the system depends on the identifiers ability to separate the pool balls from each other. To analyse the separability, histograms of all the different solid colored balls has been computed. This was done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
+The success of the system depends on the identifiers ability to separate the pool balls from each other. To analyze the separability, histograms of all the different solid colored balls has been computed. This is done in hue-saturation space, to see if it is possible to be independent of brightness. If the system is independent of brightness, it will be more resistant towards changes in light. The histograms are arranged pairwise together in the same figure, based on color similarity, to visualize how the colors can be separated.
 
 \input{analysis/ballhists}
 

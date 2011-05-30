@@ -2,7 +2,7 @@
 \newcommand{\speed}[0]{\ensuremath{\tfrac{\text{m}}{\text{s}}}\text{ }}
 \newcommand{\te}[1]{\text{#1}}
 \newcommand{\citep}[1]{\cite{#1}}
-\newcommand{\projekt}{PoolTracker}
+\newcommand{\projekt}{Detection and Identification of Pool Balls using Computer Vision}
 \newcommand{\projektemne}{}
 \newcommand{\gruppe}{11gr822}
 \newcommand{\gruppemedlemmer}{Jesper Bækdahl og Simon Have}
@@ -245,8 +245,10 @@ final
 % Table of Contents
 %
 \renewcommand{\contentsname}{Table of contents}
+\renewcommand{\cftpartaftersnumb}{\;}
+\renewcommand{\cftchapteraftersnumb}{\;}
 %\renewcommand{\tocname}{Indholdsfortegnelse}
-\settocdepth{section}
+\settocdepth{chapter}
 
 % Change spacing in ToC
 \makeatletter
@@ -304,18 +306,6 @@ final
 %
 \bibliographystyle{plain}
 
-%
-% PDF information
-%
-\pdfinfo{
-   /Author (Jesper Bækdahl, Rolf R. Madsen og Simon Hartmann Have)
-   /Title  (Quality assessment of metal objects using
-computer vision.
-)
-   %/CreationDate (\date)
-   /Subject (Computer Vision)
-   /Keywords ()
-}
 
 
 %%% AUTOREF

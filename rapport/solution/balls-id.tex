@@ -61,8 +61,7 @@ The difference between the distribution of the detected ball and the model distr
 Another way of looking at a ball is pixel by pixel. Each pixel is classified by itself, and the ball class is selected by taking the class where most of the ball pixels belong to. This is the approach used in this project. The thought behind this approach is that it will perform better against outliers and the varying number of colored pixels that is the nature of the pool balls. 
 
 \subsection{Implementation}
-The classifier is trained by supervised training where the user selects the location for each of the solid colored balls. The mean RGB value is then extracted from each of the ball areas and this will serve as a model for color comparison. \fxnote{Figure showing sampling of color means from image during calibration}
-The euclidean distance between al each pixel and the models are calculated to determine the ball that the pixel is most likely to represent.
+The classifier is trained by supervised training where the user selects the location for each of the solid colored balls. The mean RGB value is then extracted from each of the ball areas and this will serve as a model for color comparison. The euclidean distance between al each pixel and the models are calculated to determine the ball that the pixel is most likely to represent.
 
 \begin{table}[htpb]
 \begin{center}
@@ -104,10 +103,9 @@ The euclidean distance between al each pixel and the models are calculated to de
 		\hline
 	\end{tabular}
 \end{center}
-	\label{table:ballvote}
 	\caption{Detected balls and their votes. Gray shading marks a correct identification.}
+	\label{table:ballvote}
 \end{table}
 Table \ref{table:ballvote} shows the votes for the detected balls in a session where all 16 balls were present on the table. Each of the balls are identified by the maximum number of votes for a color, indicated by a gray background for a correct match, and red for incorrect match. Balls having white votes above a certain threshold are classified as striped balls, indicated by a gray background in both their primary color and cue.
 
 In the situation seen in table \ref{table:ballvote} the only error comes from the striped purple 14 being identified as the black. The same problem is spotted in the solid variant: the purple 6, which also has a high number of black votes. The solid balls has more colored pixels to represent the color, making the problem worst among striped balls.
-\fixme{table ref}
