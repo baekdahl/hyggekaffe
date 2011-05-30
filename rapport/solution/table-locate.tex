@@ -16,7 +16,7 @@ This method would not require any image processing, but would require the user t
 The method was tried and gave mixed results. It was possible to segment the table using adaptive threshold and thereafter process it with OpenCV  contour finding algorithm. This would find the outside of the table, but sometimes also the floor or anything underlying the table that was a bigger contour.
 
 \paragraph{Searching For The Pockets On The Pool Table}
-This proved to be easy to do by using the brightness part of the image in HSB colour space. Since the pockets are less illuminated than the rest of the table this should have a very low brightness. An example of this can be seen in figure \ref{fig:value_thres}.
+This proved to be easy to do by using the brightness part of the image in HSB colour space. Since the pockets are less illuminated than the rest of the table these should have a very low brightness. An example of this can be seen in figure \ref{fig:value_thres}.
 
 \begin{figure}[htpb]
 \begin{center}
