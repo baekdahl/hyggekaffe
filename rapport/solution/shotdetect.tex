@@ -1,4 +1,4 @@
-For understanding when a new state has occurred a method for detecting this has to be developed. A new state is, as written in section \ref{sec:sysdesign} when the balls have moved or changed in numbers. The method for detecting this will consist of three steps:
+For understanding when a new state has occurred a method for detecting this has been developed. A new state is, as written in section \ref{sec:sysdesign} when the balls have moved or the number of balls has changed. The method for detecting this will consist of three steps:
 \begin{enumerate}
 	\item Detect if human interaction has occurred.
 	\item Wait until balls are laying still.
@@ -6,9 +6,9 @@ For understanding when a new state has occurred a method for detecting this has 
 \end{enumerate}
 
 \subsection{Occlusion detection}
-The first step is to detect weather or not the cloth is occluded. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the cloth is detected to be occluded then there will be no detection of balls before the table is no longer interacted with. This will bring down faulty detections caused by cue or foreign objects. When the table is detected in calibration, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.\\
+The first step is to detect weather or not the cloth is occluded. This occlusion could be caused by human interaction or foreign object placed within the cloth of the table. Detection will be used before finding position of balls. If the cloth is detected to be occluded then there will be no detection of balls before the table is no longer interacted with. This will bring down faulty detections caused by cue or foreign objects. When the table is detected in calibration, as described in section \ref{sec:table-locate}, a mask for the cloth is made. This mask is made from a contour which has many different properties such as area and perimeter. These properties can be used when identifying if occlusions are present. By comparing the current image mask together with the mask made in the calibration and finding the difference in area or perimeter, detection should be possible.
 
-For this purpose of this method only objects introduced from the edge and in will be considered as a foreign object. Therefore a que from the edge of the table would be detected, but a ball or foreign object laying on the table will not.\\
+For this purpose of this method only objects introduced from outside the edge and inwards will be considered as a foreign object. Therefore a cue from the edge of the table would be detected, but a ball or foreign object laying on the table will not.
 
 The two following factors will be used for determining an occlusion:\\
 
@@ -26,7 +26,7 @@ Occlusion perimeter factor:
 
 To understand when an occlusion is present several different scenarios have been tested, which can be seen in table \ref{fig:occtab1} and  \ref{fig:occtab2}.
 
-\subsubsection{Images With Table Mask, Area, Perimeter and Calculated Factors}
+\subsubsection{Images with Table Mask, Area, Perimeter and Calculated Factors}
 \begin{table}[H]
 \begin{tabular}{|l|c|c|l|l|c|}
 
@@ -153,8 +153,8 @@ To understand when an occlusion is present several different scenarios have been
   \label{fig:occtab2}
 \end{table}
 
-\textbf{Plot Of Factors:}\\
-The plot can be seen in \ref{fig:occlusion_plot}. It does not contain "Lighting I" factors since the perimeter is very high compared to the normal. This is due to the light being altered too much which is not allowed as written in the requirement specification in section \ref{sec:reqspec}.
+\textbf{Plot of Factors:}\\
+The plot can be seen in figure \ref{fig:occlusion_plot}. It does not contain "Lighting I" factors since the perimeter is very high compared to the normal. This is due to the light being altered too much which is not allowed as written in the requirement specification in section \ref{sec:reqspec}.
 
 \begin{figure}[H]
 \begin{center}
@@ -174,9 +174,9 @@ The following mean-values have been calculated for the non occlusions:\\
 $\mu_{\lambda} = 0.99$\\
 $\mu_{\kappa} = 1.06$\\
 
-The occlusion detection is done to determine if the balls position should be re-evaluated and to make sure that the detection of balls is not tried when occlusions are present. The latter could lead to false detections. Therefore it is not crucial that the detection is 100\% correct, but false negatives should not occur. A false positive detection will simply cause a re-evaluation of the balls position which would show no movement, where a false negative could make the ball detection method detect balls where they are not. Therefore it is optimal to make a "paranoid" classifier that would be more inclined to assume a occlusion than not.\\
+The occlusion detection is done to determine if the balls position should be re-evaluated and to make sure that the detection of balls is not tried when occlusions are present. The latter could lead to false detections. Therefore it is not crucial that the detection is 100\% correct, but false negatives should not occur. A false positive detection will simply cause a re-evaluation of the balls position which would show no movement, where a false negative could cause balls to be detected where they are not. Therefore it is optimal to make a "paranoid" classifier that would be more inclined to assume a occlusion than not.\\
 
-Since an introduction of a foreign object will always make the contour area smaller and the perimeter bigger the values for a detection will be set to:
+Since an introduction of a foreign object will always make the contour area smaller and the perimeter larger the values for a detection will be set to:
 
 \begin{center}
 $\lambda_{detection} if \lambda < 0.99$ \\
@@ -191,7 +191,7 @@ After an human interaction it is required to detect if movement of the balls or 
 positions of the balls are saved as a new state. If it is not the case the system will wait for the next human interaction. To detect if movement or number has changed the current number of balls and their positions will be compared to the last saved state. However first it is important to detect if the balls are laying still.
 
 \subsubsection{Distance Measure}
-The distances will be calculated using the manhatten distance measure which is defined in equation \ref{eq:manhatten}. The Manhattan distance measure has lower complexity than other distances measures which could also have been used and is therefore chosen. 
+The distances will be calculated using the Manhattan distance measure which is defined in equation \ref{eq:manhatten}. The Manhattan distance measure has lower complexity than other distance measures and is therefore chosen. 
 
 \begin{equation}
 L_{1} = \parallel x_{1}-x_{2}\parallel + \parallel y_{1}-y_{2}\parallel.
@@ -199,7 +199,7 @@ L_{1} = \parallel x_{1}-x_{2}\parallel + \parallel y_{1}-y_{2}\parallel.
 \end{equation}
 
 \subsubsection{Detect if Balls are Laying Still}
-Before comparing the positions and number of balls it is important that the balls are laying still, since the focus of the project is based on non-moving ball and a moving balls could give wrong identification due to motion blur, interlacing and so on. This will be done by finding the position of the balls in the current frame and then comparing it to a number of past frames as illustrated in figure \ref{fig:manyframes}.
+Before comparing the positions and number of balls it is important that the balls are laying still. This is because that the ball detection and identification only works correctly on still balls. A moving ball be wrongly identified due to motion blur, interlacing, etc. This will be done by finding the position of the balls in the current frame and then comparing it to a number of past frames as illustrated in figure \ref{fig:manyframes}.
 
 \begin{figure}[htpb]
 \begin{center}
