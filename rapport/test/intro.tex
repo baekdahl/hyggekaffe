@@ -1,4 +1,4 @@
-To understand if the solution works it will be subjected to a test with origin in the requirement specification in section \ref{sec:reqspec}. The requirements, which will be tested, are listed here:
+To understand if the solution works it will be subjected to tests with origin in the requirement specification in section \ref{sec:reqspec}. The requirements, which will be tested, are listed here:
 
 \begin{enumerate}
 \setlength{\itemsep}{0mm}
@@ -16,7 +16,7 @@ The tests for the first four requirements will be done individually with the dif
 The test were conducted in the multimedia lab located in room A6-314 on Niels Jernes Vej 12 in Aalborg where image and video material for the solution to this project were made. 
 
 %A second smaller test, to illustrate that the solution will work for different pool tables, is conducted in the DE-Klub which is a student bar located in A4-101 at Frederik Bajers Vej 7 in Aalborg. 
-The pool table can be seen in figure \ref{fig:pooltableimg}. The videos used for the test can be found on the CD-Rom enclosed with this report.
+The pool table can be seen in figure \ref{fig:pooltableimg}. The videos used for the tests can be found enclosed with the report on Aalborg University's project database.
 
 \begin{figure}[H]
 \begin{center}
@@ -44,7 +44,7 @@ The tests were made in two light conditions: normal and mixed. These conditions 
 This was tested numerous times and if the position of the table is within the view of the camera the table will be found in both light conditions.
 
 \section{2) Detect position of balls}
-The precision of the ball positions is important, since the identification rests on having the correct positions. To test the detection, the balls have been positioned in different scenarios to test for different kinds of weaknesses in the detector. The following scenarios has been tested:
+The precision of the ball positions is important, since the identification relies on having the correct positions. To test the detection, the balls have been positioned in different scenarios to test for different kinds of weaknesses in the detector. The following scenarios has been tested:
 \begin{enumerate}
 	\item Balls laying apart.
 	\item Balls clustered by color
@@ -118,16 +118,16 @@ The system performs almost equally in the light environment seen in figure \ref{
 
 
 \section{Identify balls with high accuracy}
-The identification of the balls is done by first calibrating the system and then testing the identification with the balls facing in two different scenarios:
+The identification of the balls is done by first calibrating the system with the colors of the balls. Afterwards testing the identification with the balls placed in two different scenarios:
 
 \begin{enumerate}
 \setlength{\itemsep}{0mm}
-	\item \textbf{Minimum} white area visible
-	\item \textbf{Maximum} white area visible
+	\item With \textbf{Minimum} white area visible
+	\item With \textbf{Maximum} white area visible
 \end{enumerate}
 This is done to test the borderline cases for when a ball is considered solid, striped or white.
 
-\subsection{Pool balls laying with minimum white facing up}
+\subsection{With minimum white area visible}
 This scenario will test if the identifier has problems that causes striped balls to be identified as solid balls.
 The result of the test with normal light can be seen in figure \ref{fig:minnormal} and for the mixed light in figure \ref{fig:minmixed}.
 \begin{figure}[htpb]
@@ -151,7 +151,7 @@ The result of the test with normal light can be seen in figure \ref{fig:minnorma
 \end{figure}
 All balls on both mixed and normal lighting are correctly identified, except for striped brown 15 which has been classified as red striped 11. This occurs because of the colors begin close. None of the striped balls are misclassified as solids, independent of lighting conditions.
 
-\subsection{Pool balls laying with maximum white facing up}
+\subsection{With maximum white area visible}
 This test will illustrate if the ratio of white pixels is defined well enough to identify if the ball is solid or striped. Also the detection of correct colors will be tested. The result of the test with normal light can be seen in figure \ref{fig:maxnormal} and for the mixed light in figure \ref{fig:maxmixed}.
 
 \begin{figure}[htpb]
@@ -176,4 +176,4 @@ This test will illustrate if the ratio of white pixels is defined well enough to
 The identification fails in both normal and mixed light. Identification of the striped balls in this scenario is problematic due to the small amount of color available. Most of the striped balls are however, identified as being striped in spite of the small amount of color. In the mixed light environment, several of the balls are identified as being the black 8-ball which is caused by the identifier being sensitive to the change in lighting.
 
 \subsection{Position and identification of balls should be obtained within one second}
-The system speed was tested with different sizes of video and image input from the used webcam. It will find the position and identify the balls within one second. This test was done on a Core-Duo L2400 running at 1.67 Ghz. 
+The system speed was tested with different sizes of video and image input from the used webcam. It is able to find the position and identify the balls within one second. This test was done on a Core-Duo L2400 running at 1.67 Ghz. 
