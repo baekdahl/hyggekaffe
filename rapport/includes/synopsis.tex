@@ -2,8 +2,8 @@ This report describes the creation of a system with the capability of detecting 
 
 The game of pool has been analyzed along with the pool table and the balls. Especially colors of table and balls in different color spaces have been examined since this is what is used in the methods which contains detection and identification.
 
-The solution is presented as a prototype of a finished system. The detection of table is done using the color information found in the analysis, and is successful. 
+The solution is presented as a prototype system. The detection of table is done using the color information found in the analysis, and is successful. 
 
 The positions of the balls are found using ball probability estimation. Detection works in all situations where balls are positioned apart, and in some situations where the balls are positioned in clusters.
 
-The identification of the balls is done by using euclidean distances between training data and detected data. The method works in some cases, but because of the webcam's inability to produce images with good color distribution it often fails.
+The identification of the balls is done by using Euclidean distances between training data and detected data in RGB color space. The method works in some cases, but because of the webcam's inability to produce images with good color distribution it often fails.
