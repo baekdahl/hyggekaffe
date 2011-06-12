@@ -36,6 +36,7 @@ namespace PoolTracker
         bool game8ball;
         List<Dictionary<BallColor, Ball>> ballsarray = new List<Dictionary<BallColor, Ball>>();
         BallCalibration calibration = new BallCalibration();
+        Image<Bgr, byte> ballPosImage; //Image with positions drawn on top
 
         private static int lastTick;
         private static int lastFrameRate;
@@ -86,17 +87,18 @@ namespace PoolTracker
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
 
-                    if (!tab.isTableOccluded(originalImage,0.95,1.05))
+                    if (!tab.isTableOccluded(originalImage,0.98,1.03))
                     {
                        // occluded = !occluded;
                        locateBalls();
-                       writeVideo();
                     }
                     
                     else
                     {
                         Debug.Write("Table is occluded\n");
                     }
+
+                    writeVideo();
                 }
 
                 if (tabControl1.SelectedIndex == 2)
@@ -115,7 +117,7 @@ namespace PoolTracker
 
             if (writer == null)
             {
-                writer = new VideoWriter("out.avi", 0, 20, videoFrame.Width, videoFrame.Height, true);
+                writer = new VideoWriter("out.avi", /*CvInvoke.CV_FOURCC('P','I','M','1')*/ 0, 30, videoFrame.Width, videoFrame.Height, true);
             }
 
             writer.WriteFrame(videoFrame);
