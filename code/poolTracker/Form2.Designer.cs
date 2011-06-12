@@ -71,12 +71,12 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.imageBox5 = new Emgu.CV.UI.ImageBox();
             this.imageBox6 = new Emgu.CV.UI.ImageBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -525,16 +525,6 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Found table";
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Text = "PoolTracker";
-            this.notifyIcon1.Visible = true;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.splitContainer1);
@@ -543,7 +533,7 @@
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(813, 463);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "tabPage4";
+            this.tabPage4.Text = "Identification";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
@@ -584,6 +574,16 @@
             this.imageBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageBox6.TabIndex = 4;
             this.imageBox6.TabStop = false;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "PoolTracker";
+            this.notifyIcon1.Visible = true;
             // 
             // Form2
             // 

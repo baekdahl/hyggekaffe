@@ -40,6 +40,7 @@ namespace PoolTracker
         private static int lastTick;
         private static int lastFrameRate;
         private static int frameRate;
+        private VideoWriter writer;
 
         private float drawFactor = 3;
 
@@ -71,6 +72,7 @@ namespace PoolTracker
             Ball.ballDia = (int)(26);
             BallLocator.ballDia = (int)(26);
 
+
             Application.Idle += new EventHandler(delegate(object sender, EventArgs e)
             {
                 originalImage = img.Image;
@@ -79,7 +81,7 @@ namespace PoolTracker
                 if (originalImage != null && tab != null && tabControl1.SelectedIndex == 0)
                 {
                     tableImage = tab.getTableImage(originalImage);
-                    
+                 
                     showImage1(tableImage);
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
@@ -88,6 +90,7 @@ namespace PoolTracker
                     {
                        // occluded = !occluded;
                        locateBalls();
+                       writeVideo();
                     }
                     
                     else
@@ -104,6 +107,20 @@ namespace PoolTracker
 
             });
         }
+
+        public void writeVideo()
+        {
+            int Width = tableImage.Width - (tableImage.Width % 4);
+            Image<Bgr, byte> videoFrame = tableImage.Resize(Width, 1000, INTER.CV_INTER_LINEAR, true);
+
+            if (writer == null)
+            {
+                writer = new VideoWriter("out.avi", 0, 20, videoFrame.Width, videoFrame.Height, true);
+            }
+
+            writer.WriteFrame(videoFrame);
+        }
+
         public void locateBalls()
         {
             BallLocator locator = new BallLocator(tableImage, calibration, tab.mask);
@@ -111,6 +128,7 @@ namespace PoolTracker
 
             List<Ball> balls = locator.idBalls();
             Dictionary<BallColor, Ball> addToArray = new Dictionary<BallColor, Ball>();
+
 
             foreach (Ball ball in balls)
             {
