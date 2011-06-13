@@ -72,7 +72,14 @@ namespace PoolTrackerLibrary
         public bool isTableOccluded(Image<Bgr, Byte> input_image, double area_threshold=0.98, double perimeter_threshold=1.05, int resizefactor=4)
         {
             bool occluded = false;
-            Image<Bgr, Byte> resizedimg = input_image.Clone().Resize((1 / (double)resizefactor), INTER.CV_INTER_AREA);
+            
+            Image<Bgr, Byte> resizedimg = input_image.Clone();
+
+            if (resizefactor != 1)
+            {
+                resizedimg = resizedimg.Resize((1 / (double)resizefactor), INTER.CV_INTER_AREA);
+            }
+
             double[] currentMask = findBiggestContour(resizedimg);
 
             double maskRatioArea = (currentMask[0] * resizefactor * resizefactor) / maskarea;
@@ -99,7 +106,7 @@ namespace PoolTrackerLibrary
         {
             MCvBox2D clothBox = new MCvBox2D();
 
-            for (Contour<Point> contour = image.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_LIST); contour != null; contour = contour.HNext)  //Iterate through contours
+            for (Contour<Point> contour = image.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_CCOMP); contour != null; contour = contour.HNext)  //Iterate through contours
             {
                 Contour<Point> currentContour = contour.ApproxPoly(contour.Perimeter * 0.001);                                           //Approximate a polygon with certain precision.
 
@@ -125,11 +132,11 @@ namespace PoolTrackerLibrary
             double returnArea=0;
             double returnPerimeter=0;
 
-            Image<Gray, Byte> img = ImageUtil.bgrToHue(image).Resize(1, INTER.CV_INTER_AREA);
+            Image<Gray, Byte> img = ImageUtil.bgrToHue(image);
             img = ImageUtil.twoSidedThreshold(img, histMaxValue);
             img = median(img, 3);
 
-            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, RETR_TYPE.CV_RETR_EXTERNAL); contour != null; contour = contour.HNext)  //Iterate through contours
+            for (Contour<Point> contour = img.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_CCOMP); contour != null; contour = contour.HNext)  //Iterate through contours
             {
 
                 if (contour.Area > img.Width * img.Height * 0.5)

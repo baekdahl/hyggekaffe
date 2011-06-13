@@ -87,7 +87,7 @@ namespace PoolTracker
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
 
-                    if (!tab.isTableOccluded(originalImage,0.98,1.03))
+                    if (!tab.isTableOccluded(originalImage,0.98,1.03,1))
                     {
                        // occluded = !occluded;
                        locateBalls();
