@@ -117,7 +117,7 @@ namespace PoolTracker
 
             if (writer == null)
             {
-                writer = new VideoWriter("out.avi", /*CvInvoke.CV_FOURCC('P','I','M','1')*/ 0, 30, videoFrame.Width, videoFrame.Height, true);
+                writer = new VideoWriter("out.avi", /*CvInvoke.CV_FOURCC('P','I','M','1')*/ 0, 15, videoFrame.Width, videoFrame.Height, true);
             }
 
             writer.WriteFrame(videoFrame);
