@@ -87,7 +87,7 @@ namespace PoolTracker
                     imageBox5.Image = tableImage.Copy();
                     imageBox6.Image = new Image<Bgr, byte>((int)(tableImage.Width * drawFactor), (int)(tableImage.Height * drawFactor), new Bgr(255, 255, 255)); //new Bgr(160, 160, 63)
 
-                    if (!tab.isTableOccluded(originalImage,0.98,1.03))
+                    if (!tab.isTableOccluded(originalImage,0.98,1.03,1))
                     {
                        // occluded = !occluded;
                        locateBalls();
@@ -117,7 +117,7 @@ namespace PoolTracker
 
             if (writer == null)
             {
-                writer = new VideoWriter("out.avi", /*CvInvoke.CV_FOURCC('P','I','M','1')*/ 0, 30, videoFrame.Width, videoFrame.Height, true);
+                writer = new VideoWriter("out.avi", /*CvInvoke.CV_FOURCC('P','I','M','1')*/ 0, 15, videoFrame.Width, videoFrame.Height, true);
             }
 
             writer.WriteFrame(videoFrame);
