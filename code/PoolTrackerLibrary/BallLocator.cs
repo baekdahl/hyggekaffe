@@ -63,7 +63,7 @@ namespace PoolTrackerLibrary
 
             if (mask != null)
             {
-                mask = mask.Erode(30);
+                mask = mask.Erode(40);
 
                 _tableMatchMask = _tableMatchMask.And(mask);
             }

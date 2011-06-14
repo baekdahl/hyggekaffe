@@ -102,7 +102,7 @@ namespace PoolTrackerLibrary
                 {
                     image = cap.QueryFrame();
                 }
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
             }
         }
 
